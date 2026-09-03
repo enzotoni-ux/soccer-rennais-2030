@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentions légales — La Team Rennaise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --bg-2:#121212; --panel:#161616; --panel-line:#2a2a2a;
+    --text:#F5E6A3; --text-dim:#a8a49c;
+    --orange:#FF5A1F; --orange-2:#FF7A3D;
+    --grad: linear-gradient(120deg, var(--orange), var(--orange-2));
+    --glow: rgba(255,90,31,.55);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(55% 30% at 15% 0%, rgba(255,122,61,.14), transparent 62%),
+      var(--bg);
+    color:var(--text-dim); font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.65;
+  }
+  a{ color:var(--orange); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  header{
+    border-bottom:1px solid var(--panel-line);
+    padding:1.4rem clamp(1.4rem, 4vw, 3rem);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1rem; letter-spacing:.08em; color:var(--orange); }
+  header a.back{ font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.06em; color:var(--text-dim); }
+  header a.back:hover{ color:var(--orange); }
+
+  main{ max-width:760px; margin:0 auto; padding:4rem 1.5rem 6rem; }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:.7rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--orange); display:block; margin-bottom:1rem;
+  }
+  h1{
+    font-family:"Orbitron", sans-serif; font-weight:800; color:var(--text);
+    font-size:clamp(1.8rem, 4vw, 2.6rem); line-height:1.15; margin-bottom:.6rem; text-wrap:balance;
+  }
+  .updated{ font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--text-dim); margin-bottom:3rem; display:block; }
+
+  h2{
+    font-family:"Sora",sans-serif; font-weight:700; color:var(--text);
+    font-size:1.15rem; margin:2.6rem 0 .9rem; padding-bottom:.6rem; border-bottom:1px solid var(--panel-line);
+  }
+  h2 .num{ font-family:"JetBrains Mono",monospace; color:var(--orange); margin-right:.6rem; }
+  p{ margin-bottom:.9rem; max-width:66ch; }
+  ul{ margin:0 0 .9rem 1.2rem; max-width:64ch; }
+  li{ margin-bottom:.4rem; }
+  strong{ color:var(--text); font-weight:600; }
+
+  .field{
+    display:flex; gap:.6rem; margin-bottom:.5rem; font-size:.94rem;
+  }
+  .field span:first-child{ color:var(--text); min-width:11rem; font-weight:600; }
+  .field span:last-child{ color:var(--text-dim); }
+  .field .todo{ color:var(--orange); font-family:"JetBrains Mono",monospace; font-size:.78rem; }
+
+  .notice{
+    margin-top:3.4rem; padding:1.3rem 1.5rem; background:var(--panel); border:1px solid var(--panel-line);
+    border-radius:6px; font-size:.85rem;
+  }
+  .notice strong{ color:var(--orange); }
+
+  footer{
+    border-top:1px solid var(--panel-line); padding:2rem clamp(1.4rem,4vw,3rem);
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">LA TEAM RENNAISE</div>
+  <a class="back" href="index.html">← Retour au site</a>
+</header>
+
+<main>
+  <span class="eyebrow">Document légal</span>
+  <h1>Mentions légales</h1>
+  <span class="updated">Dernière mise à jour : à compléter avant publication</span>
+
+  <h2><span class="num">01</span>Éditeur du site</h2>
+  <div class="field"><span>Raison sociale</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Forme juridique</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Capital social</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>SIRET</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Siège social</span><span>Rennes, Bretagne, France</span></div>
+  <div class="field"><span>Directeur de publication</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Contact</span><span><a href="mailto:contact@lateamrennaise.fr">contact@lateamrennaise.fr</a> · 02 99 12 17 40</span></div>
+
+  <h2><span class="num">02</span>Hébergement</h2>
+  <div class="field"><span>Hébergeur</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Adresse</span><span class="todo">à compléter</span></div>
+  <div class="field"><span>Contact</span><span class="todo">à compléter</span></div>
+
+  <h2><span class="num">03</span>Propriété intellectuelle</h2>
+  <p>L'ensemble des éléments présents sur ce site — textes, visuels, identité graphique, animations, structure — est la propriété de La Team Rennaise, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation préalable, est interdite.</p>
+
+  <h2><span class="num">04</span>Données personnelles</h2>
+  <p>Les données collectées via les formulaires du site (réservation, inscription à la newsletter, contact) sont utilisées uniquement dans le cadre de la relation avec le complexe. Conformément au RGPD, chaque utilisateur dispose d'un droit d'accès, de rectification, d'opposition et de suppression de ses données, exerçable par email à l'adresse de contact ci-dessus. Pour plus de détails, voir les <a href="conditions-de-vente.html">conditions de vente</a>.</p>
+
+  <h2><span class="num">05</span>Cookies</h2>
+  <p>Le site peut utiliser des cookies techniques nécessaires à son fonctionnement (préférence de langue, session de réservation). Aucun cookie publicitaire tiers n'est déposé sans consentement préalable. Les navigateurs permettent de configurer ou de refuser les cookies à tout moment.</p>
+
+  <h2><span class="num">06</span>Limitation de responsabilité</h2>
+  <p>La Team Rennaise s'efforce de fournir des informations exactes et à jour sur le site, sans garantir l'absence d'erreurs ou d'interruptions de service. L'utilisation du site relève de la responsabilité de l'utilisateur.</p>
+
+  <div class="notice">
+    <strong>Note :</strong> les champs marqués « à compléter » (raison sociale, SIRET, hébergeur, directeur de publication) doivent être renseignés avec les informations réelles de la structure avant toute mise en ligne officielle. Ce document est un gabarit de départ, pas un document juridique validé.
+  </div>
+</main>
+
+<footer>
+  <span>© 2030 LA TEAM RENNAISE</span>
+  <span><a href="conditions-de-vente.html">Conditions de vente</a> · <a href="index.html">Accueil</a></span>
+</footer>
+
+</body>
+</html>

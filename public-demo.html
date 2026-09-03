@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volt — 2030</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-2:#121212;
+    --panel:#161616;
+    --panel-line:#2a2a2a;
+    --text:#F5E6A3;
+    --text-dim:#a8a49c;
+    --orange:#FF5A1F;
+    --orange-2:#FF7A3D;
+    --grad: linear-gradient(120deg, var(--orange), var(--orange-2));
+    --glow: rgba(255,90,31,.55);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:
+      radial-gradient(55% 38% at 12% 0%, rgba(255,122,61,.32), transparent 62%),
+      radial-gradient(48% 38% at 92% 100%, rgba(255,122,61,.24), transparent 65%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
+    overflow-x:hidden; position:relative;
+  }
+
+  /* ---------- fluo frame around the whole site ---------- */
+  .frame{
+    position:fixed; inset:10px; border:1px solid rgba(255,90,31,.55);
+    border-radius:14px; pointer-events:none; z-index:200;
+    box-shadow:
+      0 0 18px 2px var(--glow),
+      inset 0 0 24px 1px rgba(255,90,31,.28);
+  }
+  .frame::before, .frame::after{
+    content:""; position:absolute; width:46px; height:46px; border:1px solid var(--orange);
+  }
+  .frame::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .frame::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+
+  ::selection{ background:var(--orange); color:#0a0a0a; }
+
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 clamp(1.2rem, 4vw, 3rem); }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:.7rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--orange); margin-bottom:1rem; display:inline-block;
+  }
+  h1,h2,h3{ font-family:"Orbitron", sans-serif; text-wrap:balance; }
+
+  /* ---------- breaking news ticker ---------- */
+  .ticker{
+    position:fixed; top:14px; left:14px; right:14px; z-index:160;
+    height:30px; overflow:hidden; display:flex; align-items:center;
+    background:rgba(10,9,8,.75); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,90,31,.4); border-radius:4px;
+    box-shadow:0 0 14px -2px var(--glow);
+  }
+  .ticker .label{
+    flex:none; height:100%; display:flex; align-items:center; gap:.4rem;
+    padding:0 .8rem; background:var(--grad); color:#0a0500;
+    font-family:"JetBrains Mono",monospace; font-size:.64rem; font-weight:700; letter-spacing:.14em;
+  }
+  .ticker .dot{ width:6px; height:6px; border-radius:50%; background:#0a0500; animation:dot-pulse 1.4s ease-in-out infinite; }
+  @keyframes dot-pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  .ticker-track{
+    display:flex; gap:3.2rem; white-space:nowrap; padding-left:2.4rem;
+    animation: ticker-scroll 24s linear infinite;
+  }
+  .ticker-track span{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:#F5E6A3; }
+  .ticker-track span b{ color:var(--orange); font-weight:600; }
+  @keyframes ticker-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track{ animation:none; overflow-x:auto; }
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed; top:82px; left:0; right:0; z-index:150;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem clamp(1.6rem, 4vw, 3.4rem);
+    transition: background .4s ease, backdrop-filter .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(7,7,10,.72); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom-color:rgba(255,90,31,.25);
+  }
+  .brand{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1rem; letter-spacing:.08em; }
+  .brand span{ color:var(--orange); }
+  nav{ display:flex; gap:2.1rem; font-size:.82rem; font-weight:500; }
+  nav a{ color:var(--text); opacity:.75; position:relative; transition:color .25s, opacity .25s; }
+  nav a:hover, nav a:focus-visible{ color:var(--text); opacity:1; }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--grad);
+    transition:width .3s ease;
+  }
+  nav a:hover::after{ width:100%; }
+  .cta{
+    font-family:"JetBrains Mono", monospace; font-size:.74rem; letter-spacing:.12em;
+    padding:.66rem 1.3rem; border-radius:3px; background:var(--grad); color:#0a0500; font-weight:700;
+    border:none; cursor:pointer; transition: box-shadow .25s ease, filter .25s ease;
+    box-shadow:
+      0 0 12px 1px rgba(255,90,31,.85),
+      0 0 26px 4px rgba(255,90,31,.6),
+      0 0 48px 10px rgba(255,90,31,.35);
+  }
+  .cta:hover{
+    filter:brightness(1.12);
+    box-shadow:
+      0 0 16px 2px rgba(255,90,31,.95),
+      0 0 34px 6px rgba(255,90,31,.7),
+      0 0 60px 14px rgba(255,90,31,.45);
+  }
+  .nav-toggle{ display:none; }
+
+  .lang-switch{ display:flex; gap:.4rem; }
+  .lang-btn{
+    width:36px; height:36px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.04); border:1px solid var(--panel-line); overflow:hidden;
+    cursor:pointer; opacity:.6; filter:grayscale(.35); transition:opacity .25s, filter .25s, border-color .25s, box-shadow .25s;
+  }
+  .flag{ display:block; width:24px; height:17px; border-radius:2px; box-shadow:0 0 0 1px rgba(0,0,0,.35); }
+  .flag-fr{ background:linear-gradient(90deg, #0055A4 0 33%, #FFFFFF 33% 67%, #EF4135 67% 100%); }
+  .flag-gb{
+    background:
+      linear-gradient(to top right, transparent 40%, #fff 40% 60%, transparent 60%),
+      linear-gradient(to top left, transparent 40%, #fff 40% 60%, transparent 60%),
+      linear-gradient(to top right, transparent 45%, #C8102E 45% 55%, transparent 55%),
+      linear-gradient(to top left, transparent 45%, #C8102E 45% 55%, transparent 55%),
+      linear-gradient(#fff, #fff) center/100% 42% no-repeat,
+      linear-gradient(#fff, #fff) center/42% 100% no-repeat,
+      linear-gradient(#C8102E, #C8102E) center/100% 22% no-repeat,
+      linear-gradient(#C8102E, #C8102E) center/22% 100% no-repeat,
+      #00247d;
+  }
+  .lang-btn.active{
+    opacity:1; filter:grayscale(0); border-color:rgba(255,90,31,.6);
+    box-shadow:0 0 12px -2px var(--glow);
+  }
+  .lang-btn:hover{ opacity:1; filter:grayscale(0); }
+  .lang-dl{
+    display:flex; align-items:center; justify-content:center; width:20px; height:20px;
+    margin-right:.3rem; color:var(--text-dim); font-size:.9rem; line-height:1;
+    border-radius:50%; transition:color .2s, background .2s;
+  }
+  .lang-dl:hover{ color:var(--orange); background:rgba(255,90,31,.12); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh; position:relative; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding-top:8.6rem;
+    background:
+      radial-gradient(60% 50% at 50% 18%, rgba(255,90,31,.16), transparent 70%),
+      radial-gradient(50% 40% at 80% 85%, rgba(255,122,61,.22), transparent 70%),
+      var(--bg);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute; inset:0; z-index:0; opacity:.35;
+    background-image:
+      linear-gradient(rgba(255,90,31,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,90,31,.08) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image: radial-gradient(60% 60% at 50% 30%, black, transparent 75%);
+  }
+
+  .hero-title{
+    font-size:clamp(2.6rem, 8vw, 6rem); font-weight:900; letter-spacing:.01em;
+    margin-top:1.6rem; position:relative; z-index:2; line-height:1;
+  }
+  .glitch-text .word{ display:inline-block; white-space:nowrap; }
+  .glitch-text .letter{ display:inline-block; white-space:pre; will-change:transform, opacity, filter; }
+  .glitch-text .accent{
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .glitch-text.glitch .letter{ animation: glitch-jitter .28s steps(2,end) infinite; }
+  .glitch-text.glitch{ text-shadow: 2px 0 var(--orange), -2px 0 var(--orange-2); }
+
+  #brand-logo{
+    color:var(--orange);
+    text-shadow: 0 0 6px var(--glow), 0 0 16px rgba(255,90,31,.5), 0 0 32px rgba(255,90,31,.28);
+  }
+  #brand-logo .accent{ background:none; -webkit-text-fill-color:currentColor; color:var(--orange); }
+  #hero-title .accent{ background:none; -webkit-text-fill-color:currentColor; color:var(--text); }
+  #brand-logo.glitch{ text-shadow: 0 0 6px var(--glow), 2px 0 var(--orange), -2px 0 var(--orange-2); }
+  @keyframes glitch-jitter{
+    0%{ transform:translate(0,0); }
+    30%{ transform:translate(-1.5px,.5px); }
+    60%{ transform:translate(1.5px,-.5px); }
+    100%{ transform:translate(0,0); }
+  }
+
+  .glitch-text.ultra-glitch .letter{ animation: glitch-jitter-ultra .22s steps(2,end) infinite; }
+  .glitch-text.ultra-glitch{
+    text-shadow:
+      5px 0 var(--orange), -5px 0 var(--orange-2),
+      0 0 22px rgba(255,90,31,.75), 0 0 46px rgba(255,90,31,.4);
+  }
+  @keyframes glitch-jitter-ultra{
+    0%{ transform:translate(0,0) skewX(0deg); }
+    15%{ transform:translate(-6px,3px) skewX(-8deg); }
+    30%{ transform:translate(5px,-4px) skewX(6deg); }
+    45%{ transform:translate(-4px,2px) skewX(-4deg); }
+    60%{ transform:translate(6px,-3px) skewX(5deg); }
+    75%{ transform:translate(-5px,4px) skewX(-6deg); }
+    90%{ transform:translate(3px,-2px) skewX(3deg); }
+    100%{ transform:translate(0,0) skewX(0deg); }
+  }
+  .hero-sub{
+    max-width:44ch; margin:1.4rem auto 0; color:var(--text-dim); font-size:1.02rem; line-height:1.65;
+    position:relative; z-index:2;
+  }
+  .hero-actions{ display:flex; gap:1rem; margin-top:2.3rem; position:relative; z-index:2; flex-wrap:wrap; justify-content:center; }
+  .btn-ghost{
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.1em;
+    padding:.85rem 1.6rem; border:1px solid rgba(255,90,31,.5); border-radius:3px; color:var(--text);
+    transition:border-color .25s, box-shadow .25s;
+  }
+  .btn-ghost:hover{ border-color:var(--orange); box-shadow:0 0 18px -4px var(--glow); }
+  .btn-fill{
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.1em; font-weight:700;
+    padding:.85rem 1.7rem; border-radius:3px; background:var(--grad); color:#0a0500;
+    box-shadow:0 0 26px -4px var(--glow);
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%); z-index:2;
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; letter-spacing:.24em; color:var(--text-dim);
+    display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  }
+  .scroll-cue .bar{ width:1px; height:34px; background:linear-gradient(var(--orange), transparent); animation:scrollbar 1.8s ease-in-out infinite; }
+  @keyframes scrollbar{ 0%{ transform:scaleY(0); transform-origin:top;} 50%{ transform:scaleY(1); transform-origin:top;} 51%{ transform-origin:bottom;} 100%{ transform:scaleY(0); transform-origin:bottom;} }
+
+  /* ---------- section shell ---------- */
+  section{ position:relative; padding:8.5rem 0; }
+  .half-circle{
+    position:absolute; width:min(920px,90vw); height:min(460px,45vw); left:50%; transform:translateX(-50%);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0; pointer-events:none;
+  }
+  .half-circle.top{
+    top:-1px; border-top:1px solid rgba(255,90,31,.4); border-left:1px solid rgba(255,90,31,.15);
+    border-right:1px solid rgba(255,90,31,.15);
+    box-shadow:0 -30px 60px -30px var(--glow);
+  }
+  .half-circle.bottom{
+    bottom:-1px; transform:translateX(-50%) rotate(180deg);
+    border-top:1px solid rgba(255,122,61,.5);
+    box-shadow:0 -30px 60px -30px rgba(255,122,61,.5);
+  }
+  .section-head{ text-align:center; max-width:56ch; margin:0 auto 4rem; position:relative; z-index:2; }
+  .section-head h2{ font-size:clamp(1.8rem,3.6vw,2.7rem); font-weight:800; }
+  .section-head p{ color:var(--text-dim); margin-top:1rem; font-size:.98rem; line-height:1.6; }
+
+  /* ---------- teleport reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(28px) scale(.92); filter:blur(8px);
+    transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1), filter .7s ease;
+    position:relative;
+  }
+  .reveal::before{
+    content:""; position:absolute; left:6%; right:6%; top:50%; height:2px; background:var(--grad);
+    opacity:0; z-index:3; box-shadow:0 0 16px 2px var(--glow); transform:translateY(-50%) scaleX(.3);
+    transition:none;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  .reveal.in::before{ animation: teleport-sweep .6s ease-out forwards; }
+  @keyframes teleport-sweep{
+    0%{ opacity:1; top:6%; transform:translateY(-50%) scaleX(.2); }
+    60%{ opacity:1; transform:translateY(-50%) scaleX(1); }
+    100%{ opacity:0; top:100%; transform:translateY(-50%) scaleX(1); }
+  }
+
+  /* ---------- activities grid ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:1.4rem; position:relative; z-index:2; }
+  .card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:6px;
+    padding:2rem 1.7rem; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0; border-radius:6px; padding:1px;
+    background:linear-gradient(160deg, rgba(255,90,31,.5), transparent 40%, transparent 70%, rgba(255,122,61,.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .card .num{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--orange); letter-spacing:.12em; }
+  .card h3{ font-size:1.25rem; margin:.7rem 0 .6rem; font-weight:700; }
+  .card p{ color:var(--text-dim); font-size:.88rem; line-height:1.55; }
+  .card .stat{ margin-top:1.2rem; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; font-size:1.5rem; color:var(--text); }
+  .card .stat small{ display:block; font-family:"Sora",sans-serif; font-size:.7rem; color:var(--text-dim); letter-spacing:.08em; text-transform:uppercase; margin-top:.2rem; }
+
+  /* ---------- club section ---------- */
+  .club{ display:grid; grid-template-columns:1.1fr .9fr; gap:3rem; align-items:center; position:relative; z-index:2; }
+  .club-visual{
+    aspect-ratio:4/5; border-radius:8px; position:relative; overflow:hidden;
+    background:
+      linear-gradient(160deg, rgba(255,90,31,.16), rgba(255,122,61,.16) 60%, transparent),
+      repeating-linear-gradient(115deg, rgba(255,255,255,.03) 0 2px, transparent 2px 26px), var(--bg-2);
+    border:1px solid var(--panel-line);
+  }
+  .club-visual::after{
+    content:"CLUB HOUSE // BAR LOUNGE"; position:absolute; inset:auto 0 0 0; padding:1.4rem;
+    font-family:"JetBrains Mono",monospace; font-size:.68rem; letter-spacing:.2em; color:var(--text-dim);
+    background:linear-gradient(transparent, rgba(0,0,0,.7));
+  }
+  .club-text h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:1.2rem; }
+  .club-text p{ color:var(--text-dim); line-height:1.7; margin-bottom:1rem; }
+  .tags{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.6rem; }
+  .tag{
+    font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em; padding:.45rem .8rem;
+    border:1px solid var(--panel-line); border-radius:999px; color:var(--text-dim);
+  }
+
+  /* ---------- booking CTA ---------- */
+  .booking{
+    text-align:center; position:relative; z-index:2;
+  }
+  .booking h2{ font-size:clamp(2rem,5vw,3.4rem); margin-bottom:1.2rem; }
+  .booking .cta-row{ display:flex; gap:1rem; justify-content:center; margin-top:2rem; flex-wrap:wrap; }
+  .phone{ font-family:"JetBrains Mono",monospace; letter-spacing:.06em; color:var(--orange); font-size:1.1rem; margin-top:1.4rem; display:inline-block; }
+
+  /* ---------- footer ---------- */
+  /* ---------- visitor counter (sport scoreboard, neon red) ---------- */
+  .counter-section{ padding:3rem 0; }
+  .counter-board{
+    --neon-red:#ff2340;
+    max-width:520px; margin:0 auto; padding:2.2rem 2rem;
+    background:#0b0b0c; border:1px solid rgba(255,35,64,.45); border-radius:8px;
+    display:flex; flex-direction:column; align-items:center; gap:.7rem;
+    box-shadow:0 0 24px -4px rgba(255,35,64,.4), inset 0 0 30px rgba(255,35,64,.06);
+    background-image: repeating-linear-gradient(rgba(255,35,64,.035) 0 1px, transparent 1px 3px);
+  }
+  .counter-dot{
+    display:flex; align-items:center; gap:.5rem; font-family:"JetBrains Mono",monospace;
+    font-size:.66rem; letter-spacing:.18em; color:var(--neon-red, #ff2340);
+  }
+  .dot-live{
+    width:7px; height:7px; border-radius:50%; background:var(--neon-red, #ff2340);
+    box-shadow:0 0 8px 2px rgba(255,35,64,.9); animation:dot-pulse 1.4s ease-in-out infinite;
+  }
+  .counter-digits{
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-variant-numeric:tabular-nums;
+    font-size:clamp(2.4rem,7vw,3.6rem); letter-spacing:.06em; color:#ff2340;
+    text-shadow:0 0 6px rgba(255,35,64,.9), 0 0 18px rgba(255,35,64,.7), 0 0 42px rgba(255,35,64,.4);
+  }
+  .counter-label{
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:#a8a49c;
+  }
+
+  /* ---------- localisation ---------- */
+  .locate{
+    display:grid; grid-template-columns:.9fr 1.1fr; gap:3rem; align-items:center; position:relative; z-index:2;
+  }
+  .locate-text h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin:0 0 1.6rem; }
+  .locate-list{ list-style:none; display:flex; flex-direction:column; gap:.9rem; margin-bottom:1.8rem; }
+  .locate-list li{ display:flex; flex-direction:column; gap:.15rem; font-size:.92rem; color:var(--text-dim); }
+  .locate-list a{ color:var(--text); }
+  .locate-list a:hover{ color:var(--orange); }
+  .locate-label{
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--orange);
+  }
+  .locate-map{
+    border-radius:8px; overflow:hidden; border:1px solid rgba(255,90,31,.35);
+    box-shadow:0 0 26px -6px var(--glow); aspect-ratio:4/3;
+  }
+  .locate-map iframe{
+    width:100%; height:100%; border:0; display:block;
+    filter:invert(93%) hue-rotate(180deg) brightness(.94) contrast(.92) saturate(1.1);
+  }
+  @media (max-width:760px){ .locate{ grid-template-columns:1fr; } }
+
+  /* ---------- newsletter ---------- */
+  .newsletter-board{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.6rem;
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:10px;
+    padding:2.4rem 2.6rem; position:relative; z-index:2;
+  }
+  .newsletter-board h2{ font-size:clamp(1.3rem,2.4vw,1.7rem); margin-top:.5rem; max-width:26ch; }
+  .newsletter-form{ display:flex; gap:.7rem; flex-wrap:wrap; }
+  .newsletter-form input{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:3px; color:var(--text);
+    padding:.8rem 1rem; font-family:"Sora",sans-serif; font-size:.9rem; min-width:220px;
+  }
+  .newsletter-form input:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .newsletter-form .btn-fill{ border:none; cursor:pointer; font-family:"JetBrains Mono",monospace; }
+  #newsletter-success{ font-size:.9rem; color:var(--orange); font-weight:600; }
+
+  footer{ border-top:1px solid var(--panel-line); padding:3.4rem 0 2.4rem; position:relative; z-index:2; }
+  .foot-grid{ display:grid; grid-template-columns:1.3fr repeat(3, 1fr); gap:2rem; }
+  .foot-grid h4{ font-family:"JetBrains Mono",monospace; font-size:.68rem; letter-spacing:.16em; color:var(--orange); margin-bottom:.9rem; text-transform:uppercase; }
+  .foot-grid p, .foot-grid a{ font-size:.85rem; color:var(--text-dim); line-height:1.9; display:block; }
+  .foot-grid a:hover{ color:var(--text); }
+  .foot-bottom{ margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--panel-line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.74rem; color:var(--text-dim); font-family:"JetBrains Mono",monospace; }
+
+  @media (max-width:760px){
+    nav{ display:none; }
+    .club{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+  }
+
+  /* ---------- back to top ---------- */
+  .to-top{
+    position:fixed; bottom:1.8rem; right:1.8rem; z-index:140;
+    width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(10,9,8,.65); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--orange); color:var(--orange); cursor:pointer;
+    box-shadow:0 0 20px 2px var(--glow), inset 0 0 10px rgba(255,90,31,.25);
+    opacity:0; transform:translateY(14px); pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease, box-shadow .3s ease;
+  }
+  .to-top.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .to-top:hover{ box-shadow:0 0 30px 6px var(--glow), inset 0 0 14px rgba(255,90,31,.35); }
+  .to-top svg{ width:20px; height:20px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; filter:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+
+<div class="ticker">
+  <div class="label"><span class="dot"></span><span data-i18n="ticker-label">ACTU CLUB</span></div>
+  <div class="ticker-track">
+    <span data-i18n="ticker1"><b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa</span>
+    <span data-i18n="ticker2"><b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park</span>
+    <span data-i18n="ticker1"><b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa</span>
+    <span data-i18n="ticker2"><b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park</span>
+  </div>
+</div>
+
+<header id="header">
+  <div class="brand glitch-text" id="brand-logo">
+    <span class="word accent" data-word="VOLT"></span>
+  </div>
+  <nav>
+    <a href="#activites" data-i18n="nav-activites">Activités</a>
+    <a href="#club" data-i18n="nav-club">Club House</a>
+    <a href="#entreprises" data-i18n="nav-entreprises">Entreprises</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
+  </nav>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" data-lang="fr" title="Français" aria-label="Français" aria-pressed="true"><span class="flag flag-fr"></span></button>    <button type="button" class="lang-btn" data-lang="en" title="English" aria-label="English" aria-pressed="false"><span class="flag flag-gb"></span></button>  </div>
+  <button class="cta" data-i18n="header-cta">RÉSERVER</button>
+</header>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <h1 class="hero-title glitch-text" id="hero-title">
+    <span class="word accent" data-word="VOLT"></span>
+  </h1>
+  <p class="hero-sub" data-i18n="hero-sub">Soccer, padel, squash, blindtests et olympiades — dans un complexe pensé comme une expérience, pas comme un terrain de plus.</p>
+  <div class="hero-actions">
+    <button class="btn-fill" data-i18n="hero-btn-book">Réserver un créneau</button>
+    <a class="btn-ghost" href="#activites" data-i18n="hero-btn-explore">Explorer le complexe</a>
+  </div>
+  <div class="scroll-cue"><span data-i18n="scroll-label">SCROLL</span><span class="bar"></span></div>
+</section>
+
+<section id="activites">
+  <div class="half-circle top"></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="act-eyebrow">Le complexe</span>
+      <h2 data-i18n="act-h2">Cinq façons de jouer, un seul lieu.</h2>
+      <p data-i18n="act-p">Chaque terrain, chaque salle a été pensée pour son propre jeu — pas de compromis entre les disciplines.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal">
+        <span class="num">01</span>
+        <h3>Soccer</h3>
+        <p data-i18n="card1-p">Terrains indoor haute performance, éclairage dynamique, sol dernière génération.</p>
+        <div class="stat">5<small data-i18n="card1-stat">Terrains</small></div>
+      </div>
+      <div class="card reveal">
+        <span class="num">02</span>
+        <h3>Padel</h3>
+        <p data-i18n="card2-p">Courts vitrés, ambiance compétition, réservables à l'heure ou en tournoi.</p>
+        <div class="stat">4<small data-i18n="card2-stat">Terrains</small></div>
+      </div>
+      <div class="card reveal">
+        <span class="num">03</span>
+        <h3>Squash</h3>
+        <p>Salles climatisées, cadence rapide, parfait entre deux réunions.</p>
+        <div class="stat">6<small>Terrains</small></div>
+      </div>
+      <div class="card reveal">
+        <span class="num">04</span>
+        <h3>BlindTest</h3>
+        <p data-i18n="card4-p">Soirées à thème, écran géant, son immersif — le complexe devient scène.</p>
+        <div class="stat">∞<small data-i18n="card4-stat">Playlists</small></div>
+      </div>
+      <div class="card reveal">
+        <span class="num">05</span>
+        <h3 data-i18n="card5-h3">Olympiades &amp; Zgames</h3>
+        <p data-i18n="card5-p">Épreuves mixtes pensées pour les groupes, du staff au week-end entre amis.</p>
+        <div class="stat">6+<small data-i18n="card5-stat">Épreuves</small></div>
+      </div>
+      <div class="card reveal">
+        <span class="num">06</span>
+        <h3>Academy</h3>
+        <p data-i18n="card6-p">Coaching individuel et collectif, tous niveaux, tous âges.</p>
+        <div class="stat">7j/7<small data-i18n="card6-stat">Sur créneau</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="club">
+  <div class="wrap club">
+    <div class="club-visual reveal"></div>
+    <div class="club-text reveal">
+      <span class="eyebrow" data-i18n="club-eyebrow">L'après-match</span>
+      <h2 data-i18n="club-h2">Le Club House &amp; le Bar Lounge.</h2>
+      <p data-i18n="club-p1">Un espace pour souffler, débriefer le match ou lancer le prochain. Lumière basse, son feutré, ambiance qui tranche avec le rythme des terrains.</p>
+      <p data-i18n="club-p2">Anniversaires, soirées entreprises, championnats internes : le lieu s'adapte, pas l'inverse.</p>
+      <div class="tags">
+        <span class="tag" data-i18n="tag-anniv">Anniversaires</span>
+        <span class="tag" data-i18n="tag-champ">Championnats</span>
+        <span class="tag" id="entreprises" data-i18n="tag-corp">Entreprises</span>
+        <span class="tag" data-i18n="tag-priv">Événements privés</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="booking">
+  <div class="half-circle top"></div>
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" data-i18n="booking-eyebrow">Prêt à jouer ?</span>
+      <h2 data-i18n="booking-h2">Réserve ton créneau<br>en moins d'une minute.</h2>
+      <div class="cta-row">
+        <button class="btn-fill" data-i18n="booking-btn1">Réserver maintenant</button>
+        <a class="btn-ghost" href="tel:0299000000" data-i18n="booking-btn2">Appeler le club</a>
+      </div>
+      <span class="phone">02 99 00 00 00</span>
+    </div>
+  </div>
+</section>
+
+<section class="counter-section">
+  <div class="wrap">
+    <div class="counter-board reveal">
+      <div class="counter-dot"><span class="dot-live"></span><span data-i18n="counter-live">EN DIRECT</span></div>
+      <div class="counter-digits" id="visitor-count">000000</div>
+      <div class="counter-label" data-i18n="counter-label">VISITEURS AUJOURD'HUI</div>
+    </div>
+  </div>
+</section>
+
+<section id="localisation">
+  <div class="half-circle top"></div>
+  <div class="wrap locate">
+    <div class="locate-text reveal">
+      <span class="eyebrow" data-i18n="locate-eyebrow">Nous trouver</span>
+      <h2 data-i18n="locate-h2">Un seul complexe,<br>facile à rejoindre.</h2>
+      <ul class="locate-list">
+        <li>
+          <span class="locate-label" data-i18n="locate-address-label">Adresse</span>
+          <span data-i18n="foot-address">Rennes, Bretagne</span>
+        </li>
+        <li>
+          <span class="locate-label" data-i18n="nav-contact">Contact</span>
+          <a href="tel:0299000000">02 99 00 00 00</a>
+        </li>
+        <li>
+          <span class="locate-label">Email</span>
+          <a href="mailto:contact@volt-club.fr">contact@volt-club.fr</a>
+        </li>
+        <li>
+          <span class="locate-label" data-i18n="foot-hours-label">Horaires</span>
+          <span data-i18n="foot-hours-value">Lundi – Vendredi<br>11h – 00h</span>
+        </li>
+      </ul>
+      <a class="btn-ghost" href="https://www.google.com/maps/search/?api=1&query=48.1173,-1.6778" target="_blank" rel="noopener" data-i18n="locate-directions">Ouvrir l'itinéraire</a>
+    </div>
+    <div class="locate-map reveal">
+      <iframe
+        title="Localisation du complexe à Rennes"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-1.6978%2C48.1023%2C-1.6578%2C48.1323&layer=mapnik&marker=48.1173%2C-1.6778"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="wrap">
+    <div class="newsletter-board reveal">
+      <div>
+        <span class="eyebrow" data-i18n="news-eyebrow">Reste connecté</span>
+        <h2 data-i18n="news-h2">Les nouveautés du complexe, avant tout le monde.</h2>
+      </div>
+      <form id="newsletter-form" class="newsletter-form">
+        <input type="email" required placeholder="ton@email.com" data-i18n-placeholder="news-placeholder" aria-label="Adresse email">
+        <button type="submit" class="btn-fill" data-i18n="news-submit">S'inscrire</button>
+      </form>
+      <p id="newsletter-success" hidden data-i18n="news-success">Inscription confirmée — à très vite sur les terrains.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:1rem;">VOLT</div>
+        <p style="max-width:32ch;" data-i18n="foot-tagline">Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, événements — sous un même toit.</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot-hours-label">Horaires</h4>
+        <p data-i18n="foot-hours-value">Lundi – Vendredi<br>11h – 00h</p>
+      </div>
+      <div>
+        <h4 data-i18n="nav-contact">Contact</h4>
+        <a href="tel:0299000000">02 99 00 00 00</a>
+        <p data-i18n="foot-address">Rennes, Bretagne</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot-social-label">Suivre le club</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">TikTok</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2030 VOLT</span>
+      <span data-i18n="foot-legal">Mentions légales</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" aria-label="Remonter en haut de page" data-i18n-aria="totop-aria">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- FR / EN translation ---------- */
+  const i18n = {
+    'nav-activites': { fr:'Activités', en:'Activities' },
+    'nav-club': { fr:'Club House', en:'Club House' },
+    'nav-entreprises': { fr:'Entreprises', en:'Corporate' },
+    'nav-contact': { fr:'Contact', en:'Contact' },
+    'header-cta': { fr:'RÉSERVER', en:'BOOK NOW' },
+    'hero-sub': { fr:"Soccer, padel, squash, blindtests et olympiades — dans un complexe pensé comme une expérience, pas comme un terrain de plus.", en:'Soccer, padel, squash, blindtests and olympiads — in a complex designed as an experience, not just another pitch.' },
+    'hero-btn-book': { fr:'Réserver un créneau', en:'Book a slot' },
+    'hero-btn-explore': { fr:'Explorer le complexe', en:'Explore the complex' },
+    'scroll-label': { fr:'SCROLL', en:'SCROLL' },
+    'act-eyebrow': { fr:'Le complexe', en:'The complex' },
+    'act-h2': { fr:'Cinq façons de jouer, un seul lieu.', en:'Five ways to play, one place.' },
+    'act-p': { fr:'Chaque terrain, chaque salle a été pensée pour son propre jeu — pas de compromis entre les disciplines.', en:'Every pitch, every room was designed for its own game — no compromise between disciplines.' },
+    'card1-p': { fr:'Terrains indoor haute performance, éclairage dynamique, sol dernière génération.', en:'High-performance indoor pitches, dynamic lighting, next-gen turf.' },
+    'card1-stat': { fr:'Terrains', en:'Pitches' },
+    'card2-p': { fr:"Courts vitrés, ambiance compétition, réservables à l'heure ou en tournoi.", en:'Glass-walled courts, competition vibe, bookable by the hour or in tournaments.' },
+    'card2-stat': { fr:'Terrains', en:'Courts' },
+    'card3-p': { fr:'Salles climatisées, cadence rapide, parfait entre deux réunions.', en:'Air-conditioned rooms, fast pace, perfect between two meetings.' },
+    'card3-stat': { fr:'Terrains', en:'Courts' },
+    'card4-p': { fr:'Soirées à thème, écran géant, son immersif — le complexe devient scène.', en:'Themed nights, giant screen, immersive sound — the complex becomes a stage.' },
+    'card4-stat': { fr:'Playlists', en:'Playlists' },
+    'card5-h3': { fr:'Olympiades &amp; Zgames', en:'Olympics &amp; Zgames' },
+    'card5-p': { fr:'Épreuves mixtes pensées pour les groupes, du staff au week-end entre amis.', en:'Mixed events built for groups, from staff outings to weekends with friends.' },
+    'card5-stat': { fr:'Épreuves', en:'Events' },
+    'card6-p': { fr:'Coaching individuel et collectif, tous niveaux, tous âges.', en:'Individual and group coaching, all levels, all ages.' },
+    'card6-stat': { fr:'Sur créneau', en:'By booking' },
+    'club-eyebrow': { fr:"L'après-match", en:'After the match' },
+    'club-h2': { fr:'Le Club House &amp; le Bar Lounge.', en:'The Club House &amp; Bar Lounge.' },
+    'club-p1': { fr:'Un espace pour souffler, débriefer le match ou lancer le prochain. Lumière basse, son feutré, ambiance qui tranche avec le rythme des terrains.', en:'A space to catch your breath, debrief the match or start the next one. Low light, muted sound, a mood that breaks from the pace of the pitches.' },
+    'club-p2': { fr:"Anniversaires, soirées entreprises, championnats internes : le lieu s'adapte, pas l'inverse.", en:'Birthdays, corporate nights, internal championships: the venue adapts, not the other way around.' },
+    'tag-anniv': { fr:'Anniversaires', en:'Birthdays' },
+    'tag-champ': { fr:'Championnats', en:'Championships' },
+    'tag-corp': { fr:'Entreprises', en:'Corporate' },
+    'tag-priv': { fr:'Événements privés', en:'Private events' },
+    'booking-eyebrow': { fr:'Prêt à jouer ?', en:'Ready to play?' },
+    'booking-h2': { fr:'Réserve ton créneau<br>en moins d\'une minute.', en:'Book your slot<br>in under a minute.' },
+    'booking-btn1': { fr:'Réserver maintenant', en:'Book now' },
+    'booking-btn2': { fr:'Appeler le club', en:'Call the club' },
+    'foot-tagline': { fr:'Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, événements — sous un même toit.', en:'Soccer, padel &amp; squash complex in Rennes. Pitches, bar lounge, events — under one roof.' },
+    'foot-hours-label': { fr:'Horaires', en:'Opening hours' },
+    'foot-hours-value': { fr:'Lundi – Vendredi<br>11h – 00h', en:'Monday – Friday<br>11am – midnight' },
+    'foot-address': { fr:'Rennes, Bretagne', en:'Rennes, Brittany, France' },
+    'foot-social-label': { fr:'Suivre le club', en:'Follow the club' },
+    'foot-legal': { fr:'Mentions légales', en:'Legal notice' },
+    'totop-aria': { fr:'Remonter en haut de page', en:'Back to top' },
+    'ticker-label': { fr:'ACTU CLUB', en:'CLUB NEWS' },
+    'ticker1': { fr:'<b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa', en:'<b>NEXT MATCH</b> — Angers SCO – Stade Rennais · Sunday, 6 September 2026 · Stade Raymond Kopa' },
+    'ticker2': { fr:'<b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park', en:'<b>THEN</b> — Stade Rennais – Olympique de Marseille · Friday, 11 September 2026 · Roazhon Park' },
+    'counter-live': { fr:'EN DIRECT', en:'LIVE' },
+    'counter-label': { fr:"VISITEURS AUJOURD'HUI", en:'VISITORS TODAY' },
+    'locate-eyebrow': { fr:'Nous trouver', en:'Find us' },
+    'locate-h2': { fr:'Un seul complexe,<br>facile à rejoindre.', en:'One complex,<br>easy to reach.' },
+    'locate-address-label': { fr:'Adresse', en:'Address' },
+    'locate-directions': { fr:"Ouvrir l'itinéraire", en:'Get directions' },
+    'news-eyebrow': { fr:'Reste connecté', en:'Stay connected' },
+    'news-h2': { fr:'Les nouveautés du complexe, avant tout le monde.', en:'Complex news, before everyone else.' },
+    'news-placeholder': { fr:'ton@email.com', en:'your@email.com' },
+    'news-submit': { fr:"S'inscrire", en:'Subscribe' },
+    'news-success': { fr:'Inscription confirmée — à très vite sur les terrains.', en:"You're in — see you on the pitches soon." },
+  };
+
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const entry = i18n[el.dataset.i18n];
+      if (entry) el.innerHTML = entry[lang];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const entry = i18n[el.dataset.i18nAria];
+      if (entry) el.setAttribute('aria-label', entry[lang]);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const entry = i18n[el.dataset.i18nPlaceholder];
+      if (entry) el.setAttribute('placeholder', entry[lang]);
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active);
+    });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  /* header scroll state */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  /* back to top */
+  const toTop = document.getElementById('to-top');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('visible', window.scrollY > window.innerHeight * .6);
+  }, { passive:true });
+  toTop.addEventListener('click', () => {
+    window.scrollTo({ top:0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  /* teleport reveal on scroll */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.2 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* ---------- reusable explosion-in + intermittent glitch for any .glitch-text ---------- */
+  function explodeText(el, opts = {}){
+    const { distMin = 140, distMax = 360, startDelay = 200, stagger = 18, burst = false, glitchAfter = 2400, explode = true, ultra = false } = opts;
+    const words = el.querySelectorAll('.word');
+
+    words.forEach(word => {
+      const text = word.dataset.word;
+      text.split('').forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = ch;
+        word.appendChild(span);
+      });
+      word.appendChild(document.createTextNode(' '));
+    });
+
+    const letters = el.querySelectorAll('.letter');
+
+    if (reduceMotion || !explode) {
+      letters.forEach(l => { l.style.opacity = 1; });
+    } else {
+    letters.forEach(l => {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = distMin + Math.random() * (distMax - distMin);
+      l.style.opacity = '0';
+      l.style.transform = `translate(${Math.cos(ang)*dist}px, ${Math.sin(ang)*dist}px) rotate(${(Math.random()*720-360)}deg) scale(.3)`;
+      l.style.filter = 'blur(6px)';
+      l.style.transition = `transform 900ms cubic-bezier(.16,1,.3,1), opacity 700ms ease, filter 700ms ease`;
+    });
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        letters.forEach((l, i) => {
+          setTimeout(() => {
+            l.style.opacity = '1';
+            l.style.transform = 'translate(0,0) rotate(0) scale(1)';
+            l.style.filter = 'blur(0)';
+          }, i * stagger);
+        });
+      }, startDelay);
+    });
+    }
+
+    if (burst && explode) {
+      const container = el.closest('section, header') || el.parentElement;
+      const canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+      const prevPosition = getComputedStyle(container).position;
+      if (prevPosition === 'static') container.style.position = 'relative';
+      container.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const rect = el.getBoundingClientRect();
+      const contRect = container.getBoundingClientRect();
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      const scale = Math.max(0.5, Math.min(1.6, rect.width / 480));
+      const originX = rect.left - contRect.left + rect.width/2;
+      const originY = rect.top - contRect.top + rect.height*0.55;
+
+      // flame licks: soft stretched gradient blobs rising with turbulence
+      const flames = Array.from({length: Math.round(46*scale)}, () => {
+        const spread = rect.width*0.42;
+        return {
+          x: originX + (Math.random()-.5)*spread,
+          y: originY + (Math.random()-.5)*rect.height*0.3,
+          vy: -(1.1+Math.random()*2.2)*scale,
+          vx: (Math.random()-.5)*.6,
+          size: (16+Math.random()*30)*scale,
+          life: 1, decay: 0.006+Math.random()*0.01,
+          wob: Math.random()*Math.PI*2,
+        };
+      });
+      // embers: tiny bright sparks that fly further and linger
+      const embers = Array.from({length: Math.round(34*scale)}, () => {
+        const ang = -Math.PI/2 + (Math.random()-.5)*2.2, speed = (2+Math.random()*4.5)*scale;
+        return {
+          x: originX, y: originY,
+          vx: Math.cos(ang)*speed, vy: Math.sin(ang)*speed,
+          size: (0.8+Math.random()*1.6)*scale,
+          life: 1, decay: 0.006+Math.random()*0.01,
+        };
+      });
+
+      let start = null, flashDone = false;
+      function drawFlash(alpha){
+        const g = ctx.createRadialGradient(originX, originY, 0, originX, originY, rect.width*0.55);
+        g.addColorStop(0, `rgba(255,238,205,${0.85*alpha})`);
+        g.addColorStop(0.35, `rgba(255,144,40,${0.5*alpha})`);
+        g.addColorStop(1, 'rgba(255,90,31,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+      }
+      function animBurst(ts){
+        if (!start) start = ts;
+        const t = ts - start;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.globalCompositeOperation = 'lighter';
+
+        if (t < 260) drawFlash(1 - t/260);
+
+        flames.forEach(p => {
+          p.wob += 0.18;
+          p.x += p.vx + Math.sin(p.wob)*0.35;
+          p.y += p.vy;
+          p.vy *= 0.985;
+          p.life -= p.decay;
+          if (p.life > 0){
+            const s = p.size * (0.6 + p.life*0.6);
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.scale(0.72, 1.35); // stretch into a flame-lick shape
+            const g = ctx.createRadialGradient(0,0,0, 0,0,s);
+            g.addColorStop(0, `rgba(255,244,214,${0.9*p.life})`);
+            g.addColorStop(0.35, `rgba(255,144,40,${0.75*p.life})`);
+            g.addColorStop(0.75, `rgba(220,96,24,${0.35*p.life})`);
+            g.addColorStop(1, 'rgba(180,70,16,0)');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(0,0,s,0,Math.PI*2); ctx.fill();
+            ctx.restore();
+          }
+        });
+
+        embers.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          p.vx *= 0.98; p.vy = p.vy*0.98 - 0.01;
+          p.life -= p.decay;
+          if (p.life > 0){
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(255,220,160,${p.life})`;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fill();
+          }
+        });
+
+        ctx.globalCompositeOperation = 'source-over';
+        if (t < 2200) requestAnimationFrame(animBurst);
+        else canvas.remove();
+      }
+      setTimeout(() => requestAnimationFrame(animBurst), 160);
+    }
+
+    // intermittent "défaillant" glitch loop
+    function glitchLoop(){
+      const delay = 3500 + Math.random()*4000;
+      setTimeout(() => {
+        el.classList.add('glitch');
+        setTimeout(() => el.classList.remove('glitch'), 260 + Math.random()*220);
+        glitchLoop();
+      }, delay);
+    }
+
+    // ultra-defective loop: near-constant broken-signal jitter with flicker cuts
+    function ultraGlitchLoop(){
+      const delay = 400 + Math.random()*1000;
+      setTimeout(() => {
+        el.classList.add('ultra-glitch');
+        const cuts = 2 + Math.floor(Math.random()*3);
+        let c = 0;
+        function flicker(){
+          el.style.opacity = c % 2 === 0 ? '.15' : '1';
+          c++;
+          if (c <= cuts) setTimeout(flicker, 45 + Math.random()*60);
+          else el.style.opacity = '1';
+        }
+        flicker();
+        setTimeout(() => el.classList.remove('ultra-glitch'), 320 + Math.random()*260);
+        ultraGlitchLoop();
+      }, delay);
+    }
+
+    if (opts.manualGlitch) { /* driven externally, in sync with another element */ }
+    else if (reduceMotion) { /* no glitch loops */ }
+    else if (ultra) setTimeout(ultraGlitchLoop, glitchAfter);
+    else setTimeout(glitchLoop, glitchAfter);
+  }
+
+  explodeText(document.getElementById('hero-title'), { distMin:140, distMax:360, burst:true, manualGlitch:true });
+  explodeText(document.getElementById('brand-logo'), { distMin:70, distMax:220, stagger:14, startDelay:150, burst:true, glitchAfter:5000 });
+
+  /* ---------- visitor counter ---------- */
+  (function initCounter(){
+    const el = document.getElementById('visitor-count');
+    if (!el) return;
+    let base = 3184;
+    try {
+      const stored = parseInt(localStorage.getItem('ltr-visitor-count'), 10);
+      if (!isNaN(stored)) base = stored;
+    } catch(e){}
+    const target = base + Math.floor(Math.random()*4) + 1;
+    try { localStorage.setItem('ltr-visitor-count', target); } catch(e){}
+
+    let played = false;
+    function play(){
+      if (played) return;
+      played = true;
+      if (reduceMotion){ el.textContent = String(target).padStart(6,'0'); return; }
+      const from = Math.max(0, target - 180);
+      let start = null;
+      function tick(ts){
+        if (!start) start = ts;
+        const p = Math.min(1, (ts-start)/1400);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = String(Math.round(from + (target-from)*eased)).padStart(6,'0');
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    const board = document.querySelector('.counter-board');
+    if (board){
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { play(); obs.disconnect(); } });
+      }, { threshold:.4 });
+      obs.observe(board);
+    } else {
+      play();
+    }
+  })();
+
+  /* ---------- newsletter (front-end only, no backend) ---------- */
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm){
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = newsletterForm.querySelector('input[type="email"]');
+      if (!input || !input.value) return;
+      newsletterForm.hidden = true;
+      const success = document.getElementById('newsletter-success');
+      if (success) success.hidden = false;
+    });
+  }
+
+</script>
+
+</body>
+</html>

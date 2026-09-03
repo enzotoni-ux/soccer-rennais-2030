@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conditions de vente — La Team Rennaise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --bg-2:#121212; --panel:#161616; --panel-line:#2a2a2a;
+    --text:#F5E6A3; --text-dim:#a8a49c;
+    --orange:#FF5A1F; --orange-2:#FF7A3D;
+    --grad: linear-gradient(120deg, var(--orange), var(--orange-2));
+    --glow: rgba(255,90,31,.55);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(55% 30% at 15% 0%, rgba(255,122,61,.14), transparent 62%),
+      var(--bg);
+    color:var(--text-dim); font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.65;
+  }
+  a{ color:var(--orange); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  header{
+    border-bottom:1px solid var(--panel-line);
+    padding:1.4rem clamp(1.4rem, 4vw, 3rem);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1rem; letter-spacing:.08em; color:var(--orange); }
+  header a.back{ font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.06em; color:var(--text-dim); }
+  header a.back:hover{ color:var(--orange); }
+
+  main{ max-width:760px; margin:0 auto; padding:4rem 1.5rem 6rem; }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:.7rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--orange); display:block; margin-bottom:1rem;
+  }
+  h1{
+    font-family:"Orbitron", sans-serif; font-weight:800; color:var(--text);
+    font-size:clamp(1.8rem, 4vw, 2.6rem); line-height:1.15; margin-bottom:.6rem; text-wrap:balance;
+  }
+  .updated{ font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--text-dim); margin-bottom:3rem; display:block; }
+
+  h2{
+    font-family:"Sora",sans-serif; font-weight:700; color:var(--text);
+    font-size:1.15rem; margin:2.6rem 0 .9rem; padding-bottom:.6rem; border-bottom:1px solid var(--panel-line);
+  }
+  h2 .num{ font-family:"JetBrains Mono",monospace; color:var(--orange); margin-right:.6rem; }
+  p{ margin-bottom:.9rem; max-width:66ch; }
+  ul{ margin:0 0 .9rem 1.2rem; max-width:64ch; }
+  li{ margin-bottom:.4rem; }
+  strong{ color:var(--text); font-weight:600; }
+
+  .notice{
+    margin-top:3.4rem; padding:1.3rem 1.5rem; background:var(--panel); border:1px solid var(--panel-line);
+    border-radius:6px; font-size:.85rem;
+  }
+  .notice strong{ color:var(--orange); }
+
+  footer{
+    border-top:1px solid var(--panel-line); padding:2rem clamp(1.4rem,4vw,3rem);
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">LA TEAM RENNAISE</div>
+  <a class="back" href="index.html">← Retour au site</a>
+</header>
+
+<main>
+  <span class="eyebrow">Document contractuel</span>
+  <h1>Conditions générales de vente</h1>
+  <span class="updated">Dernière mise à jour : à compléter avant publication</span>
+
+  <h2><span class="num">01</span>Objet</h2>
+  <p>Les présentes conditions générales de vente (CGV) régissent les réservations et achats effectués auprès de La Team Rennaise, complexe sportif proposant des terrains de soccer, padel, squash ainsi que des activités événementielles (blindtests, olympiades, anniversaires, séminaires d'entreprise). Toute réservation implique l'acceptation pleine et entière des présentes conditions.</p>
+
+  <h2><span class="num">02</span>Réservation</h2>
+  <p>Les réservations de terrains et d'activités s'effectuent en ligne, par téléphone ou sur place, dans la limite des créneaux disponibles. Une réservation n'est confirmée qu'après validation du paiement ou de l'acompte demandé, le cas échéant.</p>
+  <ul>
+    <li>Chaque créneau est réservé pour une durée et un nombre de participants déterminés à l'avance.</li>
+    <li>Le client s'engage à fournir des informations exactes lors de la réservation.</li>
+    <li>Un retard n'entraîne pas de prolongation du créneau réservé.</li>
+  </ul>
+
+  <h2><span class="num">03</span>Tarifs et paiement</h2>
+  <p>Les tarifs affichés sur le site ou communiqués en agence sont exprimés en euros, toutes taxes comprises. La Team Rennaise se réserve le droit de modifier ses tarifs à tout moment, les nouveaux tarifs s'appliquant aux réservations effectuées après leur mise en ligne. Le paiement peut être exigé en totalité ou partiellement (acompte) au moment de la réservation, selon l'activité concernée.</p>
+
+  <h2><span class="num">04</span>Annulation et remboursement</h2>
+  <p>Toute annulation doit être signalée dans les meilleurs délais. Les conditions de remboursement dépendent du délai de prévenance :</p>
+  <ul>
+    <li><strong>Plus de 48h avant le créneau</strong> — remboursement intégral ou report offert.</li>
+    <li><strong>Entre 24h et 48h avant</strong> — remboursement partiel ou avoir, selon l'activité.</li>
+    <li><strong>Moins de 24h avant ou absence</strong> — créneau considéré comme consommé, aucun remboursement.</li>
+  </ul>
+  <p>Ces délais sont donnés à titre indicatif et doivent être ajustés selon la politique commerciale définitive du complexe.</p>
+
+  <h2><span class="num">05</span>Accès et règlement intérieur</h2>
+  <p>L'accès aux installations est soumis au respect du règlement intérieur affiché sur place (tenue adaptée, consignes de sécurité, capacité maximale par terrain ou salle). La Team Rennaise se réserve le droit de refuser l'accès à toute personne ne respectant pas ces règles ou dont le comportement mettrait en danger la sécurité d'autrui.</p>
+
+  <h2><span class="num">06</span>Responsabilité</h2>
+  <p>La pratique d'activités sportives comporte des risques inhérents que le client accepte en réservant. La Team Rennaise décline toute responsabilité en cas de blessure résultant d'une utilisation non conforme des équipements ou du non-respect des consignes de sécurité. Les objets personnels laissés dans les vestiaires ou espaces communs relèvent de la seule responsabilité de leur propriétaire.</p>
+
+  <h2><span class="num">07</span>Données personnelles</h2>
+  <p>Les informations collectées lors d'une réservation ou d'une inscription à la newsletter sont utilisées exclusivement dans le cadre de la gestion de la relation client et de la communication du complexe. Conformément à la réglementation en vigueur, chaque client dispose d'un droit d'accès, de rectification et de suppression de ses données, exerçable par email auprès du complexe.</p>
+
+  <h2><span class="num">08</span>Litiges</h2>
+  <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité avant toute action judiciaire. À défaut d'accord, les tribunaux compétents seront ceux du ressort de Rennes.</p>
+
+  <div class="notice">
+    <strong>Note :</strong> ce document est un gabarit de départ, rédigé pour donner une structure standard de CGV adaptée à un complexe sportif. Il doit être relu et validé par un professionnel du droit avant toute publication officielle — notamment les délais d'annulation, les mentions RGPD et les conditions spécifiques à chaque activité (Academy, événements entreprises, anniversaires).
+  </div>
+</main>
+
+<footer>
+  <span>© 2030 LA TEAM RENNAISE</span>
+  <span><a href="index.html#contact">Contact</a> · <a href="index.html">Accueil</a></span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,2192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Team Rennaise — 02 99 12 17 40</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-2:#121212;
+    --panel:#161616;
+    --panel-line:#2a2a2a;
+    --text:#F5E6A3;
+    --text-dim:#a8a49c;
+    --orange:#FF5A1F;
+    --orange-2:#FF7A3D;
+    --grad: linear-gradient(120deg, var(--orange), var(--orange-2));
+    --glow: rgba(255,90,31,.55);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:
+      radial-gradient(55% 38% at 12% 0%, rgba(255,122,61,.32), transparent 62%),
+      radial-gradient(48% 38% at 92% 100%, rgba(255,122,61,.24), transparent 65%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
+    overflow-x:hidden; position:relative;
+  }
+
+  /* ---------- fluo frame around the whole site ---------- */
+  .frame{
+    position:fixed; inset:10px; border:1px solid rgba(255,90,31,.55);
+    border-radius:14px; pointer-events:none; z-index:200;
+    box-shadow:
+      0 0 18px 2px var(--glow),
+      inset 0 0 24px 1px rgba(255,90,31,.28);
+  }
+  .frame::before, .frame::after{
+    content:""; position:absolute; width:46px; height:46px; border:1px solid var(--orange);
+  }
+  .frame::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .frame::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+
+  ::selection{ background:var(--orange); color:#0a0a0a; }
+
+  /* ---------- custom cursor ---------- */
+  body.custom-cursor, body.custom-cursor a, body.custom-cursor button{ cursor:none; }
+  .cursor-dot{
+    position:fixed; top:0; left:0; width:16px; height:16px; border-radius:50%;
+    background:#0a0a0a; pointer-events:none; z-index:999; will-change:transform;
+    transform:translate3d(-999px,-999px,0);
+    box-shadow:
+      0 0 8px 2px rgba(245,230,163,.95),
+      0 0 22px 8px rgba(245,230,163,.7),
+      0 0 46px 18px rgba(245,230,163,.4),
+      0 0 80px 30px rgba(245,230,163,.2);
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 clamp(1.2rem, 4vw, 3rem); }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:.7rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--orange); margin-bottom:1rem; display:inline-block;
+  }
+  h1,h2,h3{ font-family:"Orbitron", sans-serif; text-wrap:balance; }
+
+  /* ---------- breaking news ticker ---------- */
+  .ticker-wrap{
+    position:fixed; top:20px; left:14px; right:14px; z-index:160;
+    display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+  }
+  .ticker-tag{
+    display:flex; align-items:center; gap:.4rem;
+    padding:.3rem .7rem; background:#171310; border:1px solid rgba(255,90,31,.6); border-radius:3px;
+    color:#F5E6A3; box-shadow:0 0 12px -3px var(--glow);
+    font-family:"JetBrains Mono",monospace; font-size:.64rem; font-weight:700; letter-spacing:.14em;
+  }
+  .ticker{
+    width:100%;
+    height:30px; overflow:hidden; display:flex; align-items:center;
+    background:rgba(10,9,8,.75); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,90,31,.4); border-radius:4px;
+    box-shadow:0 0 14px -2px var(--glow);
+  }
+  .ticker .dot{ width:6px; height:6px; border-radius:50%; background:var(--orange); box-shadow:0 0 6px 1px var(--glow); animation:dot-pulse 1.4s ease-in-out infinite; }
+  @keyframes dot-pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  .ticker-track{
+    display:flex; gap:3.2rem; white-space:nowrap; padding-left:1.2rem;
+    animation: ticker-scroll 24s linear infinite;
+  }
+  .ticker-track span{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:#F5E6A3; }
+  .ticker-track span b{ color:var(--orange); font-weight:600; }
+  @keyframes ticker-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track{ animation:none; overflow-x:auto; }
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed; top:96px; left:0; right:0; z-index:150;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem clamp(1.6rem, 4vw, 3.4rem);
+    transition: background .4s ease, backdrop-filter .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(7,7,10,.72); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom-color:rgba(255,90,31,.25);
+  }
+  .brand{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1rem; letter-spacing:.08em; }
+  .brand span{ color:var(--orange); }
+  nav{ display:flex; gap:2.1rem; font-size:.82rem; font-weight:500; }
+  nav a{ color:var(--text); opacity:.75; position:relative; transition:color .25s, opacity .25s; }
+  nav a:hover, nav a:focus-visible{ color:var(--text); opacity:1; }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--grad);
+    transition:width .3s ease;
+  }
+  nav a:hover::after{ width:100%; }
+  .cta{
+    font-family:"JetBrains Mono", monospace; font-size:.74rem; letter-spacing:.12em;
+    padding:.66rem 1.3rem; border-radius:3px; background:var(--grad); color:#0a0500; font-weight:700;
+    border:none; cursor:pointer; transition: box-shadow .25s ease, filter .25s ease;
+    box-shadow:
+      0 0 12px 1px rgba(255,90,31,.85),
+      0 0 26px 4px rgba(255,90,31,.6),
+      0 0 48px 10px rgba(255,90,31,.35);
+  }
+  .cta:hover{
+    filter:brightness(1.12);
+    box-shadow:
+      0 0 16px 2px rgba(255,90,31,.95),
+      0 0 34px 6px rgba(255,90,31,.7),
+      0 0 60px 14px rgba(255,90,31,.45);
+  }
+  .nav-toggle{ display:none; }
+
+  .lang-switch{ display:flex; gap:.4rem; }
+  .lang-btn{
+    width:36px; height:36px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.04); border:1px solid var(--panel-line); overflow:hidden;
+    cursor:pointer; opacity:.6; filter:grayscale(.35); transition:opacity .25s, filter .25s, border-color .25s, box-shadow .25s;
+  }
+  .flag{ display:block; width:24px; height:17px; border-radius:2px; overflow:hidden; box-shadow:0 0 0 1px rgba(0,0,0,.35); }
+  .lang-btn.active{
+    opacity:1; filter:grayscale(0); border-color:rgba(255,90,31,.6);
+    box-shadow:0 0 12px -2px var(--glow);
+  }
+  .lang-btn:hover{ opacity:1; filter:grayscale(0); }
+  .lang-dl{
+    display:flex; align-items:center; justify-content:center; width:20px; height:20px;
+    margin-right:.3rem; color:var(--text-dim); font-size:.9rem; line-height:1;
+    border-radius:50%; transition:color .2s, background .2s;
+  }
+  .lang-dl:hover{ color:var(--orange); background:rgba(255,90,31,.12); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh; position:relative; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding-top:9.3rem;
+    background:
+      radial-gradient(60% 50% at 50% 18%, rgba(255,90,31,.16), transparent 70%),
+      radial-gradient(50% 40% at 80% 85%, rgba(255,122,61,.22), transparent 70%),
+      var(--bg);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute; inset:0; z-index:0; opacity:.35;
+    background-image:
+      linear-gradient(rgba(255,90,31,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,90,31,.08) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image: radial-gradient(60% 60% at 50% 30%, black, transparent 75%);
+  }
+
+  .hero-title{
+    font-size:clamp(2.6rem, 8vw, 6rem); font-weight:900; letter-spacing:.01em;
+    margin-top:1.6rem; position:relative; z-index:2; line-height:1;
+  }
+  .glitch-text .word{ display:inline-block; white-space:nowrap; }
+  .glitch-text .letter{ display:inline-block; white-space:pre; will-change:transform, opacity, filter; }
+  .glitch-text .accent{
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .glitch-text.glitch .letter{ animation: glitch-jitter .28s steps(2,end) infinite; }
+  .glitch-text.glitch{ text-shadow: 2px 0 var(--orange), -2px 0 var(--orange-2); }
+
+  #brand-logo{
+    color:var(--orange);
+    text-shadow: 0 0 6px var(--glow), 0 0 16px rgba(255,90,31,.5), 0 0 32px rgba(255,90,31,.28);
+  }
+  #brand-logo .accent{ background:none; -webkit-text-fill-color:currentColor; color:var(--orange); }
+  #hero-title .accent{ background:none; -webkit-text-fill-color:currentColor; color:var(--text); }
+  #brand-logo.glitch{ text-shadow: 0 0 6px var(--glow), 2px 0 var(--orange), -2px 0 var(--orange-2); }
+  @keyframes glitch-jitter{
+    0%{ transform:translate(0,0); }
+    30%{ transform:translate(-1.5px,.5px); }
+    60%{ transform:translate(1.5px,-.5px); }
+    100%{ transform:translate(0,0); }
+  }
+
+  .glitch-text.ultra-glitch .letter{ animation: glitch-jitter-ultra .22s steps(2,end) infinite; }
+  .glitch-text.ultra-glitch{
+    text-shadow:
+      5px 0 var(--orange), -5px 0 var(--orange-2),
+      0 0 22px rgba(255,90,31,.75), 0 0 46px rgba(255,90,31,.4);
+  }
+  @keyframes glitch-jitter-ultra{
+    0%{ transform:translate(0,0) skewX(0deg); }
+    15%{ transform:translate(-6px,3px) skewX(-8deg); }
+    30%{ transform:translate(5px,-4px) skewX(6deg); }
+    45%{ transform:translate(-4px,2px) skewX(-4deg); }
+    60%{ transform:translate(6px,-3px) skewX(5deg); }
+    75%{ transform:translate(-5px,4px) skewX(-6deg); }
+    90%{ transform:translate(3px,-2px) skewX(3deg); }
+    100%{ transform:translate(0,0) skewX(0deg); }
+  }
+
+  /* ---------- signal loss glitch (cinematic "lost feed" effect) ---------- */
+  #hero-title.signal-glitch::before,
+  #hero-title.signal-glitch::after{
+    content:attr(data-text); position:absolute; left:0; top:0; width:100%; height:100%;
+    pointer-events:none; white-space:nowrap; text-align:center;
+  }
+  #hero-title.signal-glitch::before{
+    color:#fff6c4; clip-path:polygon(0 16%, 100% 16%, 100% 36%, 0 36%);
+    transform:translateX(var(--tear1, 0px));
+  }
+  #hero-title.signal-glitch::after{
+    color:var(--orange-2); clip-path:polygon(0 58%, 100% 58%, 100% 80%, 0 80%);
+    transform:translateX(var(--tear2, 0px));
+  }
+  .signal-noise{
+    position:absolute; inset:-15% -6%; pointer-events:none; opacity:0; mix-blend-mode:overlay; z-index:3;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.7) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 1px, transparent 1px 2px);
+    background-size:100% 3px, 2px 100%;
+  }
+  .hero-sub{
+    max-width:44ch; margin:1.4rem auto 0; color:var(--text-dim); font-size:1.02rem; line-height:1.65;
+    position:relative; z-index:2;
+  }
+  .hero-actions{ display:flex; gap:1rem; margin-top:2.3rem; position:relative; z-index:2; flex-wrap:wrap; justify-content:center; }
+  .btn-ghost{
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.1em;
+    padding:.85rem 1.6rem; border:1px solid rgba(255,90,31,.5); border-radius:3px; color:var(--text);
+    background:transparent; cursor:pointer; display:inline-block;
+    transition:border-color .25s, box-shadow .25s;
+  }
+  .btn-ghost:hover{ border-color:var(--orange); box-shadow:0 0 18px -4px var(--glow); }
+  .btn-call{ display:inline-flex; flex-direction:column; align-items:center; gap:.25rem; line-height:1.2; }
+  .btn-call-number{ font-size:.7rem; color:var(--orange); letter-spacing:.04em; }
+  .btn-fill{
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; letter-spacing:.1em; font-weight:700;
+    padding:.85rem 1.7rem; border-radius:3px; background:var(--grad); color:#0a0500;
+    box-shadow:0 0 26px -4px var(--glow);
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%); z-index:2;
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; letter-spacing:.24em; color:var(--text-dim);
+    display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  }
+  .scroll-cue .bar{ width:1px; height:34px; background:linear-gradient(var(--orange), transparent); animation:scrollbar 1.8s ease-in-out infinite; }
+  @keyframes scrollbar{ 0%{ transform:scaleY(0); transform-origin:top;} 50%{ transform:scaleY(1); transform-origin:top;} 51%{ transform-origin:bottom;} 100%{ transform:scaleY(0); transform-origin:bottom;} }
+
+  /* ---------- section shell ---------- */
+  section{ position:relative; padding:8.5rem 0; }
+
+  #activites{
+    background:
+      linear-gradient(180deg, var(--bg) 0%, rgba(10,10,10,.55) 22%, rgba(10,10,10,.88) 62%, var(--bg) 100%),
+      url('activites-hero.png') center 30%/cover no-repeat;
+  }
+  #academy{
+    background:
+      linear-gradient(180deg, var(--bg) 0%, rgba(255,90,31,.1) 14%, rgba(10,10,10,.7) 30%, rgba(10,10,10,.93) 65%, var(--bg) 100%),
+      url('academy-kids.jpg') center 22%/cover no-repeat;
+  }
+  .half-circle{
+    position:absolute; width:min(920px,90vw); height:min(460px,45vw); left:50%; transform:translateX(-50%);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0; pointer-events:none;
+  }
+  .half-circle.top{
+    top:-1px; border-top:1px solid rgba(255,90,31,.4); border-left:1px solid rgba(255,90,31,.15);
+    border-right:1px solid rgba(255,90,31,.15);
+    box-shadow:0 -30px 60px -30px var(--glow);
+  }
+  .half-circle.bottom{
+    bottom:-1px; transform:translateX(-50%) rotate(180deg);
+    border-top:1px solid rgba(255,122,61,.5);
+    box-shadow:0 -30px 60px -30px rgba(255,122,61,.5);
+  }
+  .section-head{ text-align:center; max-width:56ch; margin:0 auto 4rem; position:relative; z-index:2; }
+  .section-head h2{ font-size:clamp(1.8rem,3.6vw,2.7rem); font-weight:800; }
+  .section-head p{ color:var(--text-dim); margin-top:1rem; font-size:.98rem; line-height:1.6; }
+
+  /* ---------- teleport reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(28px) scale(.92); filter:blur(8px);
+    transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1), filter .7s ease;
+    position:relative;
+  }
+  .reveal::before{
+    content:""; position:absolute; left:6%; right:6%; top:50%; height:2px; background:var(--grad);
+    opacity:0; z-index:3; box-shadow:0 0 16px 2px var(--glow); transform:translateY(-50%) scaleX(.3);
+    transition:none;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  .reveal.in::before{ animation: teleport-sweep .6s ease-out forwards; }
+  @keyframes teleport-sweep{
+    0%{ opacity:1; top:6%; transform:translateY(-50%) scaleX(.2); }
+    60%{ opacity:1; transform:translateY(-50%) scaleX(1); }
+    100%{ opacity:0; top:100%; transform:translateY(-50%) scaleX(1); }
+  }
+
+  /* ---------- activities grid ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:1.4rem; position:relative; z-index:2; }
+  .card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:6px;
+    padding:2rem 1.7rem; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0; border-radius:6px; padding:1px;
+    background:linear-gradient(160deg, rgba(255,90,31,.5), transparent 40%, transparent 70%, rgba(255,122,61,.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .card .num{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--orange); letter-spacing:.12em; }
+  .card h3{ font-size:1.25rem; margin:.7rem 0 .6rem; font-weight:700; }
+  .card p{ color:var(--text-dim); font-size:.88rem; line-height:1.55; }
+  .card .stat{ margin-top:1.2rem; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; font-size:1.5rem; color:var(--text); }
+  .card .stat small{ display:block; font-family:"Sora",sans-serif; font-size:.7rem; color:var(--text-dim); letter-spacing:.08em; text-transform:uppercase; margin-top:.2rem; }
+
+  .card-padel{
+    background:
+      linear-gradient(200deg, rgba(10,10,10,.15) 0%, rgba(10,10,10,.55) 45%, rgba(10,10,10,.92) 78%),
+      url('padel-racket.png') center 38%/cover no-repeat, var(--panel);
+  }
+  .card-squash{
+    background:
+      linear-gradient(200deg, rgba(10,10,10,.15) 0%, rgba(10,10,10,.55) 45%, rgba(10,10,10,.92) 78%),
+      url('squash-racket.jpg') center 40%/cover no-repeat, var(--panel);
+  }
+  .card-soccer{
+    background:
+      linear-gradient(200deg, rgba(255,90,31,.28) 0%, rgba(10,10,10,.6) 48%, rgba(10,10,10,.92) 78%),
+      url('soccer-ball.png') center 42%/cover no-repeat, var(--panel);
+  }
+  .card-blindtest{
+    background:
+      linear-gradient(200deg, rgba(255,90,31,.24) 0%, rgba(10,10,10,.6) 46%, rgba(10,10,10,.92) 78%),
+      url('blindtest-photo.jpg') center 30%/cover no-repeat, var(--panel);
+  }
+  .card-olympiades{
+    background:
+      linear-gradient(200deg, rgba(255,90,31,.2) 0%, rgba(10,10,10,.86) 38%, rgba(10,10,10,.96) 70%),
+      url('olympiades-photo.jpg') center 22%/cover no-repeat, var(--panel);
+  }
+  .card-academy{
+    background:
+      linear-gradient(200deg, rgba(255,90,31,.24) 0%, rgba(10,10,10,.6) 46%, rgba(10,10,10,.92) 78%),
+      url('academy-card.jpg') center 30%/cover no-repeat, var(--panel);
+  }
+  .card-escape{
+    background:
+      linear-gradient(200deg, rgba(255,90,31,.22) 0%, rgba(10,10,10,.62) 44%, rgba(10,10,10,.92) 78%),
+      url('escape-card.jpg') center 24%/cover no-repeat, var(--panel);
+  }
+
+  /* ---------- club section ---------- */
+  .club{ display:grid; grid-template-columns:1.1fr .9fr; gap:3rem; align-items:center; position:relative; z-index:2; }
+  .club-visual{
+    aspect-ratio:4/5; border-radius:8px; position:relative; overflow:hidden;
+    background:
+      linear-gradient(160deg, rgba(255,90,31,.22), rgba(10,10,10,.55) 55%),
+      url('club-lounge.jpg') center/cover no-repeat, var(--bg-2);
+    border:1px solid var(--panel-line);
+  }
+  .club-visual::after{
+    content:"CLUB HOUSE // BAR LOUNGE"; position:absolute; inset:auto 0 0 0; padding:1.4rem;
+    font-family:"JetBrains Mono",monospace; font-size:.68rem; letter-spacing:.2em; color:var(--text);
+    background:linear-gradient(transparent, rgba(0,0,0,.85));
+  }
+  .club-text h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:1.2rem; }
+  .club-text p{ color:var(--text-dim); line-height:1.7; margin-bottom:1rem; }
+  .tags{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.6rem; }
+  .tag{
+    font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em; padding:.45rem .8rem;
+    border:1px solid var(--panel-line); border-radius:999px; color:var(--text-dim);
+  }
+
+  /* ---------- pricing ---------- */
+  .pricing-tabs{ display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:2rem; position:relative; z-index:2; }
+  .tab-btn{
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; font-weight:600; padding:.7rem 1.3rem;
+    border-radius:5px; background:var(--panel); border:1px solid var(--panel-line); color:var(--text-dim);
+    cursor:pointer; transition:border-color .2s, color .2s, background .2s;
+  }
+  .tab-btn.active{ border-color:var(--orange); color:var(--text); background:rgba(255,90,31,.14); }
+
+  .pricing-panel{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:10px;
+    padding:2rem 2.2rem; position:relative; z-index:2; margin-bottom:2.4rem;
+  }
+  .price-table-wrap{ overflow-x:auto; }
+  .price-table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  .price-table th, .price-table td{ text-align:left; padding:.7rem .9rem; border-bottom:1px solid var(--panel-line); white-space:nowrap; }
+  .price-table th{
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--orange);
+  }
+  .price-table td:not(:first-child){ font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; color:var(--text); }
+  .price-notes{ list-style:none; margin-top:1.2rem; display:flex; flex-direction:column; gap:.5rem; }
+  .price-notes li{ font-size:.85rem; color:var(--text-dim); padding-left:1.2rem; position:relative; }
+  .price-notes li::before{ content:"—"; position:absolute; left:0; color:var(--orange); }
+
+  .price-carnets{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.4rem; }
+  .price-carnet{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:6px;
+    padding:1rem 1.3rem; display:flex; flex-direction:column; gap:.2rem; min-width:140px;
+  }
+  .carnet-hours{ font-family:"Orbitron",sans-serif; font-weight:700; color:var(--text); font-size:1.1rem; }
+  .carnet-price{ font-family:"JetBrains Mono",monospace; color:var(--orange); font-size:.9rem; }
+  .carnet-detail{ font-size:.72rem; color:var(--text-dim); }
+
+  .price-coaching{ margin-top:1.8rem; padding-top:1.6rem; border-top:1px solid var(--panel-line); }
+  .price-coaching-label{ display:block; font-size:.86rem; color:var(--text); margin-bottom:1rem; }
+
+  .price-highlight{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:1.4rem; }
+  .price-highlight-num{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:2.4rem; color:var(--orange); }
+  .price-highlight-note{ font-size:.9rem; color:var(--text-dim); }
+
+  .giftcards{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.4rem;
+    background:linear-gradient(120deg, rgba(255,90,31,.14), rgba(255,122,61,.06));
+    border:1px solid rgba(255,90,31,.35); border-radius:10px; padding:1.8rem 2.2rem; position:relative; z-index:2;
+  }
+  .giftcards-text p{ font-size:.88rem; color:var(--text-dim); margin-top:.5rem; max-width:44ch; }
+  .giftcard-values{ display:flex; gap:.7rem; flex-wrap:wrap; }
+  .giftcard-values span{
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-size:.9rem; color:var(--text);
+    background:var(--bg-2); border:1px solid rgba(255,90,31,.4); border-radius:6px; padding:.6rem 1rem;
+  }
+
+  @media (max-width:600px){ .giftcards{ flex-direction:column; align-items:flex-start; } }
+
+  /* ---------- Academy ---------- */
+  .aca-groups{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; position:relative; z-index:2;
+    margin-bottom:2.4rem;
+  }
+  .aca-group{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:8px;
+    padding:1.4rem 1.2rem; text-align:center; display:flex; flex-direction:column; gap:.4rem;
+  }
+  .aca-cat{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1.3rem; color:var(--orange); }
+  .aca-born{ font-size:.8rem; color:var(--text-dim); }
+  .aca-time{ font-family:"JetBrains Mono",monospace; font-size:.76rem; color:var(--text); margin-top:.4rem; }
+
+  .aca-offer{
+    display:grid; grid-template-columns:1.3fr .7fr; gap:2.4rem; align-items:center;
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:10px;
+    padding:2.2rem 2.4rem; position:relative; z-index:2;
+  }
+  .aca-list{ list-style:none; margin-top:1rem; display:flex; flex-direction:column; gap:.7rem; }
+  .aca-list li{
+    font-size:.92rem; color:var(--text-dim); padding-left:1.3rem; position:relative;
+  }
+  .aca-list li::before{
+    content:""; position:absolute; left:0; top:.5em; width:7px; height:7px; border-radius:50%;
+    background:var(--orange); box-shadow:0 0 6px 1px var(--glow);
+  }
+  .aca-offer-cta{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+  .aca-price{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:2.4rem; color:var(--text); }
+  .aca-price span{ font-size:1.2rem; color:var(--orange); }
+  .aca-price-note{ font-size:.76rem; color:var(--text-dim); margin-bottom:.6rem; }
+  .aca-offer-cta .btn-fill, .aca-offer-cta .btn-ghost{ width:100%; text-align:center; }
+
+  @media (max-width:760px){
+    .aca-groups{ grid-template-columns:1fr; }
+    .aca-offer{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{ max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:.8rem; position:relative; z-index:2; }
+  .faq-item{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:6px;
+    padding:1.1rem 1.4rem; transition:border-color .25s;
+  }
+  .faq-item[open]{ border-color:rgba(255,90,31,.4); }
+  .faq-item summary{
+    cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    font-weight:600; font-size:.98rem;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-icon{
+    flex:none; width:22px; height:22px; border-radius:50%; border:1px solid var(--panel-line);
+    display:flex; align-items:center; justify-content:center; font-family:"JetBrains Mono",monospace;
+    color:var(--orange); transition:transform .25s ease;
+  }
+  .faq-item[open] .faq-icon{ transform:rotate(45deg); }
+  .faq-item p{ margin-top:.8rem; color:var(--text-dim); font-size:.9rem; line-height:1.6; max-width:62ch; }
+
+  /* ---------- reviews ---------- */
+  .reviews-head{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap;
+    margin-bottom:2.6rem; position:relative; z-index:2;
+  }
+  .reviews-head h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin-top:.5rem; }
+  .reviews-score{ display:flex; align-items:center; gap:.9rem; }
+  .score-num{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:2.6rem; color:var(--text); }
+  .score-details{ display:flex; flex-direction:column; gap:.3rem; }
+  .score-count{ font-family:"JetBrains Mono",monospace; font-size:.74rem; color:var(--text-dim); }
+
+  .stars{ display:inline-flex; gap:2px; }
+  .stars svg{ width:15px; height:15px; }
+
+  .reviews-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.2rem; position:relative; z-index:2; }
+  .review-card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:8px;
+    padding:1.6rem 1.5rem; display:flex; flex-direction:column; gap:.9rem;
+  }
+  .review-card p{ font-size:.9rem; color:var(--text-dim); line-height:1.6; }
+  .review-author{ display:flex; align-items:center; justify-content:space-between; font-size:.84rem; color:var(--text); font-weight:600; }
+  .review-tag{
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; font-weight:400; color:var(--orange);
+    letter-spacing:.06em; text-transform:uppercase;
+  }
+
+  @media (max-width:600px){ .reviews-head{ flex-direction:column; align-items:flex-start; } }
+
+  /* ---------- booking CTA ---------- */
+  .booking{
+    text-align:center; position:relative; z-index:2;
+  }
+  .booking h2{ font-size:clamp(2rem,5vw,3.4rem); margin-bottom:1.2rem; }
+  .booking .cta-row{ display:flex; gap:1rem; justify-content:center; margin-top:2rem; flex-wrap:wrap; }
+  .phone{
+    font-family:"JetBrains Mono",monospace; letter-spacing:.06em; color:var(--orange); font-size:1.1rem;
+    margin-top:1.4rem; display:inline-block; transition:opacity .2s;
+  }
+  .phone:hover{ opacity:.8; text-decoration:underline; }
+
+  /* ---------- footer ---------- */
+  /* ---------- visitor counter (sport scoreboard, neon red) ---------- */
+  .counter-section{ padding:3rem 0; }
+  .counter-board{
+    --neon-red:#ff2340;
+    max-width:520px; margin:0 auto; padding:2.2rem 2rem;
+    background:#0b0b0c; border:1px solid rgba(255,35,64,.45); border-radius:8px;
+    display:flex; flex-direction:column; align-items:center; gap:.7rem;
+    box-shadow:0 0 24px -4px rgba(255,35,64,.4), inset 0 0 30px rgba(255,35,64,.06);
+    background-image: repeating-linear-gradient(rgba(255,35,64,.035) 0 1px, transparent 1px 3px);
+  }
+  .counter-dot{
+    display:flex; align-items:center; gap:.5rem; font-family:"JetBrains Mono",monospace;
+    font-size:.66rem; letter-spacing:.18em; color:var(--neon-red, #ff2340);
+  }
+  .dot-live{
+    width:7px; height:7px; border-radius:50%; background:var(--neon-red, #ff2340);
+    box-shadow:0 0 8px 2px rgba(255,35,64,.9); animation:dot-pulse 1.4s ease-in-out infinite;
+  }
+  .counter-digits{
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-variant-numeric:tabular-nums;
+    font-size:clamp(2.4rem,7vw,3.6rem); letter-spacing:.06em; color:#ff2340;
+    text-shadow:0 0 6px rgba(255,35,64,.9), 0 0 18px rgba(255,35,64,.7), 0 0 42px rgba(255,35,64,.4);
+  }
+  .counter-label{
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:#a8a49c;
+  }
+
+  /* ---------- localisation ---------- */
+  .locate{
+    display:grid; grid-template-columns:.9fr 1.1fr; gap:3rem; align-items:center; position:relative; z-index:2;
+  }
+  .locate-text h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin:0 0 1.6rem; }
+  .locate-list{ list-style:none; display:flex; flex-direction:column; gap:.9rem; margin-bottom:1.8rem; }
+  .locate-list li{ display:flex; flex-direction:column; gap:.15rem; font-size:.92rem; color:var(--text-dim); }
+  .locate-list a{ color:var(--text); }
+  .locate-list a:hover{ color:var(--orange); }
+  .locate-label{
+    font-family:"JetBrains Mono",monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--orange);
+  }
+  .locate-map{
+    border-radius:8px; overflow:hidden; border:1px solid rgba(255,90,31,.35);
+    box-shadow:0 0 26px -6px var(--glow); aspect-ratio:4/3;
+  }
+  .locate-map iframe{
+    width:100%; height:100%; border:0; display:block;
+    filter:invert(93%) hue-rotate(180deg) brightness(.94) contrast(.92) saturate(1.1);
+  }
+  @media (max-width:760px){ .locate{ grid-template-columns:1fr; } }
+
+  /* ---------- newsletter ---------- */
+  .newsletter-board{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.6rem;
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:10px;
+    padding:2.4rem 2.6rem; position:relative; z-index:2;
+  }
+  .newsletter-board h2{ font-size:clamp(1.3rem,2.4vw,1.7rem); margin-top:.5rem; max-width:26ch; }
+  .newsletter-form{ display:flex; gap:.7rem; flex-wrap:wrap; }
+  .newsletter-form input{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:3px; color:var(--text);
+    padding:.8rem 1rem; font-family:"Sora",sans-serif; font-size:.9rem; min-width:220px;
+  }
+  .newsletter-form input:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+
+  .academy-form{ display:flex; flex-direction:column; gap:1.1rem; margin-top:1.6rem; }
+  .academy-form label{ display:flex; flex-direction:column; gap:.4rem; font-size:.82rem; color:var(--text-dim); }
+  .academy-form input, .academy-form select{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:4px; color:var(--text);
+    padding:.75rem .9rem; font-family:"Sora",sans-serif; font-size:.92rem;
+  }
+  .academy-form input:focus-visible, .academy-form select:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .academy-form input[type="date"]{ color-scheme:dark; }
+  .academy-form textarea{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:4px; color:var(--text);
+    padding:.75rem .9rem; font-family:"Sora",sans-serif; font-size:.92rem; resize:vertical;
+  }
+  .academy-form textarea:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .academy-form label[data-only]{ display:none; }
+  .academy-form button{ border:none; cursor:pointer; margin-top:.4rem; }
+  #academy-success{ margin-top:1.4rem; padding:1rem 1.2rem; background:rgba(255,90,31,.1); border:1px solid rgba(255,90,31,.4); border-radius:6px; font-size:.88rem; color:var(--text); }
+  .newsletter-form .btn-fill{ border:none; cursor:pointer; font-family:"JetBrains Mono",monospace; }
+  #newsletter-success{ font-size:.9rem; color:var(--orange); font-weight:600; }
+
+  footer{ border-top:1px solid var(--panel-line); padding:3.4rem 0 2.4rem; position:relative; z-index:2; }
+  .foot-grid{ display:grid; grid-template-columns:1.3fr repeat(3, 1fr); gap:2rem; }
+  .foot-grid h4{ font-family:"JetBrains Mono",monospace; font-size:.68rem; letter-spacing:.16em; color:var(--orange); margin-bottom:.9rem; text-transform:uppercase; }
+  .foot-grid p, .foot-grid a{ font-size:.85rem; color:var(--text-dim); line-height:1.9; display:block; }
+  .foot-grid a:hover{ color:var(--text); }
+  .foot-bottom{ margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--panel-line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.74rem; color:var(--text-dim); font-family:"JetBrains Mono",monospace; }
+
+  @media (max-width:760px){
+    nav{ display:none; }
+    .club{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+  }
+
+  /* ---------- cookie banner ---------- */
+  .cookie-banner{
+    position:fixed; left:14px; right:14px; bottom:14px; z-index:280;
+    max-width:640px; margin:0 auto;
+    background:var(--bg-2); border:1px solid rgba(255,90,31,.4); border-radius:8px;
+    padding:1.3rem 1.5rem; box-shadow:0 14px 40px -12px rgba(0,0,0,.6), 0 0 24px -8px var(--glow);
+    display:flex; flex-direction:column; gap:1rem;
+  }
+  .cookie-banner[hidden]{ display:none; }
+  .cookie-banner p{ font-size:.86rem; color:var(--text-dim); line-height:1.55; }
+  .cookie-actions{ display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
+  .cookie-more{ font-family:"JetBrains Mono",monospace; font-size:.74rem; color:var(--text-dim); margin-right:auto; }
+  .cookie-more:hover{ color:var(--orange); }
+  .cookie-actions .btn-ghost, .cookie-actions .btn-fill{ padding:.55rem 1.1rem; font-size:.74rem; }
+
+  /* ---------- booking modal ---------- */
+  .booking-modal{
+    position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center;
+    padding:1.5rem; opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .booking-modal.open{ opacity:1; pointer-events:auto; }
+  .booking-backdrop{ position:absolute; inset:0; background:rgba(5,4,3,.78); backdrop-filter:blur(4px); }
+  .booking-dialog{
+    position:relative; width:100%; max-width:640px; max-height:86vh; overflow-y:auto;
+    background:var(--bg-2); border:1px solid rgba(255,90,31,.4); border-radius:10px;
+    padding:2.4rem 2.2rem; box-shadow:0 20px 60px -20px rgba(0,0,0,.6), 0 0 40px -12px var(--glow);
+    transform:translateY(14px) scale(.97); transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .booking-modal.open .booking-dialog{ transform:translateY(0) scale(1); }
+  .booking-close{
+    position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%;
+    background:rgba(255,255,255,.04); border:1px solid var(--panel-line); color:var(--text-dim);
+    font-size:1.1rem; line-height:1; cursor:pointer; transition:color .2s, border-color .2s;
+  }
+  .booking-close:hover{ color:var(--orange); border-color:rgba(255,90,31,.5); }
+  .booking-dialog h3{ font-family:"Orbitron",sans-serif; font-size:1.4rem; color:var(--text); margin:.4rem 0 1.6rem; }
+
+  .sport-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:.9rem; }
+  .sport-card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:8px;
+    padding:1.6rem 1rem; cursor:pointer; text-align:center; display:flex; flex-direction:column; gap:.5rem;
+    transition:border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .sport-card:hover{ border-color:rgba(255,90,31,.55); box-shadow:0 0 22px -8px var(--glow); transform:translateY(-2px); }
+  .sport-name{ font-family:"Orbitron",sans-serif; font-weight:700; font-size:1.02rem; color:var(--text); }
+  .sport-meta{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--orange); }
+
+  .booking-back{
+    background:none; border:none; color:var(--text-dim); font-family:"JetBrains Mono",monospace;
+    font-size:.76rem; cursor:pointer; margin-bottom:1rem; padding:0;
+  }
+  .booking-back:hover{ color:var(--orange); }
+
+  .planning-days{ display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+  .day-btn{
+    font-family:"JetBrains Mono",monospace; font-size:.74rem; padding:.55rem .9rem; border-radius:5px;
+    background:var(--panel); border:1px solid var(--panel-line); color:var(--text-dim); cursor:pointer;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .day-btn.active{ border-color:var(--orange); color:var(--text); background:rgba(255,90,31,.14); }
+
+  .planning-durations{ display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+  .duration-label{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--text-dim); margin-right:.3rem; }
+  .duration-btn{
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; padding:.5rem .85rem; border-radius:999px;
+    background:transparent; border:1px solid var(--panel-line); color:var(--text-dim); cursor:pointer;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .duration-btn.active{ border-color:var(--orange); color:#0a0500; background:var(--grad); font-weight:700; }
+
+  .planning-slots{ display:grid; grid-template-columns:repeat(auto-fill, minmax(84px,1fr)); gap:.6rem; }
+  .slot-btn{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; font-size:.82rem;
+    padding:.7rem .5rem; border-radius:5px; background:var(--panel); border:1px solid var(--panel-line);
+    color:var(--text); cursor:pointer; transition:border-color .2s, background .2s, box-shadow .2s;
+  }
+  .slot-btn:hover:not(:disabled){ border-color:rgba(255,90,31,.6); box-shadow:0 0 14px -5px var(--glow); }
+  .slot-btn:disabled{ opacity:.3; cursor:not-allowed; text-decoration:line-through; }
+  .slot-btn.selected{ background:var(--grad); border-color:transparent; color:#0a0500; font-weight:700; }
+
+  .booking-confirm{
+    margin-top:1.4rem; padding:1rem 1.2rem; background:rgba(255,90,31,.1);
+    border:1px solid rgba(255,90,31,.4); border-radius:6px; font-size:.88rem; color:var(--text);
+  }
+  .planning-legend{
+    display:flex; align-items:center; gap:.5rem; margin-top:.9rem;
+    font-family:"JetBrains Mono",monospace; font-size:.74rem; color:var(--text-dim);
+  }
+  .legend-strike{ text-decoration:line-through; opacity:.5; }
+
+  @media (max-width:520px){ .sport-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- back to top ---------- */
+  .to-top{
+    position:fixed; bottom:1.8rem; right:1.8rem; z-index:140;
+    width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(10,9,8,.65); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--orange); color:var(--orange); cursor:pointer;
+    box-shadow:0 0 20px 2px var(--glow), inset 0 0 10px rgba(255,90,31,.25);
+    opacity:0; transform:translateY(14px); pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease, box-shadow .3s ease;
+  }
+  .to-top.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .to-top:hover{ box-shadow:0 0 30px 6px var(--glow), inset 0 0 14px rgba(255,90,31,.35); }
+  .to-top svg{ width:20px; height:20px; }
+
+  .music-btn{
+    position:fixed; bottom:1.8rem; left:1.8rem; z-index:140;
+    width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(10,9,8,.65); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--orange); color:var(--orange); cursor:pointer;
+    animation: music-pulse 2.4s ease-in-out infinite;
+    transition:transform .25s ease;
+  }
+  .music-btn:hover{ transform:scale(1.08); }
+  .music-btn svg{ width:20px; height:20px; }
+  @keyframes music-pulse{
+    0%,100%{ box-shadow:0 0 14px 1px var(--glow), inset 0 0 8px rgba(255,90,31,.2); }
+    50%{ box-shadow:0 0 30px 8px var(--glow), inset 0 0 12px rgba(255,90,31,.35); }
+  }
+  @media (prefers-reduced-motion: reduce){ .music-btn{ animation:none; box-shadow:0 0 20px 4px var(--glow); } }
+  .music-btn.playing{ color:var(--text); background:rgba(255,90,31,.25); }
+
+  .music-toast{
+    position:fixed; bottom:2.1rem; left:5.4rem; z-index:140; max-width:min(60vw, 320px);
+    font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--text);
+    text-shadow:0 0 10px rgba(245,230,163,.6);
+    opacity:0; transform:translateX(-6px); transition:opacity .4s ease, transform .4s ease; pointer-events:none;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .music-toast.show{ opacity:1; transform:translateX(0); }
+
+  .music-panel{ position:fixed; width:1px; height:1px; overflow:hidden; opacity:0; pointer-events:none; }
+  .music-panel[hidden]{ display:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; filter:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+
+<div class="ticker-wrap">
+  <div class="ticker-tag"><span class="dot"></span><span data-i18n="ticker-label">ACTU CLUB</span></div>
+  <div class="ticker">
+    <div class="ticker-track">
+      <span data-i18n="ticker1"><b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa</span>
+      <span data-i18n="ticker2"><b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park</span>
+      <span data-i18n="ticker1"><b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa</span>
+      <span data-i18n="ticker2"><b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park</span>
+    </div>
+  </div>
+</div>
+
+<header id="header">
+  <div class="brand glitch-text" id="brand-logo">
+    <span class="word" data-word="LA TEAM"></span>
+    <span class="word accent" data-word="RENNAISE"></span>
+  </div>
+  <nav>
+    <a href="#activites" data-i18n="nav-activites">Activités</a>
+    <a href="#tarifs" data-i18n="price-eyebrow">Tarifs</a>
+    <a href="#academy" data-i18n="aca-eyebrow">Academy</a>
+    <a href="#club" data-i18n="nav-club">Club House</a>
+    <a href="#entreprises" data-i18n="nav-entreprises">Entreprises</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
+  </nav>
+  <div class="lang-switch">
+    <button type="button" class="lang-btn active" data-lang="fr" title="Français" aria-label="Français" aria-pressed="true">
+      <svg class="flag" viewBox="0 0 60 36" width="24" height="17" role="img" aria-hidden="true">
+        <rect width="20" height="36" fill="#0055A4"/>
+        <rect x="20" width="20" height="36" fill="#FFFFFF"/>
+        <rect x="40" width="20" height="36" fill="#EF4135"/>
+      </svg>
+    </button>
+    <a class="lang-dl" href="la-team-rennaise-fr.html" download title="Télécharger la version française" aria-label="Télécharger la version française">⭳</a>
+    <button type="button" class="lang-btn" data-lang="en" title="English" aria-label="English" aria-pressed="false">
+      <svg class="flag" viewBox="0 0 60 36" width="24" height="17" role="img" aria-hidden="true">
+        <rect width="60" height="36" fill="#00247d"/>
+        <g stroke="#FFFFFF" stroke-width="7"><line x1="0" y1="0" x2="60" y2="36"/><line x1="60" y1="0" x2="0" y2="36"/></g>
+        <g stroke="#C8102E" stroke-width="3"><line x1="0" y1="0" x2="60" y2="36"/><line x1="60" y1="0" x2="0" y2="36"/></g>
+        <rect x="24" width="12" height="36" fill="#FFFFFF"/>
+        <rect y="12" width="60" height="12" fill="#FFFFFF"/>
+        <rect x="27" width="6" height="36" fill="#C8102E"/>
+        <rect y="15" width="60" height="6" fill="#C8102E"/>
+      </svg>
+    </button>
+    <a class="lang-dl" href="la-team-rennaise-en.html" download title="Download the English version" aria-label="Download the English version">⭳</a>
+  </div>
+  <button class="cta js-open-booking" data-i18n="header-cta">RÉSERVER</button>
+</header>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <h1 class="hero-title glitch-text" id="hero-title" data-text="LA TEAM RENNAISE">
+    <span class="word" data-word="LA TEAM"></span>
+    <span class="word accent" data-word="RENNAISE"></span>
+  </h1>
+  <p class="hero-sub" data-i18n="hero-sub">6000 m² de soccer, padel, squash, blindtests et olympiades — dans un complexe pensé comme une expérience, pas comme un terrain de plus.</p>
+  <div class="hero-actions">
+    <button class="btn-fill js-open-booking" data-i18n="hero-btn-book">Réserver un créneau</button>
+    <a class="btn-ghost" href="#activites" data-i18n="hero-btn-explore">Explorer le complexe</a>
+  </div>
+  <div class="scroll-cue"><span data-i18n="scroll-label">SCROLL</span><span class="bar"></span></div>
+</section>
+
+<section id="activites">
+  <div class="half-circle top"></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="act-eyebrow">Le complexe</span>
+      <h2 data-i18n="act-h2">Cinq façons de jouer, un seul lieu.</h2>
+      <p data-i18n="act-p">Chaque terrain, chaque salle a été pensée pour son propre jeu — pas de compromis entre les disciplines.</p>
+    </div>
+    <div class="grid">
+      <div class="card card-soccer reveal">
+        <span class="num">01</span>
+        <h3>Soccer</h3>
+        <p data-i18n="card1-p">Terrains indoor haute performance, éclairage dynamique, sol dernière génération.</p>
+        <div class="stat">5<small data-i18n="card1-stat">Terrains</small></div>
+      </div>
+      <div class="card card-padel reveal">
+        <span class="num">02</span>
+        <h3>Padel</h3>
+        <p data-i18n="card2-p">Courts vitrés, ambiance compétition, réservables à l'heure ou en tournoi.</p>
+        <div class="stat">4<small data-i18n="card2-stat">Terrains</small></div>
+      </div>
+      <div class="card card-squash reveal">
+        <span class="num">03</span>
+        <h3>Squash</h3>
+        <p>Salles climatisées, cadence rapide, parfait entre deux réunions.</p>
+        <div class="stat">6<small>Terrains</small></div>
+      </div>
+      <div class="card card-blindtest reveal">
+        <span class="num">04</span>
+        <h3>BlindTest</h3>
+        <p data-i18n="card4-p">Soirées à thème, écran géant, son immersif — le complexe devient scène.</p>
+        <div class="stat">∞<small data-i18n="card4-stat">Playlists</small></div>
+      </div>
+      <div class="card card-olympiades reveal">
+        <span class="num">05</span>
+        <h3 data-i18n="card5-h3">Olympiades &amp; Zgames</h3>
+        <p data-i18n="card5-p">Épreuves mixtes pensées pour les groupes, du staff au week-end entre amis.</p>
+        <div class="stat">6+<small data-i18n="card5-stat">Épreuves</small></div>
+      </div>
+      <div class="card card-academy reveal">
+        <span class="num">06</span>
+        <h3>Academy</h3>
+        <p data-i18n="card6-p">Coaching individuel et collectif, tous niveaux, tous âges.</p>
+        <div class="stat">7j/7<small data-i18n="card6-stat">Sur créneau</small></div>
+      </div>
+      <div class="card card-escape reveal">
+        <span class="num">07</span>
+        <h3>Escape Game</h3>
+        <p data-i18n="card7-p">Une énigme à résoudre en équipe, contre la montre, avant que le temps ne soit écoulé.</p>
+        <div class="stat">2<small data-i18n="card7-stat">Salles à thème</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tarifs">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="price-eyebrow">Tarifs</span>
+      <h2 data-i18n="price-h2">Des prix clairs, pour chaque activité.</h2>
+    </div>
+
+    <div class="pricing-tabs reveal">
+      <button type="button" class="tab-btn active" data-tab="soccer">Soccer</button>
+      <button type="button" class="tab-btn" data-tab="padel">Padel</button>
+      <button type="button" class="tab-btn" data-tab="squash">Squash</button>
+      <button type="button" class="tab-btn" data-tab="blindtest">BlindTest</button>
+    </div>
+
+    <div class="pricing-panel reveal" data-panel="soccer">
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead><tr><th data-i18n="price-th-slot">Créneau</th><th>1h</th><th>1h30</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="price-soccer-week-day">Semaine · 11h–18h</td><td>60€</td><td>90€</td></tr>
+            <tr><td data-i18n="price-soccer-week-eve">Semaine · 18h–00h</td><td>90€</td><td>135€</td></tr>
+            <tr><td data-i18n="price-soccer-weekend">Week-end</td><td>60€</td><td>90€</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="price-notes">
+        <li data-i18n="price-soccer-student">-1€/personne avec carte étudiante</li>
+        <li data-i18n="price-soccer-footinho">Il te manque des joueurs ? Partenariat Footinho pour compléter ton équipe</li>
+      </ul>
+    </div>
+
+    <div class="pricing-panel reveal" data-panel="padel" hidden>
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead><tr><th data-i18n="price-th-duration">Durée</th><th data-i18n="price-th-perperson">Prix / personne</th></tr></thead>
+          <tbody>
+            <tr><td>1h</td><td>7€</td></tr>
+            <tr><td>1h30</td><td>10,5€</td></tr>
+            <tr><td>2h</td><td>14€</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="price-notes">
+        <li data-i18n="price-padel-rental">Location : raquette 3€ · balles 2€ (vente 6€)</li>
+        <li data-i18n="price-padel-student">-1€/personne avec carte étudiante</li>
+      </ul>
+      <div class="price-carnets">
+        <div class="price-carnet"><span class="carnet-hours">20h</span><span class="carnet-price">120€</span><span class="carnet-detail" data-i18n="price-padel-carnet1">-15% · 6€/h</span></div>
+        <div class="price-carnet"><span class="carnet-hours">50h</span><span class="carnet-price">260€</span><span class="carnet-detail" data-i18n="price-padel-carnet2">-25% · 5,20€/h</span></div>
+      </div>
+    </div>
+
+    <div class="pricing-panel reveal" data-panel="squash" hidden>
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead><tr><th data-i18n="price-th-duration">Durée</th><th>Prix</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="price-squash-30">30 min</td><td>7€</td></tr>
+            <tr><td data-i18n="price-squash-45">45 min</td><td>10,5€</td></tr>
+            <tr><td>1h</td><td>14€</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="price-notes">
+        <li data-i18n="price-squash-rental">Location : raquette 3€ · chaussures 3€</li>
+      </ul>
+      <div class="price-carnets">
+        <div class="price-carnet"><span class="carnet-hours">10h</span><span class="carnet-price">120€</span><span class="carnet-detail" data-i18n="price-squash-carnet1">-15% · 12€/h</span></div>
+        <div class="price-carnet"><span class="carnet-hours">25h</span><span class="carnet-price">260€</span><span class="carnet-detail" data-i18n="price-squash-carnet2">-25% · 10,40€/h</span></div>
+      </div>
+      <div class="price-coaching">
+        <span class="price-coaching-label" data-i18n="price-squash-coach-label">Cours particuliers avec coach diplômé — court, coaching et assurance inclus</span>
+        <div class="price-table-wrap">
+          <table class="price-table">
+            <thead><tr><th data-i18n="price-th-group">Groupe</th><th data-i18n="price-th-hour">À l'heure</th><th data-i18n="price-th-pack">Pack 5h</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="price-squash-solo">1 personne</td><td>30€/h</td><td>120€</td></tr>
+              <tr><td data-i18n="price-squash-duo">2 personnes</td><td>25€/pers/h</td><td data-i18n="price-squash-duo-pack">100€/pers</td></tr>
+              <tr><td data-i18n="price-squash-trio">3 personnes</td><td>20€/pers/h</td><td data-i18n="price-squash-trio-pack">80€/pers</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-panel reveal" data-panel="blindtest" hidden>
+      <div class="price-highlight">
+        <span class="price-highlight-num">12€</span>
+        <span class="price-highlight-note" data-i18n="price-blindtest-note">par personne</span>
+      </div>
+      <ul class="price-notes">
+        <li data-i18n="price-blindtest-1">Reconnaissance vocale sur smartphone — pas de triche, pas besoin d'animateur</li>
+        <li data-i18n="price-blindtest-2">2 salles privées, de 4 à 100 personnes</li>
+        <li data-i18n="price-blindtest-3">6 niveaux de difficulté · 60 playlists · 6000 titres</li>
+      </ul>
+    </div>
+
+    <div class="giftcards reveal">
+      <div class="giftcards-text">
+        <span class="eyebrow" data-i18n="gift-eyebrow">Cartes cadeaux</span>
+        <p data-i18n="gift-text">Valables sur soccer, padel et squash. En vente sur place, en ligne ou sur l'appli mobile.</p>
+      </div>
+      <div class="giftcard-values">
+        <span>25€</span><span>50€</span><span>75€</span><span>100€</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="academy">
+  <div class="half-circle top"></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="aca-eyebrow">Academy</span>
+      <h2 data-i18n="aca-h2">Le foot, dès 4 ans, bien encadré.</h2>
+      <p data-i18n="aca-intro">Bases techniques, tactiques et motrices, dans le plaisir du jeu — avec des coachs diplômés et des groupes à taille humaine.</p>
+    </div>
+
+    <div class="aca-groups reveal">
+      <div class="aca-group">
+        <span class="aca-cat">U4–U5</span>
+        <span class="aca-born" data-i18n="aca-born-1">Nés 2022–2023</span>
+        <span class="aca-time">Samedi · 9h45 – 10h45</span>
+      </div>
+      <div class="aca-group">
+        <span class="aca-cat">U6–U7</span>
+        <span class="aca-born" data-i18n="aca-born-2">Nés 2020–2021</span>
+        <span class="aca-time">Samedi · 11h00 – 12h20</span>
+      </div>
+      <div class="aca-group">
+        <span class="aca-cat">U8–U9</span>
+        <span class="aca-born" data-i18n="aca-born-3">Nés 2017–2019</span>
+        <span class="aca-time">Samedi · 12h30 – 14h00</span>
+      </div>
+    </div>
+
+    <div class="aca-offer reveal">
+      <div class="aca-offer-text">
+        <span class="eyebrow" data-i18n="aca-offer-eyebrow">Formule saison</span>
+        <ul class="aca-list">
+          <li data-i18n="aca-item1">Séance découverte offerte</li>
+          <li data-i18n="aca-item2">12 séances sur la saison</li>
+          <li data-i18n="aca-item3">Goûter inclus après chaque séance</li>
+          <li data-i18n="aca-item4">Groupes limités à 15–20 enfants</li>
+        </ul>
+      </div>
+      <div class="aca-offer-cta">
+        <div class="aca-price">129<span>€</span></div>
+        <span class="aca-price-note" data-i18n="aca-price-note">par enfant, saison complète</span>
+        <button type="button" class="btn-fill js-open-academy" data-intent="info" data-i18n="aca-cta1">Demander des infos</button>
+        <button type="button" class="btn-ghost js-open-academy" data-intent="preinscription" data-i18n="aca-cta2">Pré-inscription</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="club">
+  <div class="wrap club">
+    <div class="club-visual reveal"></div>
+    <div class="club-text reveal">
+      <span class="eyebrow" data-i18n="club-eyebrow">L'après-match</span>
+      <h2 data-i18n="club-h2">Le Club House &amp; le Bar Lounge.</h2>
+      <p data-i18n="club-p1">Un bar-lounge de 400 m² pour souffler, débriefer le match ou lancer le prochain. Lumière basse, son feutré, ambiance qui tranche avec le rythme des terrains.</p>
+      <p data-i18n="club-p2">Anniversaires, soirées entreprises, championnats internes : le lieu s'adapte, pas l'inverse.</p>
+      <div class="tags">
+        <span class="tag" data-i18n="tag-anniv">Anniversaires</span>
+        <span class="tag" data-i18n="tag-champ">Championnats</span>
+        <span class="tag" id="entreprises" data-i18n="tag-corp">Entreprises</span>
+        <span class="tag" data-i18n="tag-priv">Événements privés</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="avis">
+  <div class="wrap">
+    <div class="reviews-head reveal">
+      <div>
+        <span class="eyebrow" data-i18n="rev-eyebrow">Avis clients</span>
+        <h2 data-i18n="rev-h2">Ce qu'ils en pensent.</h2>
+      </div>
+      <div class="reviews-score">
+        <span class="score-num">4.8</span>
+        <div class="score-details">
+          <span class="stars" data-rating="4.8"></span>
+          <span class="score-count" data-i18n="rev-count">à partir de 214 avis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <span class="stars" data-rating="5"></span>
+        <p data-i18n="rev1-text">Les terrains sont impeccables et l'ambiance après-match au bar change tout. On ne joue plus ailleurs.</p>
+        <div class="review-author"><span>Lucas M.</span><span class="review-tag">Soccer</span></div>
+      </div>
+      <div class="review-card reveal">
+        <span class="stars" data-rating="5"></span>
+        <p data-i18n="rev2-text">Réservation ultra simple, courts nickel, on y retourne chaque semaine entre collègues.</p>
+        <div class="review-author"><span>Camille R.</span><span class="review-tag">Padel</span></div>
+      </div>
+      <div class="review-card reveal">
+        <span class="stars" data-rating="4"></span>
+        <p data-i18n="rev3-text">Mon fils adore ses samedis matin, les coachs de l'Academy sont hyper pédagogues avec les petits.</p>
+        <div class="review-author"><span>Nathan B.</span><span class="review-tag">Academy</span></div>
+      </div>
+      <div class="review-card reveal">
+        <span class="stars" data-rating="5"></span>
+        <p data-i18n="rev4-text">Parfait pour décompresser entre midi et deux, et le bar lounge est devenu notre spot après le match.</p>
+        <div class="review-author"><span>Inès T.</span><span class="review-tag">Squash</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="counter-section">
+  <div class="wrap">
+    <div class="counter-board reveal">
+      <div class="counter-dot"><span class="dot-live"></span><span data-i18n="counter-live">EN DIRECT</span></div>
+      <div class="counter-digits" id="visitor-count">000000</div>
+      <div class="counter-label" data-i18n="counter-label">VISITEURS AUJOURD'HUI</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="faq-eyebrow">Questions fréquentes</span>
+      <h2 data-i18n="faq-h2">Avant de réserver.</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary><span data-i18n="faq-q1">Faut-il réserver à l'avance ?</span><span class="faq-icon">+</span></summary>
+        <p data-i18n="faq-a1">C'est recommandé, surtout en soirée et le week-end. Les terrains se réservent en ligne, par téléphone ou sur place selon les disponibilités.</p>
+      </details>
+      <details class="faq-item">
+        <summary><span data-i18n="faq-q2">Le matériel est-il fourni ?</span><span class="faq-icon">+</span></summary>
+        <p data-i18n="faq-a2">Oui pour le padel et le squash (raquettes, balles). Pour le soccer, prévoyez des chaussures adaptées au sol indoor.</p>
+      </details>
+      <details class="faq-item">
+        <summary><span data-i18n="faq-q3">À partir de quel âge peut-on jouer ?</span><span class="faq-icon">+</span></summary>
+        <p data-i18n="faq-a3">Les terrains sont accessibles dès 8 ans accompagné d'un adulte. L'Academy propose des créneaux dédiés par tranche d'âge.</p>
+      </details>
+      <details class="faq-item">
+        <summary><span data-i18n="faq-q4">Peut-on annuler ou reporter un créneau ?</span><span class="faq-icon">+</span></summary>
+        <p data-i18n="faq-a4">Oui, selon le délai de prévenance — voir le détail dans les <a href="conditions-de-vente.html" data-i18n="faq-a4-link">conditions de vente</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary><span data-i18n="faq-q5">Y a-t-il un parking ?</span><span class="faq-icon">+</span></summary>
+        <p data-i18n="faq-a5">Un parking gratuit est disponible directement devant le complexe.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="booking">
+  <div class="half-circle top"></div>
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" data-i18n="booking-eyebrow">Prêt à jouer ?</span>
+      <h2 data-i18n="booking-h2">Réserve ton créneau<br>en moins d'une minute.</h2>
+      <div class="cta-row">
+        <button class="btn-fill js-open-booking" data-i18n="booking-btn1">Réserver maintenant</button>
+        <a class="btn-ghost btn-call" href="tel:0299121740">
+          <span data-i18n="booking-btn2">Appeler le club</span>
+          <span class="btn-call-number">02 99 12 17 40</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="localisation">
+  <div class="half-circle top"></div>
+  <div class="wrap locate">
+    <div class="locate-text reveal">
+      <span class="eyebrow" data-i18n="locate-eyebrow">Nous trouver</span>
+      <h2 data-i18n="locate-h2">Un seul complexe,<br>facile à rejoindre.</h2>
+      <ul class="locate-list">
+        <li>
+          <span class="locate-label" data-i18n="locate-address-label">Adresse</span>
+          <span data-i18n="foot-address">35 rue du Manoir de Servigné, 35000 Rennes</span>
+        </li>
+        <li>
+          <span class="locate-label" data-i18n="nav-contact">Contact</span>
+          <a href="tel:0299121740">02 99 12 17 40</a>
+        </li>
+        <li>
+          <span class="locate-label">Email</span>
+          <a href="mailto:contact@lateamrennaise.fr">contact@lateamrennaise.fr</a>
+        </li>
+        <li>
+          <span class="locate-label" data-i18n="foot-hours-label">Horaires</span>
+          <span data-i18n="foot-hours-value">Lundi – Vendredi : 11h00 – 00h00<br>Samedi : 10h00 – 22h00<br>Dimanche : 12h00 – 20h00</span>
+        </li>
+      </ul>
+      <a class="btn-ghost" href="https://www.google.com/maps/search/?api=1&query=48.1012,-1.7318" target="_blank" rel="noopener" data-i18n="locate-directions">Ouvrir l'itinéraire</a>
+    </div>
+    <div class="locate-map reveal">
+      <iframe
+        title="Localisation du complexe à Rennes"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-1.7518%2C48.0862%2C-1.7118%2C48.1162&layer=mapnik&marker=48.1173%2C-1.6778"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="wrap">
+    <div class="newsletter-board reveal">
+      <div>
+        <span class="eyebrow" data-i18n="news-eyebrow">Reste connecté</span>
+        <h2 data-i18n="news-h2">Les nouveautés du complexe, avant tout le monde.</h2>
+      </div>
+      <form id="newsletter-form" class="newsletter-form">
+        <input type="email" required placeholder="ton@email.com" data-i18n-placeholder="news-placeholder" aria-label="Adresse email">
+        <button type="submit" class="btn-fill" data-i18n="news-submit">S'inscrire</button>
+      </form>
+      <p id="newsletter-success" hidden data-i18n="news-success">Inscription confirmée — à très vite sur les terrains.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:1rem;">LA TEAM <span>RENNAISE</span></div>
+        <p style="max-width:32ch;" data-i18n="foot-tagline">Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, événements — sous un même toit.</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot-hours-label">Horaires</h4>
+        <p data-i18n="foot-hours-value">Lundi – Vendredi : 11h00 – 00h00<br>Samedi : 10h00 – 22h00<br>Dimanche : 12h00 – 20h00</p>
+      </div>
+      <div>
+        <h4 data-i18n="nav-contact">Contact</h4>
+        <a href="tel:0299121740">02 99 12 17 40</a>
+        <p data-i18n="foot-address">35 rue du Manoir de Servigné, 35000 Rennes</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot-social-label">Suivre le club</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">TikTok</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2030 LA TEAM RENNAISE</span>
+      <a href="mentions-legales.html" data-i18n="foot-legal">Mentions légales</a>
+      <a href="conditions-de-vente.html" data-i18n="foot-cgv">Conditions de vente</a>
+      <a href="politique-de-cookies.html" data-i18n="foot-cookies">Politique de cookies</a>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" aria-label="Remonter en haut de page" data-i18n-aria="totop-aria">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</button>
+
+<button type="button" class="music-btn" id="music-btn" aria-label="Écouter la musique" data-i18n-aria="music-aria" title="Écouter la musique">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</button>
+<span class="music-toast" id="music-toast"></span>
+<div class="music-panel" id="music-panel" hidden>
+  <iframe id="yt-player" width="260" height="146" style="border:0; border-radius:6px;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<div class="cookie-banner" id="cookie-banner" hidden>
+  <p data-i18n="cookie-text">Ce site utilise des cookies techniques et de mesure d'audience pour améliorer ton expérience. Tu peux accepter ou refuser les cookies non essentiels.</p>
+  <div class="cookie-actions">
+    <a href="politique-de-cookies.html" class="cookie-more" data-i18n="cookie-more">En savoir plus</a>
+    <button type="button" class="btn-ghost" id="cookie-decline" data-i18n="cookie-decline">Refuser</button>
+    <button type="button" class="btn-fill" id="cookie-accept" data-i18n="cookie-accept">Accepter</button>
+  </div>
+</div>
+
+<div class="booking-modal" id="booking-modal" aria-hidden="true">
+  <div class="booking-backdrop" data-close></div>
+  <div class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+    <button class="booking-close" data-close aria-label="Fermer" data-i18n-aria="book-close">×</button>
+
+    <div class="booking-step" data-step="sport">
+      <span class="eyebrow" data-i18n="book-eyebrow">Réservation</span>
+      <h3 id="booking-title" data-i18n="book-choose-sport">Choisis ton sport</h3>
+      <div class="sport-grid">
+        <button class="sport-card" data-sport="soccer">
+          <span class="sport-name">Soccer</span>
+          <span class="sport-meta" data-i18n="card1-stat-full">5 terrains</span>
+        </button>
+        <button class="sport-card" data-sport="padel">
+          <span class="sport-name">Padel</span>
+          <span class="sport-meta" data-i18n="card2-stat-full">4 terrains</span>
+        </button>
+        <button class="sport-card" data-sport="squash">
+          <span class="sport-name">Squash</span>
+          <span class="sport-meta" data-i18n="card3-stat-full">6 terrains</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="booking-step" data-step="planning" hidden>
+      <button class="booking-back" data-back>← <span data-i18n="book-change-sport">Changer de sport</span></button>
+      <span class="eyebrow" id="booking-sport-label">Soccer</span>
+      <h3 data-i18n="book-choose-slot">Choisis ton créneau</h3>
+
+      <div class="planning-days" id="planning-days"></div>
+      <div class="planning-slots" id="planning-slots"></div>
+      <p class="planning-legend"><span class="legend-strike">18:00</span><span data-i18n="slot-legend">déjà réservé</span></p>
+
+      <div class="booking-confirm" id="booking-confirm" hidden>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="booking-modal" id="academy-modal" aria-hidden="true">
+  <div class="booking-backdrop" data-close></div>
+  <div class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="academy-title">
+    <button class="booking-close" data-close aria-label="Fermer" data-i18n-aria="book-close">×</button>
+
+    <span class="eyebrow" data-i18n="aca-eyebrow">Academy</span>
+    <h3 id="academy-title">Demander des infos</h3>
+
+    <form id="academy-form" class="academy-form">
+      <label data-only="info">
+        <span data-i18n="aca-form-yourname">Ton nom</span>
+        <input type="text" name="requester">
+      </label>
+      <label data-only="preinscription">
+        <span data-i18n="aca-form-name">Nom et prénom de l'enfant</span>
+        <input type="text" name="child">
+      </label>
+      <label data-only="preinscription">
+        <span data-i18n="aca-form-parent">Nom des parents</span>
+        <input type="text" name="parent">
+      </label>
+      <label data-only="preinscription">
+        <span data-i18n="aca-form-dob">Date de naissance de l'enfant</span>
+        <input type="date" name="dob">
+      </label>
+      <label data-only="preinscription">
+        <span data-i18n="aca-form-cat">Catégorie</span>
+        <select name="category">
+          <option>U4–U5</option>
+          <option>U6–U7</option>
+          <option>U8–U9</option>
+        </select>
+      </label>
+      <label>
+        <span data-i18n="aca-form-email">Email</span>
+        <input type="email" name="email" required placeholder="ton@email.com">
+      </label>
+      <label data-only="preinscription">
+        <span data-i18n="aca-form-tel">Téléphone</span>
+        <input type="tel" name="phone" placeholder="06 00 00 00 00">
+      </label>
+      <label data-only="info">
+        <span data-i18n="aca-form-message">Ta question (facultatif)</span>
+        <textarea name="message" rows="3"></textarea>
+      </label>
+      <button type="submit" class="btn-fill" data-i18n="aca-form-submit">Envoyer la demande</button>
+    </form>
+    <p id="academy-success" hidden data-i18n="aca-form-success">Demande envoyée (démo) — l'équipe Academy te recontacte sous 48h.</p>
+  </div>
+</div>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- custom cursor: black dot, ultra-bright pale-yellow halo ---------- */
+  (function initCursor(){
+    const dot = document.getElementById('cursor-dot');
+    if (!dot || !window.matchMedia('(pointer: fine)').matches) return;
+    document.body.classList.add('custom-cursor');
+    let mx = -999, my = -999, cx = -999, cy = -999;
+    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; }, { passive:true });
+    window.addEventListener('mouseleave', () => { mx = -999; my = -999; });
+    function tick(){
+      const ease = reduceMotion ? 1 : 0.35;
+      cx += (mx - cx) * ease;
+      cy += (my - cy) * ease;
+      dot.style.transform = `translate3d(${cx - 8}px, ${cy - 8}px, 0)`;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ---------- FR / EN translation ---------- */
+  const i18n = {
+    'nav-activites': { fr:'Activités', en:'Activities' },
+    'nav-club': { fr:'Club House', en:'Club House' },
+    'nav-entreprises': { fr:'Entreprises', en:'Corporate' },
+    'nav-contact': { fr:'Contact', en:'Contact' },
+    'header-cta': { fr:'RÉSERVER', en:'BOOK NOW' },
+    'hero-sub': { fr:"6000 m² de soccer, padel, squash, blindtests et olympiades — dans un complexe pensé comme une expérience, pas comme un terrain de plus.", en:'6,000 m² of soccer, padel, squash, blindtests and olympiads — in a complex designed as an experience, not just another pitch.' },
+    'hero-btn-book': { fr:'Réserver un créneau', en:'Book a slot' },
+    'hero-btn-explore': { fr:'Explorer le complexe', en:'Explore the complex' },
+    'scroll-label': { fr:'SCROLL', en:'SCROLL' },
+    'act-eyebrow': { fr:'Le complexe', en:'The complex' },
+    'act-h2': { fr:'Cinq façons de jouer, un seul lieu.', en:'Five ways to play, one place.' },
+    'act-p': { fr:'Chaque terrain, chaque salle a été pensée pour son propre jeu — pas de compromis entre les disciplines.', en:'Every pitch, every room was designed for its own game — no compromise between disciplines.' },
+    'card1-p': { fr:'Terrains indoor haute performance, éclairage dynamique, sol dernière génération.', en:'High-performance indoor pitches, dynamic lighting, next-gen turf.' },
+    'card1-stat': { fr:'Terrains', en:'Pitches' },
+    'card2-p': { fr:"Courts vitrés, ambiance compétition, réservables à l'heure ou en tournoi.", en:'Glass-walled courts, competition vibe, bookable by the hour or in tournaments.' },
+    'card2-stat': { fr:'Terrains', en:'Courts' },
+    'card3-p': { fr:'Salles climatisées, cadence rapide, parfait entre deux réunions.', en:'Air-conditioned rooms, fast pace, perfect between two meetings.' },
+    'card3-stat': { fr:'Terrains', en:'Courts' },
+    'card4-p': { fr:'Soirées à thème, écran géant, son immersif — le complexe devient scène.', en:'Themed nights, giant screen, immersive sound — the complex becomes a stage.' },
+    'card4-stat': { fr:'Playlists', en:'Playlists' },
+    'card5-h3': { fr:'Olympiades &amp; Zgames', en:'Olympics &amp; Zgames' },
+    'card5-p': { fr:'Épreuves mixtes pensées pour les groupes, du staff au week-end entre amis.', en:'Mixed events built for groups, from staff outings to weekends with friends.' },
+    'card5-stat': { fr:'Épreuves', en:'Events' },
+    'card6-p': { fr:'Coaching individuel et collectif, tous niveaux, tous âges.', en:'Individual and group coaching, all levels, all ages.' },
+    'card6-stat': { fr:'Sur créneau', en:'By booking' },
+    'card7-p': { fr:'Une énigme à résoudre en équipe, contre la montre, avant que le temps ne soit écoulé.', en:'A puzzle to solve as a team, against the clock, before time runs out.' },
+    'card7-stat': { fr:'Salles à thème', en:'Themed rooms' },
+    'price-eyebrow': { fr:'Tarifs', en:'Pricing' },
+    'price-h2': { fr:'Des prix clairs, pour chaque activité.', en:'Clear pricing, for every activity.' },
+    'price-th-slot': { fr:'Créneau', en:'Time slot' },
+    'price-soccer-week-day': { fr:'Semaine · 11h–18h', en:'Weekday · 11am–6pm' },
+    'price-soccer-week-eve': { fr:'Semaine · 18h–00h', en:'Weekday · 6pm–midnight' },
+    'price-soccer-weekend': { fr:'Week-end', en:'Weekend' },
+    'price-soccer-student': { fr:'-1€/personne avec carte étudiante', en:'-€1/person with a student card' },
+    'price-soccer-footinho': { fr:'Il te manque des joueurs ? Partenariat Footinho pour compléter ton équipe', en:'Short on players? Footinho partnership to complete your team' },
+    'price-th-duration': { fr:'Durée', en:'Duration' },
+    'price-th-perperson': { fr:'Prix / personne', en:'Price / person' },
+    'price-padel-rental': { fr:'Location : raquette 3€ · balles 2€ (vente 6€)', en:'Rental: racket €3 · balls €2 (sold €6)' },
+    'price-padel-student': { fr:'-1€/personne avec carte étudiante', en:'-€1/person with a student card' },
+    'price-padel-carnet1': { fr:'-15% · 6€/h', en:'-15% · €6/h' },
+    'price-padel-carnet2': { fr:'-25% · 5,20€/h', en:'-25% · €5.20/h' },
+    'price-squash-30': { fr:'30 min', en:'30 min' },
+    'price-squash-45': { fr:'45 min', en:'45 min' },
+    'price-squash-rental': { fr:'Location : raquette 3€ · chaussures 3€', en:'Rental: racket €3 · shoes €3' },
+    'price-squash-carnet1': { fr:'-15% · 12€/h', en:'-15% · €12/h' },
+    'price-squash-carnet2': { fr:'-25% · 10,40€/h', en:'-25% · €10.40/h' },
+    'price-squash-coach-label': { fr:'Cours particuliers avec coach diplômé — court, coaching et assurance inclus', en:'Private coaching with a certified coach — court, coaching and insurance included' },
+    'price-th-group': { fr:'Groupe', en:'Group' },
+    'price-th-hour': { fr:"À l'heure", en:'Hourly' },
+    'price-th-pack': { fr:'Pack 5h', en:'5h pack' },
+    'price-squash-solo': { fr:'1 personne', en:'1 person' },
+    'price-squash-duo': { fr:'2 personnes', en:'2 people' },
+    'price-squash-duo-pack': { fr:'100€/pers', en:'€100/pers' },
+    'price-squash-trio': { fr:'3 personnes', en:'3 people' },
+    'price-squash-trio-pack': { fr:'80€/pers', en:'€80/pers' },
+    'price-blindtest-note': { fr:'par personne', en:'per person' },
+    'price-blindtest-1': { fr:"Reconnaissance vocale sur smartphone — pas de triche, pas besoin d'animateur", en:'Voice recognition on your phone — no cheating, no host needed' },
+    'price-blindtest-2': { fr:'2 salles privées, de 4 à 100 personnes', en:'2 private rooms, from 4 to 100 people' },
+    'price-blindtest-3': { fr:'6 niveaux de difficulté · 60 playlists · 6000 titres', en:'6 difficulty levels · 60 playlists · 6,000 tracks' },
+    'gift-eyebrow': { fr:'Cartes cadeaux', en:'Gift cards' },
+    'gift-text': { fr:"Valables sur soccer, padel et squash. En vente sur place, en ligne ou sur l'appli mobile.", en:'Valid on soccer, padel and squash. On sale in person, online or on the mobile app.' },
+    'club-eyebrow': { fr:"L'après-match", en:'After the match' },
+    'club-h2': { fr:'Le Club House &amp; le Bar Lounge.', en:'The Club House &amp; Bar Lounge.' },
+    'club-p1': { fr:'Un bar-lounge de 400 m² pour souffler, débriefer le match ou lancer le prochain. Lumière basse, son feutré, ambiance qui tranche avec le rythme des terrains.', en:'A 400 m² bar lounge to catch your breath, debrief the match or start the next one. Low light, muted sound, a mood that breaks from the pace of the pitches.' },
+    'club-p2': { fr:"Anniversaires, soirées entreprises, championnats internes : le lieu s'adapte, pas l'inverse.", en:'Birthdays, corporate nights, internal championships: the venue adapts, not the other way around.' },
+    'tag-anniv': { fr:'Anniversaires', en:'Birthdays' },
+    'tag-champ': { fr:'Championnats', en:'Championships' },
+    'tag-corp': { fr:'Entreprises', en:'Corporate' },
+    'tag-priv': { fr:'Événements privés', en:'Private events' },
+    'booking-eyebrow': { fr:'Prêt à jouer ?', en:'Ready to play?' },
+    'booking-h2': { fr:'Réserve ton créneau<br>en moins d\'une minute.', en:'Book your slot<br>in under a minute.' },
+    'booking-btn1': { fr:'Réserver maintenant', en:'Book now' },
+    'booking-btn2': { fr:'Appeler le club', en:'Call the club' },
+    'foot-tagline': { fr:'Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, événements — sous un même toit.', en:'Soccer, padel &amp; squash complex in Rennes. Pitches, bar lounge, events — under one roof.' },
+    'foot-hours-label': { fr:'Horaires', en:'Opening hours' },
+    'foot-hours-value': { fr:'Lundi – Vendredi : 11h00 – 00h00<br>Samedi : 10h00 – 22h00<br>Dimanche : 12h00 – 20h00', en:'Monday – Friday: 11am – midnight<br>Saturday: 10am – 10pm<br>Sunday: 12pm – 8pm' },
+    'foot-address': { fr:'35 rue du Manoir de Servigné, 35000 Rennes', en:'35 rue du Manoir de Servigné, 35000 Rennes, France' },
+    'foot-social-label': { fr:'Suivre le club', en:'Follow the club' },
+    'foot-legal': { fr:'Mentions légales', en:'Legal notice' },
+    'foot-cgv': { fr:'Conditions de vente', en:'Terms of sale' },
+    'foot-cookies': { fr:'Politique de cookies', en:'Cookie policy' },
+    'cookie-text': { fr:'Ce site utilise des cookies techniques et de mesure d\'audience pour améliorer ton expérience. Tu peux accepter ou refuser les cookies non essentiels.', en:'This site uses technical and analytics cookies to improve your experience. You can accept or decline non-essential cookies.' },
+    'cookie-accept': { fr:'Accepter', en:'Accept' },
+    'cookie-decline': { fr:'Refuser', en:'Decline' },
+    'cookie-more': { fr:'En savoir plus', en:'Learn more' },
+    'aca-eyebrow': { fr:'Academy', en:'Academy' },
+    'aca-h2': { fr:'Le foot, dès 4 ans, bien encadré.', en:'Football from age 4, properly coached.' },
+    'aca-intro': { fr:'Bases techniques, tactiques et motrices, dans le plaisir du jeu — avec des coachs diplômés et des groupes à taille humaine.', en:'Technical, tactical and motor foundations, built around the fun of the game — qualified coaches, small groups.' },
+    'aca-born-1': { fr:'Nés 2022–2023', en:'Born 2022–2023' },
+    'aca-born-2': { fr:'Nés 2020–2021', en:'Born 2020–2021' },
+    'aca-born-3': { fr:'Nés 2017–2019', en:'Born 2017–2019' },
+    'aca-offer-eyebrow': { fr:'Formule saison', en:'Season package' },
+    'aca-item1': { fr:'Séance découverte offerte', en:'Free trial session' },
+    'aca-item2': { fr:'12 séances sur la saison', en:'12 sessions per season' },
+    'aca-item3': { fr:'Goûter inclus après chaque séance', en:'Snack included after every session' },
+    'aca-item4': { fr:'Groupes limités à 15–20 enfants', en:'Groups capped at 15–20 kids' },
+    'aca-price-note': { fr:'par enfant, saison complète', en:'per child, full season' },
+    'aca-cta1': { fr:'Demander des infos', en:'Request info' },
+    'aca-cta2': { fr:'Pré-inscription', en:'Pre-register' },
+    'aca-form-title-info': { fr:'Demander des infos', en:'Request info' },
+    'aca-form-title-preinscription': { fr:'Pré-inscription Academy', en:'Academy pre-registration' },
+    'aca-form-name': { fr:"Nom et prénom de l'enfant", en:"Child's full name" },
+    'aca-form-parent': { fr:'Nom des parents', en:"Parent's name" },
+    'aca-form-dob': { fr:"Date de naissance de l'enfant", en:"Child's date of birth" },
+    'aca-form-tel': { fr:'Téléphone', en:'Phone' },
+    'aca-form-yourname': { fr:'Ton nom', en:'Your name' },
+    'aca-form-message': { fr:'Ta question (facultatif)', en:'Your question (optional)' },
+    'aca-form-cat': { fr:'Catégorie', en:'Category' },
+    'aca-form-email': { fr:'Email', en:'Email' },
+    'aca-form-submit': { fr:'Envoyer la demande', en:'Send request' },
+    'aca-form-success': { fr:"Demande envoyée (démo) — l'équipe Academy te recontacte sous 48h.", en:'Request sent (demo) — the Academy team will get back to you within 48h.' },
+    'rev-eyebrow': { fr:'Avis clients', en:'Customer reviews' },
+    'rev-h2': { fr:'Ce qu\'ils en pensent.', en:'What they think.' },
+    'rev-count': { fr:'à partir de 214 avis', en:'from 214 reviews' },
+    'rev1-text': { fr:"Les terrains sont impeccables et l'ambiance après-match au bar change tout. On ne joue plus ailleurs.", en:"The pitches are spotless and the after-game vibe at the bar changes everything. We don't play anywhere else now." },
+    'rev2-text': { fr:'Réservation ultra simple, courts nickel, on y retourne chaque semaine entre collègues.', en:'Super easy booking, spotless courts — we go back every week with colleagues.' },
+    'rev3-text': { fr:"Mon fils adore ses samedis matin, les coachs de l'Academy sont hyper pédagogues avec les petits.", en:'My son loves his Saturday mornings, the Academy coaches are great with the little ones.' },
+    'rev4-text': { fr:'Parfait pour décompresser entre midi et deux, et le bar lounge est devenu notre spot après le match.', en:'Perfect to unwind over lunch, and the bar lounge has become our spot after the match.' },
+    'faq-eyebrow': { fr:'Questions fréquentes', en:'Frequently asked' },
+    'faq-h2': { fr:'Avant de réserver.', en:'Before you book.' },
+    'faq-q1': { fr:'Faut-il réserver à l\'avance ?', en:'Do I need to book in advance?' },
+    'faq-a1': { fr:'C\'est recommandé, surtout en soirée et le week-end. Les terrains se réservent en ligne, par téléphone ou sur place selon les disponibilités.', en:'It\'s recommended, especially in the evening and on weekends. Pitches can be booked online, by phone or on site, subject to availability.' },
+    'faq-q2': { fr:'Le matériel est-il fourni ?', en:'Is equipment provided?' },
+    'faq-a2': { fr:'Oui pour le padel et le squash (raquettes, balles). Pour le soccer, prévoyez des chaussures adaptées au sol indoor.', en:'Yes for padel and squash (rackets, balls). For soccer, bring shoes suited to indoor turf.' },
+    'faq-q3': { fr:'À partir de quel âge peut-on jouer ?', en:'What\'s the minimum age to play?' },
+    'faq-a3': { fr:'Les terrains sont accessibles dès 8 ans accompagné d\'un adulte. L\'Academy propose des créneaux dédiés par tranche d\'âge.', en:'Pitches are open from age 8 with an adult. The Academy offers dedicated slots by age group.' },
+    'faq-q4': { fr:'Peut-on annuler ou reporter un créneau ?', en:'Can I cancel or reschedule a slot?' },
+    'faq-a4': { fr:'Oui, selon le délai de prévenance — voir le détail dans les <a href="conditions-de-vente.html">conditions de vente</a>.', en:'Yes, depending on notice given — see the <a href="conditions-de-vente.html">terms of sale</a> for details.' },
+    'faq-q5': { fr:'Y a-t-il un parking ?', en:'Is there parking?' },
+    'faq-a5': { fr:'Un parking gratuit est disponible directement devant le complexe.', en:'Free parking is available right in front of the complex.' },
+    'totop-aria': { fr:'Remonter en haut de page', en:'Back to top' },
+    'music-aria': { fr:'Écouter la playlist', en:'Listen to the playlist' },
+    'ticker-label': { fr:'ACTU CLUB', en:'CLUB NEWS' },
+    'ticker1': { fr:'<b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa', en:'<b>NEXT MATCH</b> — Angers SCO – Stade Rennais · Sunday, 6 September 2026 · Stade Raymond Kopa' },
+    'ticker2': { fr:'<b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park', en:'<b>THEN</b> — Stade Rennais – Olympique de Marseille · Friday, 11 September 2026 · Roazhon Park' },
+    'counter-live': { fr:'EN DIRECT', en:'LIVE' },
+    'counter-label': { fr:"VISITEURS AUJOURD'HUI", en:'VISITORS TODAY' },
+    'locate-eyebrow': { fr:'Nous trouver', en:'Find us' },
+    'locate-h2': { fr:'Un seul complexe,<br>facile à rejoindre.', en:'One complex,<br>easy to reach.' },
+    'locate-address-label': { fr:'Adresse', en:'Address' },
+    'locate-directions': { fr:"Ouvrir l'itinéraire", en:'Get directions' },
+    'news-eyebrow': { fr:'Reste connecté', en:'Stay connected' },
+    'news-h2': { fr:'Les nouveautés du complexe, avant tout le monde.', en:'Complex news, before everyone else.' },
+    'news-placeholder': { fr:'ton@email.com', en:'your@email.com' },
+    'news-submit': { fr:"S'inscrire", en:'Subscribe' },
+    'news-success': { fr:'Inscription confirmée — à très vite sur les terrains.', en:"You're in — see you on the pitches soon." },
+    'book-eyebrow': { fr:'Réservation', en:'Booking' },
+    'book-close': { fr:'Fermer', en:'Close' },
+    'book-choose-sport': { fr:'Choisis ton sport', en:'Choose your sport' },
+    'card1-stat-full': { fr:'5 terrains', en:'5 pitches' },
+    'card2-stat-full': { fr:'4 terrains', en:'4 courts' },
+    'card3-stat-full': { fr:'6 terrains', en:'6 courts' },
+    'book-change-sport': { fr:'Changer de sport', en:'Change sport' },
+    'book-choose-slot': { fr:'Choisis ton créneau', en:'Choose your slot' },
+    'book-confirmed': { fr:'Créneau réservé (démo) — dans une vraie version, tu recevrais un email de confirmation ici.', en:'Slot booked (demo) — in a live version you’d get a confirmation email here.' },
+    'book-duration-label': { fr:'Durée :', en:'Duration:' },
+    'sport-soccer': { fr:'Soccer', en:'Soccer' },
+    'sport-padel': { fr:'Padel', en:'Padel' },
+    'sport-squash': { fr:'Squash', en:'Squash' },
+    'slot-booked': { fr:'Déjà réservé', en:'Already booked' },
+    'slot-legend': { fr:'déjà réservé', en:'already booked' },
+  };
+
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const entry = i18n[el.dataset.i18n];
+      if (entry) el.innerHTML = entry[lang];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const entry = i18n[el.dataset.i18nAria];
+      if (entry) el.setAttribute('aria-label', entry[lang]);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const entry = i18n[el.dataset.i18nPlaceholder];
+      if (entry) el.setAttribute('placeholder', entry[lang]);
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active);
+    });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+  setLang('en');
+
+  /* header scroll state */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  /* back to top */
+  const toTop = document.getElementById('to-top');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('visible', window.scrollY > window.innerHeight * .6);
+  }, { passive:true });
+  toTop.addEventListener('click', () => {
+    window.scrollTo({ top:0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  /* teleport reveal on scroll */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.2 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* ---------- reusable explosion-in + intermittent glitch for any .glitch-text ---------- */
+  function explodeText(el, opts = {}){
+    const { distMin = 140, distMax = 360, startDelay = 200, stagger = 18, burst = false, glitchAfter = 2400, explode = true, ultra = false } = opts;
+    const words = el.querySelectorAll('.word');
+
+    words.forEach(word => {
+      const text = word.dataset.word;
+      text.split('').forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = ch;
+        word.appendChild(span);
+      });
+      word.appendChild(document.createTextNode(' '));
+    });
+
+    const letters = el.querySelectorAll('.letter');
+
+    if (reduceMotion || !explode) {
+      letters.forEach(l => { l.style.opacity = 1; });
+    } else {
+    letters.forEach(l => {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = distMin + Math.random() * (distMax - distMin);
+      l.style.opacity = '0';
+      l.style.transform = `translate(${Math.cos(ang)*dist}px, ${Math.sin(ang)*dist}px) rotate(${(Math.random()*720-360)}deg) scale(.3)`;
+      l.style.filter = 'blur(6px)';
+      l.style.transition = `transform 900ms cubic-bezier(.16,1,.3,1), opacity 700ms ease, filter 700ms ease`;
+    });
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        letters.forEach((l, i) => {
+          setTimeout(() => {
+            l.style.opacity = '1';
+            l.style.transform = 'translate(0,0) rotate(0) scale(1)';
+            l.style.filter = 'blur(0)';
+          }, i * stagger);
+        });
+      }, startDelay);
+    });
+    }
+
+    if (burst && explode) {
+      const container = el.closest('section, header') || el.parentElement;
+      const canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+      const prevPosition = getComputedStyle(container).position;
+      if (prevPosition === 'static') container.style.position = 'relative';
+      container.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const rect = el.getBoundingClientRect();
+      const contRect = container.getBoundingClientRect();
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      const scale = Math.max(0.5, Math.min(1.6, rect.width / 480));
+      const originX = rect.left - contRect.left + rect.width/2;
+      const originY = rect.top - contRect.top + rect.height*0.55;
+
+      // flame licks: soft stretched gradient blobs rising with turbulence
+      const flames = Array.from({length: Math.round(46*scale)}, () => {
+        const spread = rect.width*0.42;
+        return {
+          x: originX + (Math.random()-.5)*spread,
+          y: originY + (Math.random()-.5)*rect.height*0.3,
+          vy: -(1.1+Math.random()*2.2)*scale,
+          vx: (Math.random()-.5)*.6,
+          size: (16+Math.random()*30)*scale,
+          life: 1, decay: 0.006+Math.random()*0.01,
+          wob: Math.random()*Math.PI*2,
+        };
+      });
+      // embers: tiny bright sparks that fly further and linger
+      const embers = Array.from({length: Math.round(34*scale)}, () => {
+        const ang = -Math.PI/2 + (Math.random()-.5)*2.2, speed = (2+Math.random()*4.5)*scale;
+        return {
+          x: originX, y: originY,
+          vx: Math.cos(ang)*speed, vy: Math.sin(ang)*speed,
+          size: (0.8+Math.random()*1.6)*scale,
+          life: 1, decay: 0.006+Math.random()*0.01,
+        };
+      });
+
+      let start = null, flashDone = false;
+      function drawFlash(alpha){
+        const g = ctx.createRadialGradient(originX, originY, 0, originX, originY, rect.width*0.55);
+        g.addColorStop(0, `rgba(255,238,205,${0.85*alpha})`);
+        g.addColorStop(0.35, `rgba(255,144,40,${0.5*alpha})`);
+        g.addColorStop(1, 'rgba(255,90,31,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+      }
+      function animBurst(ts){
+        if (!start) start = ts;
+        const t = ts - start;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.globalCompositeOperation = 'lighter';
+
+        if (t < 260) drawFlash(1 - t/260);
+
+        flames.forEach(p => {
+          p.wob += 0.18;
+          p.x += p.vx + Math.sin(p.wob)*0.35;
+          p.y += p.vy;
+          p.vy *= 0.985;
+          p.life -= p.decay;
+          if (p.life > 0){
+            const s = p.size * (0.6 + p.life*0.6);
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.scale(0.72, 1.35); // stretch into a flame-lick shape
+            const g = ctx.createRadialGradient(0,0,0, 0,0,s);
+            g.addColorStop(0, `rgba(255,244,214,${0.9*p.life})`);
+            g.addColorStop(0.35, `rgba(255,144,40,${0.75*p.life})`);
+            g.addColorStop(0.75, `rgba(220,96,24,${0.35*p.life})`);
+            g.addColorStop(1, 'rgba(180,70,16,0)');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(0,0,s,0,Math.PI*2); ctx.fill();
+            ctx.restore();
+          }
+        });
+
+        embers.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          p.vx *= 0.98; p.vy = p.vy*0.98 - 0.01;
+          p.life -= p.decay;
+          if (p.life > 0){
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(255,220,160,${p.life})`;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fill();
+          }
+        });
+
+        ctx.globalCompositeOperation = 'source-over';
+        if (t < 2200) requestAnimationFrame(animBurst);
+        else canvas.remove();
+      }
+      setTimeout(() => requestAnimationFrame(animBurst), 160);
+    }
+
+    // intermittent "défaillant" glitch loop
+    function glitchLoop(){
+      const delay = 3500 + Math.random()*4000;
+      setTimeout(() => {
+        el.classList.add('glitch');
+        setTimeout(() => el.classList.remove('glitch'), 260 + Math.random()*220);
+        glitchLoop();
+      }, delay);
+    }
+
+    // ultra-defective loop: near-constant broken-signal jitter with flicker cuts
+    function ensureNoiseEl(){
+      let n = el.querySelector('.signal-noise');
+      if (!n){
+        n = document.createElement('span');
+        n.className = 'signal-noise';
+        el.appendChild(n);
+      }
+      return n;
+    }
+
+    function signalGlitchBurst(){
+      const noise = ensureNoiseEl();
+      el.classList.add('signal-glitch');
+      const steps = 7 + Math.floor(Math.random()*4);
+      let step = 0;
+      function frame(){
+        el.style.setProperty('--tear1', (Math.random()*24-12) + 'px');
+        el.style.setProperty('--tear2', (Math.random()*24-12) + 'px');
+        const blackout = Math.random() < 0.4;
+        el.style.opacity = blackout ? '0' : '1';
+        noise.style.opacity = blackout ? '.7' : (Math.random() < .5 ? '.35' : '0');
+        step++;
+        if (step < steps) setTimeout(frame, 35 + Math.random()*55);
+        else {
+          el.classList.remove('signal-glitch');
+          el.style.opacity = '1';
+          noise.style.opacity = '0';
+        }
+      }
+      frame();
+    }
+
+    function ultraGlitchLoop(){
+      const delay = 8000;
+      setTimeout(() => {
+        signalGlitchBurst();
+        ultraGlitchLoop();
+      }, delay);
+    }
+
+    if (opts.manualGlitch) { /* driven externally, in sync with another element */ }
+    else if (reduceMotion) { /* no glitch loops */ }
+    else if (ultra) setTimeout(ultraGlitchLoop, glitchAfter);
+    else setTimeout(glitchLoop, glitchAfter);
+  }
+
+  explodeText(document.getElementById('hero-title'), { distMin:140, distMax:360, burst:true, ultra:true, glitchAfter:2600 });
+  explodeText(document.getElementById('brand-logo'), { distMin:70, distMax:220, stagger:14, startDelay:150, burst:true, glitchAfter:5000 });
+
+  /* ---------- visitor counter ---------- */
+  (function initCounter(){
+    const el = document.getElementById('visitor-count');
+    if (!el) return;
+    let base = 3184;
+    try {
+      const stored = parseInt(localStorage.getItem('ltr-visitor-count'), 10);
+      if (!isNaN(stored)) base = stored;
+    } catch(e){}
+    const target = base + Math.floor(Math.random()*4) + 1;
+    try { localStorage.setItem('ltr-visitor-count', target); } catch(e){}
+
+    let played = false;
+    function play(){
+      if (played) return;
+      played = true;
+      if (reduceMotion){ el.textContent = String(target).padStart(6,'0'); return; }
+      const from = Math.max(0, target - 180);
+      let start = null;
+      function tick(ts){
+        if (!start) start = ts;
+        const p = Math.min(1, (ts-start)/1400);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = String(Math.round(from + (target-from)*eased)).padStart(6,'0');
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    const board = document.querySelector('.counter-board');
+    if (board){
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { play(); obs.disconnect(); } });
+      }, { threshold:.4 });
+      obs.observe(board);
+    } else {
+      play();
+    }
+  })();
+
+  /* ---------- newsletter (front-end only, no backend) ---------- */
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm){
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = newsletterForm.querySelector('input[type="email"]');
+      if (!input || !input.value) return;
+      newsletterForm.hidden = true;
+      const success = document.getElementById('newsletter-success');
+      if (success) success.hidden = false;
+    });
+  }
+
+  /* ---------- booking modal ---------- */
+  (function initBooking(){
+    const modal = document.getElementById('booking-modal');
+    if (!modal) return;
+    const dialog = modal.querySelector('.booking-dialog');
+    const stepSport = modal.querySelector('[data-step="sport"]');
+    const stepPlanning = modal.querySelector('[data-step="planning"]');
+    const sportLabel = document.getElementById('booking-sport-label');
+    const daysWrap = document.getElementById('planning-days');
+    const slotsWrap = document.getElementById('planning-slots');
+    const confirmBox = document.getElementById('booking-confirm');
+
+    const sportNames = { soccer:'sport-soccer', padel:'sport-padel', squash:'sport-squash' };
+    const currentLang = () => document.documentElement.lang === 'en' ? 'en' : 'fr';
+    const RANGE_BY_SPORT = {
+      soccer: { start: 10*60, end: 24*60 },
+      padel: { start: 10*60, end: 22*60 },
+      squash: { start: 10*60, end: 22*60 },
+    };
+    const DURATIONS = [30, 60, 90, 120];
+    const DAY_NAMES_FR = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    const DAY_NAMES_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    let currentSport = 'soccer';
+    let currentDayIndex = 0;
+    let currentDuration = 60;
+    // every day of the week except Sunday, starting from today
+    const days = [];
+    for (let i = 0; days.length < 6; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() + i);
+      if (d.getDay() !== 0) days.push(d);
+    }
+
+    function minutesToLabel(m){
+      const h = Math.floor(m / 60), mm = m % 60;
+      return String(h).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+    }
+    function durationLabel(mins){
+      if (mins < 60) return mins + ' min';
+      const h = Math.floor(mins/60), rest = mins % 60;
+      return rest === 0 ? h + 'h' : h + 'h' + rest;
+    }
+
+    // deterministic pseudo-availability so the demo looks alive without a backend
+    function isBooked(sport, dayIndex, startMinutes){
+      let h = 0;
+      const key = sport + dayIndex + startMinutes;
+      for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+      return h % 5 === 0;
+    }
+    function spanBooked(sport, dayIndex, start, duration){
+      for (let m = start; m < start + duration; m += 30){
+        if (isBooked(sport, dayIndex, m)) return true;
+      }
+      return false;
+    }
+
+    function renderDays(){
+      const names = currentLang() === 'en' ? DAY_NAMES_EN : DAY_NAMES_FR;
+      daysWrap.innerHTML = '';
+      days.forEach((d, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'day-btn' + (i === currentDayIndex ? ' active' : '');
+        btn.textContent = `${names[d.getDay()]} ${d.getDate()}`;
+        btn.addEventListener('click', () => { currentDayIndex = i; renderDays(); renderSlots(); });
+        daysWrap.appendChild(btn);
+      });
+    }
+
+    function renderDurations(){
+      let wrap = document.getElementById('planning-durations');
+      if (!wrap){
+        wrap = document.createElement('div');
+        wrap.id = 'planning-durations';
+        wrap.className = 'planning-durations';
+        daysWrap.insertAdjacentElement('afterend', wrap);
+      }
+      wrap.innerHTML = '';
+      const label = document.createElement('span');
+      label.className = 'duration-label';
+      label.textContent = i18n['book-duration-label'][currentLang()];
+      wrap.appendChild(label);
+      DURATIONS.forEach(mins => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'duration-btn' + (mins === currentDuration ? ' active' : '');
+        btn.textContent = durationLabel(mins);
+        btn.addEventListener('click', () => { currentDuration = mins; renderDurations(); renderSlots(); });
+        wrap.appendChild(btn);
+      });
+    }
+
+    function renderSlots(){
+      slotsWrap.innerHTML = '';
+      confirmBox.hidden = true;
+      const range = RANGE_BY_SPORT[currentSport] || RANGE_BY_SPORT.soccer;
+      for (let start = range.start; start + currentDuration <= range.end; start += 30){
+        const btn = document.createElement('button');
+        btn.className = 'slot-btn';
+        btn.textContent = minutesToLabel(start);
+        if (spanBooked(currentSport, currentDayIndex, start, currentDuration)) {
+          btn.disabled = true;
+          btn.title = i18n['slot-booked'][currentLang()];
+        } else {
+          btn.addEventListener('click', () => {
+            slotsWrap.querySelectorAll('.slot-btn.selected').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const endLabel = minutesToLabel(start + currentDuration);
+            confirmBox.querySelector('p').textContent =
+              `${minutesToLabel(start)} – ${endLabel} (${durationLabel(currentDuration)}) — ` +
+              i18n['book-confirmed'][currentLang()];
+            confirmBox.hidden = false;
+          });
+        }
+        slotsWrap.appendChild(btn);
+      }
+    }
+
+    function openPlanning(sport){
+      currentSport = sport;
+      currentDayIndex = 0;
+      currentDuration = 60;
+      const key = sportNames[sport];
+      sportLabel.textContent = i18n[key] ? i18n[key][currentLang()] : sport;
+      stepSport.hidden = true;
+      stepPlanning.hidden = false;
+      renderDays();
+      renderDurations();
+      renderSlots();
+    }
+
+    function resetToSportStep(){
+      stepPlanning.hidden = true;
+      stepSport.hidden = false;
+    }
+
+    function openModal(){
+      resetToSportStep();
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.js-open-booking').forEach(el => {
+      el.addEventListener('click', openModal);
+    });
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
+    modal.querySelector('[data-back]')?.addEventListener('click', resetToSportStep);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    modal.querySelectorAll('.sport-card').forEach(card => {
+      card.addEventListener('click', () => openPlanning(card.dataset.sport));
+    });
+  })();
+
+  /* ---------- cookie consent banner ---------- */
+  (function initCookieBanner(){
+    const banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    let choice = null;
+    try { choice = localStorage.getItem('ltr-cookie-consent'); } catch(e){}
+    if (!choice) banner.hidden = false;
+
+    function respond(value){
+      try { localStorage.setItem('ltr-cookie-consent', value); } catch(e){}
+      banner.hidden = true;
+    }
+    document.getElementById('cookie-accept')?.addEventListener('click', () => respond('accepted'));
+    document.getElementById('cookie-decline')?.addEventListener('click', () => respond('declined'));
+  })();
+
+  /* ---------- academy request modal ---------- */
+  (function initAcademyModal(){
+    const modal = document.getElementById('academy-modal');
+    if (!modal) return;
+    const title = document.getElementById('academy-title');
+    const form = document.getElementById('academy-form');
+    const success = document.getElementById('academy-success');
+    const currentLang = () => document.documentElement.lang === 'en' ? 'en' : 'fr';
+
+    function openModal(intent){
+      const key = 'aca-form-title-' + intent;
+      title.textContent = i18n[key] ? i18n[key][currentLang()] : title.textContent;
+      form.querySelectorAll('[data-only]').forEach(el => {
+        el.style.display = el.dataset.only === intent ? '' : 'none';
+      });
+      form.hidden = false;
+      success.hidden = true;
+      form.reset();
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.js-open-academy').forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.dataset.intent));
+    });
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.hidden = true;
+      success.hidden = false;
+    });
+  })();
+
+  /* ---------- pricing tabs ---------- */
+  (function initPricingTabs(){
+    const tabs = document.querySelectorAll('.tab-btn');
+    if (!tabs.length) return;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.pricing-panel').forEach(panel => {
+          panel.hidden = panel.dataset.panel !== tab.dataset.tab;
+        });
+      });
+    });
+  })();
+
+  /* ---------- background music (real playback, hidden YouTube player) ---------- */
+  (function initMusic(){
+    const VIDEO_ID = 'ttjGFkand7s';
+    const btn = document.getElementById('music-btn');
+    const toast = document.getElementById('music-toast');
+    if (!btn) return;
+
+    const iframe = document.getElementById('yt-player');
+    const panel = document.getElementById('music-panel');
+    let cachedTitle = '';
+    let open = false;
+
+    function showToast(text){
+      if (!toast) return;
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function cleanTitle(raw){
+      return raw
+        .replace(/\([^)]*\)/g, '')
+        .replace(/\[[^\]]*\]/g, '')
+        .replace(/th[eè]me/gi, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+    }
+
+    function fetchTitle(){
+      if (cachedTitle) return Promise.resolve(cachedTitle);
+      return fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${VIDEO_ID}&format=json`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => { cachedTitle = (data && data.title) ? cleanTitle(data.title) : 'Ambiance sonore'; return cachedTitle; })
+        .catch(() => { cachedTitle = 'Ambiance sonore'; return cachedTitle; });
+    }
+
+    btn.addEventListener('click', () => {
+      if (open){
+        panel.hidden = true;
+        iframe.src = '';
+        btn.classList.remove('playing');
+        open = false;
+      } else {
+        if (!iframe.src){
+          iframe.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&controls=0`;
+        }
+        panel.hidden = false;
+        btn.classList.add('playing');
+        open = true;
+        fetchTitle().then(showToast);
+      }
+    });
+  })();
+
+  /* ---------- star ratings (SVG, no emoji) ---------- */
+  (function renderStars(){
+    const STAR_PATH = 'M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.6l-5.9 3-1.3-6.6-4.9-4.5 6.6-.8z';
+    function star(fillPercent){
+      const clipId = 'star-clip-' + Math.random().toString(36).slice(2);
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">
+        <defs><clipPath id="${clipId}"><rect x="0" y="0" width="${24*fillPercent}" height="24"/></clipPath></defs>
+        <path d="${STAR_PATH}" fill="none" stroke="rgba(255,90,31,.4)" stroke-width="1.4"/>
+        <path d="${STAR_PATH}" fill="#FF5A1F" clip-path="url(#${clipId})"/>
+      </svg>`;
+    }
+    document.querySelectorAll('.stars[data-rating]').forEach(el => {
+      const rating = parseFloat(el.dataset.rating) || 0;
+      let html = '';
+      for (let i = 1; i <= 5; i++){
+        const fill = Math.max(0, Math.min(1, rating - (i - 1)));
+        html += star(fill);
+      }
+      el.innerHTML = html;
+    });
+  })();
+
+</script>
+
+</body>
+</html>
