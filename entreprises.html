@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Team Rennaise — Entreprises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --bg-2:#121212; --panel:#161616; --panel-line:#2a2a2a;
+    --text:#F5E6A3; --text-dim:#a8a49c;
+    --orange:#FF5A1F; --orange-2:#FF7A3D;
+    --grad: linear-gradient(120deg, var(--orange), var(--orange-2));
+    --glow: rgba(255,90,31,.55);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:
+      radial-gradient(55% 30% at 15% 0%, rgba(255,122,61,.14), transparent 62%),
+      var(--bg);
+    color:var(--text-dim); font-family:"Sora", ui-sans-serif, system-ui, sans-serif; line-height:1.6;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1160px; margin:0 auto; padding:0 clamp(1.2rem, 4vw, 3rem); }
+  h1,h2,h3{ font-family:"Orbitron", sans-serif; text-wrap:balance; }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:.7rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--orange); display:inline-block; margin-bottom:1rem;
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.4rem clamp(1.4rem, 4vw, 3rem); border-bottom:1px solid var(--panel-line);
+  }
+  .brand{ font-family:"Orbitron",sans-serif; font-weight:800; font-size:1rem; letter-spacing:.08em; }
+  .brand span{ color:var(--orange); }
+  header a.back{ font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--text-dim); }
+  header a.back:hover{ color:var(--orange); }
+
+  .hero{
+    padding:6rem 0 4rem; text-align:center;
+    background: radial-gradient(60% 60% at 50% 0%, rgba(255,90,31,.16), transparent 70%);
+  }
+  .hero h1{ font-size:clamp(2.2rem, 5vw, 3.4rem); color:var(--text); margin-bottom:1.2rem; }
+  .hero p{ max-width:56ch; margin:0 auto; font-size:1.02rem; }
+
+  section{ padding:4.5rem 0; }
+  .section-head{ max-width:56ch; margin-bottom:2.6rem; }
+  .section-head h2{ font-size:clamp(1.6rem,3vw,2.2rem); color:var(--text); margin-top:.3rem; }
+
+  /* event types */
+  .type-grid{ display:flex; flex-wrap:wrap; gap:.7rem; }
+  .type-chip{
+    font-family:"JetBrains Mono",monospace; font-size:.82rem; padding:.7rem 1.2rem; border-radius:999px;
+    background:var(--panel); border:1px solid var(--panel-line); color:var(--text);
+  }
+
+  /* spaces */
+  .space-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1.1rem; }
+  .space-card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding:1.6rem 1.5rem;
+  }
+  .space-card h3{ font-size:1.05rem; color:var(--text); margin-bottom:.5rem; }
+  .space-card .cap{ font-family:"JetBrains Mono",monospace; color:var(--orange); font-size:1.4rem; font-weight:700; }
+  .space-card .cap small{ display:block; font-family:"Sora",sans-serif; font-size:.72rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; margin-top:.2rem; }
+  .space-card.full{ grid-column:1 / -1; background:linear-gradient(120deg, rgba(255,90,31,.14), rgba(255,122,61,.06)); border-color:rgba(255,90,31,.4); }
+
+  /* activities */
+  .activity-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:.9rem; }
+  .activity-card{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding:1.3rem 1.4rem;
+    font-family:"JetBrains Mono",monospace; font-size:.86rem; color:var(--text);
+  }
+
+  /* catering */
+  .catering-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.2rem; }
+  .catering-card{ background:var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding:1.8rem; }
+  .catering-card h3{ font-size:1.1rem; color:var(--text); margin-bottom:.3rem; }
+  .catering-card .by{ font-family:"JetBrains Mono",monospace; font-size:.68rem; color:var(--orange); letter-spacing:.08em; text-transform:uppercase; margin-bottom:1rem; display:block; }
+  .catering-card ul{ list-style:none; display:flex; flex-direction:column; gap:.5rem; }
+  .catering-card li{ font-size:.88rem; padding-left:1.1rem; position:relative; }
+  .catering-card li::before{ content:"—"; position:absolute; left:0; color:var(--orange); }
+
+  /* quote form */
+  .quote-form{
+    background:var(--panel); border:1px solid var(--panel-line); border-radius:10px; padding:2.4rem 2.4rem;
+    display:grid; grid-template-columns:1fr 1fr; gap:1.4rem;
+  }
+  .quote-form .full{ grid-column:1 / -1; }
+  .quote-form label{ display:flex; flex-direction:column; gap:.4rem; font-size:.82rem; color:var(--text-dim); }
+  .quote-form input, .quote-form select, .quote-form textarea{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:4px; color:var(--text);
+    padding:.75rem .9rem; font-family:"Sora",sans-serif; font-size:.92rem;
+  }
+  .quote-form input:focus-visible, .quote-form select:focus-visible, .quote-form textarea:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .check-group{ display:flex; flex-wrap:wrap; gap:.6rem; }
+  .check-group label{
+    flex-direction:row; align-items:center; gap:.5rem; font-size:.8rem; color:var(--text);
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:999px; padding:.5rem 1rem; cursor:pointer;
+  }
+  .check-group input{ accent-color:var(--orange); }
+  .quote-form button{
+    grid-column:1 / -1; border:none; cursor:pointer; padding:.9rem; border-radius:4px;
+    background:var(--grad); color:#0a0500; font-weight:700; font-family:"JetBrains Mono",monospace; font-size:.85rem;
+  }
+  #quote-success{ margin-top:1.2rem; padding:1rem 1.2rem; background:rgba(255,90,31,.1); border:1px solid rgba(255,90,31,.4); border-radius:6px; color:var(--text); font-size:.9rem; }
+
+  /* references */
+  .refs-note{
+    background:var(--panel); border:1px dashed var(--panel-line); border-radius:8px;
+    padding:2rem; text-align:center; color:var(--text-dim); font-size:.9rem;
+  }
+
+  @media (max-width:640px){ .quote-form{ grid-template-columns:1fr; } }
+
+  footer{
+    border-top:1px solid var(--panel-line); padding:2rem clamp(1.4rem,4vw,3rem);
+    font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">LA TEAM <span>RENNAISE</span></div>
+  <a class="back" href="index.html">← Retour au site</a>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Entreprises &amp; événements privés</span>
+    <h1>Votre événement, notre terrain de jeu.</h1>
+    <p>Réunions, séminaires, soirées d'entreprise, team building, anniversaires, EVG/EVJF — le complexe se privatise, en partie ou en totalité, autour de vos activités.</p>
+  </div>
+</div>
+
+<section id="types">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Types d'événements</span>
+    </div>
+    <div class="type-grid">
+      <span class="type-chip">Réunions</span>
+      <span class="type-chip">Séminaires</span>
+      <span class="type-chip">Soirées d'entreprise</span>
+      <span class="type-chip">Team building</span>
+      <span class="type-chip">Anniversaires</span>
+      <span class="type-chip">EVG / EVJF</span>
+    </div>
+  </div>
+</section>
+
+<section id="espaces">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Espaces disponibles</span>
+      <h2>Une salle pour chaque format.</h2>
+    </div>
+    <div class="space-grid">
+      <div class="space-card"><h3>Salle de séminaire</h3><div class="cap">35<small>Personnes</small></div></div>
+      <div class="space-card"><h3>Club House</h3><div class="cap">120<small>Personnes</small></div></div>
+      <div class="space-card"><h3>Salle Business</h3><div class="cap">150<small>Personnes</small></div></div>
+      <div class="space-card"><h3>Espace Conférence</h3><div class="cap">500<small>Personnes</small></div></div>
+      <div class="space-card full"><h3>Privatisation complète du complexe</h3><div class="cap">200<small>Personnes</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="activites-entreprise">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Activités dédiées</span>
+      <h2>De quoi animer n'importe quel format.</h2>
+    </div>
+    <div class="activity-grid">
+      <div class="activity-card">Blindtest musical</div>
+      <div class="activity-card">Escape Game</div>
+      <div class="activity-card">Bubble Soccer</div>
+      <div class="activity-card">Padel</div>
+      <div class="activity-card">Squash</div>
+      <div class="activity-card">Olympiades</div>
+      <div class="activity-card">Archery Games</div>
+    </div>
+  </div>
+</section>
+
+<section id="restauration">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Restauration</span>
+      <h2>Sur place, pensée pour votre événement.</h2>
+    </div>
+    <div class="catering-grid">
+      <div class="catering-card">
+        <span class="by">Traiteur</span>
+        <h3>Buffets &amp; cocktails</h3>
+        <ul>
+          <li>Buffet froid</li>
+          <li>Buffet chaud</li>
+          <li>Cocktails dînatoires</li>
+          <li>Mignardises</li>
+          <li>Plateau repas individuel</li>
+        </ul>
+      </div>
+      <div class="catering-card">
+        <span class="by">Côté Bar</span>
+        <h3>Formule conviviale</h3>
+        <ul>
+          <li>Planches apéritives</li>
+          <li>Saucissons &amp; tartinables</li>
+          <li>Bières, softs, vin</li>
+        </ul>
+      </div>
+      <div class="catering-card">
+        <span class="by">Le matin</span>
+        <h3>Petit-déjeuner d'entreprise</h3>
+        <ul>
+          <li>Viennoiseries &amp; boissons chaudes</li>
+          <li>Formule sur mesure avant séminaire</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="devis">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Demande de devis</span>
+      <h2>Décrivez votre événement, on s'occupe du reste.</h2>
+    </div>
+    <form class="quote-form" id="quote-form">
+      <div class="full">
+        <label>Activités souhaitées</label>
+        <div class="check-group">
+          <label><input type="checkbox" name="activities" value="Blind Test"> Blind Test</label>
+          <label><input type="checkbox" name="activities" value="Olympiades"> Olympiades</label>
+          <label><input type="checkbox" name="activities" value="Escape Game"> Escape Game</label>
+          <label><input type="checkbox" name="activities" value="Bubble Soccer"> Bubble Soccer</label>
+          <label><input type="checkbox" name="activities" value="Archery Games"> Archery Games</label>
+          <label><input type="checkbox" name="activities" value="Location salle équipée"> Location salle équipée</label>
+        </div>
+      </div>
+      <div class="full">
+        <label>Suppléments</label>
+        <div class="check-group">
+          <label><input type="checkbox" name="extras" value="Traiteur"> Traiteur</label>
+          <label><input type="checkbox" name="extras" value="Petit-déjeuner"> Petit-déjeuner</label>
+          <label><input type="checkbox" name="extras" value="Boisson"> Boisson</label>
+        </div>
+      </div>
+      <label>
+        <span>Type d'événement</span>
+        <select name="type">
+          <option>Entreprise</option>
+          <option>Soirée privée</option>
+        </select>
+      </label>
+      <label>
+        <span>Nombre de personnes</span>
+        <input type="number" name="people" min="1" required>
+      </label>
+      <label>
+        <span>Date souhaitée</span>
+        <input type="date" name="date" required>
+      </label>
+      <label>
+        <span>Horaire</span>
+        <input type="time" name="time">
+      </label>
+      <label>
+        <span>Budget approximatif</span>
+        <input type="text" name="budget" placeholder="ex: 1500€">
+      </label>
+      <label>
+        <span>Email de contact</span>
+        <input type="email" name="email" required placeholder="ton@email.com">
+      </label>
+      <label class="full">
+        <span>Précisions (facultatif)</span>
+        <textarea name="message" rows="3"></textarea>
+      </label>
+      <button type="submit">Envoyer la demande de devis</button>
+    </form>
+    <p id="quote-success" hidden>Demande envoyée (démo) — notre équipe events te recontacte sous 48h avec un devis personnalisé.</p>
+  </div>
+</section>
+
+<section id="references">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Ils nous font confiance</span>
+      <h2>Nos références entreprises.</h2>
+    </div>
+    <div class="refs-note">
+      Emplacement réservé aux logos de vos clients entreprises une fois les premiers partenariats signés.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2030 LA TEAM RENNAISE</span>
+  <span><a href="index.html#localisation">Contact</a> · <a href="index.html">Accueil</a></span>
+</footer>
+
+<script>
+  document.getElementById('quote-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementById('quote-form').hidden = true;
+    document.getElementById('quote-success').hidden = false;
+  });
+</script>
+
+</body>
+</html>

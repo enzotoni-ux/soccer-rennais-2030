@@ -600,6 +600,24 @@
   }
   @media (max-width:760px){ .locate{ grid-template-columns:1fr; } }
 
+  /* ---------- general contact form ---------- */
+  .contact-form-wrap{
+    max-width:640px; margin:3.4rem auto 0; background:var(--panel); border:1px solid var(--panel-line);
+    border-radius:10px; padding:2.4rem 2.4rem; position:relative; z-index:2;
+  }
+  .contact-form-wrap h2{ font-size:clamp(1.4rem,2.6vw,1.8rem); margin:.4rem 0 1.6rem; }
+  .contact-form{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .contact-form label{ display:flex; flex-direction:column; gap:.4rem; font-size:.82rem; color:var(--text-dim); }
+  .contact-form-message{ grid-column:1 / -1; }
+  .contact-form input, .contact-form textarea{
+    background:var(--bg-2); border:1px solid var(--panel-line); border-radius:4px; color:var(--text);
+    padding:.75rem .9rem; font-family:"Sora",sans-serif; font-size:.92rem;
+  }
+  .contact-form input:focus-visible, .contact-form textarea:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .contact-form button{ grid-column:1 / -1; border:none; cursor:pointer; }
+  #contact-success{ max-width:640px; margin:1.4rem auto 0; padding:1rem 1.2rem; background:rgba(255,90,31,.1); border:1px solid rgba(255,90,31,.4); border-radius:6px; color:var(--text); font-size:.9rem; }
+  @media (max-width:560px){ .contact-form{ grid-template-columns:1fr; } }
+
   /* ---------- newsletter ---------- */
   .newsletter-board{
     display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.6rem;
@@ -816,7 +834,7 @@
     <a href="#tarifs" data-i18n="price-eyebrow">Tarifs</a>
     <a href="#academy" data-i18n="aca-eyebrow">Academy</a>
     <a href="#club" data-i18n="nav-club">Club House</a>
-    <a href="#entreprises" data-i18n="nav-entreprises">Entreprises</a>
+    <a href="entreprises.html" data-i18n="nav-entreprises">Entreprises</a>
     <a href="#contact" data-i18n="nav-contact">Contact</a>
   </nav>
   <div class="lang-switch">
@@ -1080,7 +1098,7 @@
       <div class="tags">
         <span class="tag" data-i18n="tag-anniv">Anniversaires</span>
         <span class="tag" data-i18n="tag-champ">Championnats</span>
-        <span class="tag" id="entreprises" data-i18n="tag-corp">Entreprises</span>
+        <a href="entreprises.html" class="tag" data-i18n="tag-corp">Entreprises</a>
         <span class="tag" data-i18n="tag-priv">Événements privés</span>
       </div>
     </div>
@@ -1215,8 +1233,34 @@
     <div class="locate-map reveal">
       <iframe
         title="Localisation du complexe à Rennes"
-        src="https://www.openstreetmap.org/export/embed.html?bbox=-1.7518%2C48.0862%2C-1.7118%2C48.1162&layer=mapnik&marker=48.1173%2C-1.6778"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-1.7518%2C48.0862%2C-1.7118%2C48.1162&layer=mapnik&marker=48.1012%2C-1.7318"
         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="contact-form-wrap reveal">
+      <span class="eyebrow" data-i18n="contact-eyebrow">Une question ?</span>
+      <h2 data-i18n="contact-h2">Écris-nous directement.</h2>
+      <form id="contact-form" class="contact-form">
+        <label>
+          <span data-i18n="contact-form-name">Nom</span>
+          <input type="text" name="name" required>
+        </label>
+        <label>
+          <span data-i18n="contact-form-tel">Téléphone</span>
+          <input type="tel" name="phone" placeholder="06 00 00 00 00">
+        </label>
+        <label>
+          <span data-i18n="contact-form-email">Email</span>
+          <input type="email" name="email" required placeholder="ton@email.com">
+        </label>
+        <label class="contact-form-message">
+          <span data-i18n="contact-form-message">Message</span>
+          <textarea name="message" rows="4" required></textarea>
+        </label>
+        <button type="submit" class="btn-fill" data-i18n="contact-form-submit">Envoyer le message</button>
+      </form>
+      <p id="contact-success" hidden data-i18n="contact-form-success">Message envoyé (démo) — on te répond au plus vite.</p>
     </div>
   </div>
 </section>
@@ -1551,6 +1595,14 @@
     'news-placeholder': { fr:'ton@email.com', en:'your@email.com' },
     'news-submit': { fr:"S'inscrire", en:'Subscribe' },
     'news-success': { fr:'Inscription confirmée — à très vite sur les terrains.', en:"You're in — see you on the pitches soon." },
+    'contact-eyebrow': { fr:'Une question ?', en:'A question?' },
+    'contact-h2': { fr:'Écris-nous directement.', en:'Write to us directly.' },
+    'contact-form-name': { fr:'Nom', en:'Name' },
+    'contact-form-tel': { fr:'Téléphone', en:'Phone' },
+    'contact-form-email': { fr:'Email', en:'Email' },
+    'contact-form-message': { fr:'Message', en:'Message' },
+    'contact-form-submit': { fr:'Envoyer le message', en:'Send message' },
+    'contact-form-success': { fr:'Message envoyé (démo) — on te répond au plus vite.', en:"Message sent (demo) — we'll get back to you shortly." },
     'book-eyebrow': { fr:'Réservation', en:'Booking' },
     'book-close': { fr:'Fermer', en:'Close' },
     'book-choose-sport': { fr:'Choisis ton sport', en:'Choose your sport' },
@@ -1873,6 +1925,17 @@
       if (!input || !input.value) return;
       newsletterForm.hidden = true;
       const success = document.getElementById('newsletter-success');
+      if (success) success.hidden = false;
+    });
+  }
+
+  /* ---------- general contact form (front-end only, no backend) ---------- */
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm){
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      contactForm.hidden = true;
+      const success = document.getElementById('contact-success');
       if (success) success.hidden = false;
     });
   }
