@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La Team Rennaise — 02 99 12 17 40</title>
+<meta name="description" content="Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, Academy, événements entreprise — réservation en ligne, du lundi au dimanche.">
+
+<!-- Open Graph — remplacer les URLs relatives par l'URL absolue du site une fois déployé -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Team Rennaise">
+<meta property="og:title" content="La Team Rennaise — Soccer, Padel, Squash à Rennes">
+<meta property="og:description" content="Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, Academy, événements entreprise — réservation en ligne.">
+<meta property="og:image" content="activites-hero.jpg">
+<meta property="og:locale" content="fr_FR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="La Team Rennaise — Soccer, Padel, Squash à Rennes">
+<meta name="twitter:description" content="Complexe soccer, padel &amp; squash à Rennes. Terrains, bar lounge, Academy, événements entreprise.">
+<meta name="twitter:image" content="activites-hero.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -32,6 +47,37 @@
     font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
     overflow-x:hidden; position:relative;
   }
+
+  /* ---------- preloader ---------- */
+  .preloader{
+    position:fixed; inset:0; z-index:500; background:#050403;
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  .preloader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-inner{ display:flex; flex-direction:column; align-items:center; gap:1.3rem; }
+  .preloader-brand{
+    font-family:"Orbitron",sans-serif; font-weight:800; letter-spacing:.12em; font-size:1.05rem;
+    color:var(--orange); text-shadow:0 0 6px var(--glow), 0 0 20px rgba(255,90,31,.4);
+    animation: preloader-flicker 2.2s ease-in-out infinite;
+  }
+  @keyframes preloader-flicker{
+    0%,100%{ opacity:1; } 42%{ opacity:1; } 44%{ opacity:.4; } 46%{ opacity:1; } 80%{ opacity:1; } 82%{ opacity:.6; } 84%{ opacity:1; }
+  }
+  .preloader-bar{ width:220px; height:2px; background:rgba(255,90,31,.18); position:relative; overflow:hidden; }
+  .preloader-fill{
+    position:absolute; left:0; top:0; height:100%; width:0%;
+    background:var(--grad); box-shadow:0 0 10px 1px var(--glow); transition:width .35s ease;
+  }
+  .preloader-fill::after{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, rgba(255,255,255,.55) 0 2px, transparent 2px 6px);
+    mix-blend-mode:overlay; opacity:.6;
+  }
+  .preloader-status{
+    font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);
+  }
+  @media (prefers-reduced-motion: reduce){ .preloader-brand{ animation:none; } }
 
   /* ---------- fluo frame around the whole site ---------- */
   .frame{
@@ -139,7 +185,15 @@
       0 0 34px 6px rgba(255,90,31,.7),
       0 0 60px 14px rgba(255,90,31,.45);
   }
-  .nav-toggle{ display:none; }
+  .nav-toggle{
+    display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
+    width:36px; height:36px; background:none; border:none; cursor:pointer; z-index:260; position:relative;
+  }
+  .nav-toggle span{ display:block; width:22px; height:2px; background:var(--text); transition:transform .25s ease, opacity .25s ease; }
+  .nav-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .nav-cta{ display:none; }
 
   .lang-switch{ display:flex; gap:.4rem; }
   .lang-btn{
@@ -164,14 +218,24 @@
   .hero{
     min-height:100svh; position:relative; display:flex; flex-direction:column;
     align-items:center; justify-content:center; text-align:center; padding-top:9.3rem;
-    background:
-      radial-gradient(60% 50% at 50% 18%, rgba(255,90,31,.16), transparent 70%),
-      radial-gradient(50% 40% at 80% 85%, rgba(255,122,61,.22), transparent 70%),
-      var(--bg);
+    background:var(--bg);
     overflow:hidden;
   }
+  .hero-slides{ position:absolute; inset:0; z-index:0; }
+  .hero-slide{
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    opacity:0; transition:opacity 1.6s ease;
+  }
+  .hero-slide.active{ opacity:1; }
+  .hero-tint{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(8,7,6,.6) 0%, rgba(8,7,6,.76) 55%, rgba(8,7,6,.92) 100%),
+      radial-gradient(60% 50% at 50% 18%, rgba(255,90,31,.24), transparent 70%),
+      radial-gradient(50% 40% at 80% 85%, rgba(255,122,61,.16), transparent 70%);
+  }
   .hero-grid{
-    position:absolute; inset:0; z-index:0; opacity:.35;
+    position:absolute; inset:0; z-index:1; opacity:.35;
     background-image:
       linear-gradient(rgba(255,90,31,.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,90,31,.08) 1px, transparent 1px);
@@ -277,7 +341,7 @@
   #activites{
     background:
       linear-gradient(180deg, var(--bg) 0%, rgba(10,10,10,.55) 22%, rgba(10,10,10,.88) 62%, var(--bg) 100%),
-      url('activites-hero.png') center 30%/cover no-repeat;
+      url('activites-hero.jpg') center 30%/cover no-repeat;
   }
   #academy{
     background:
@@ -342,7 +406,7 @@
   .card-padel{
     background:
       linear-gradient(200deg, rgba(10,10,10,.15) 0%, rgba(10,10,10,.55) 45%, rgba(10,10,10,.92) 78%),
-      url('padel-racket.png') center 38%/cover no-repeat, var(--panel);
+      url('padel-racket.jpg') center 38%/cover no-repeat, var(--panel);
   }
   .card-squash{
     background:
@@ -352,7 +416,7 @@
   .card-soccer{
     background:
       linear-gradient(200deg, rgba(255,90,31,.28) 0%, rgba(10,10,10,.6) 48%, rgba(10,10,10,.92) 78%),
-      url('soccer-ball.png') center 42%/cover no-repeat, var(--panel);
+      url('soccer-ball.jpg') center 42%/cover no-repeat, var(--panel);
   }
   .card-blindtest{
     background:
@@ -659,7 +723,17 @@
   .foot-bottom{ margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--panel-line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.74rem; color:var(--text-dim); font-family:"JetBrains Mono",monospace; }
 
   @media (max-width:760px){
-    nav{ display:none; }
+    .nav-toggle{ display:flex; }
+    #nav{
+      position:fixed; inset:0; z-index:250;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.8rem;
+      background:rgba(8,7,6,.98); backdrop-filter:blur(12px);
+      font-size:1.2rem;
+      opacity:0; pointer-events:none; transform:translateY(-10px);
+      transition:opacity .3s ease, transform .3s ease;
+    }
+    #nav.open{ opacity:1; pointer-events:auto; transform:translateY(0); }
+    .nav-cta{ display:inline-block; margin-top:.6rem; }
     .club{ grid-template-columns:1fr; }
     .foot-grid{ grid-template-columns:1fr 1fr; }
   }
@@ -788,6 +862,7 @@
   }
   @media (prefers-reduced-motion: reduce){ .music-btn{ animation:none; box-shadow:0 0 20px 4px var(--glow); } }
   .music-btn.playing{ color:var(--text); background:rgba(255,90,31,.25); }
+  .music-btn.unavailable{ opacity:.35; animation:none; cursor:not-allowed; }
 
   .music-toast{
     position:fixed; bottom:2.1rem; left:5.4rem; z-index:140; max-width:min(60vw, 320px);
@@ -809,6 +884,14 @@
 </head>
 <body>
 
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <span class="preloader-brand">LA TEAM RENNAISE</span>
+    <div class="preloader-bar"><div class="preloader-fill" id="preloader-fill"></div></div>
+    <span class="preloader-status" id="preloader-status">INITIALISATION DU TERRAIN…</span>
+  </div>
+</div>
+
 <div class="frame"></div>
 <div class="cursor-dot" id="cursor-dot"></div>
 
@@ -829,14 +912,18 @@
     <span class="word" data-word="LA TEAM"></span>
     <span class="word accent" data-word="RENNAISE"></span>
   </div>
-  <nav>
+  <nav id="nav">
     <a href="#activites" data-i18n="nav-activites">Activités</a>
     <a href="#tarifs" data-i18n="price-eyebrow">Tarifs</a>
     <a href="#academy" data-i18n="aca-eyebrow">Academy</a>
     <a href="#club" data-i18n="nav-club">Club House</a>
     <a href="entreprises.html" data-i18n="nav-entreprises">Entreprises</a>
     <a href="#contact" data-i18n="nav-contact">Contact</a>
+    <button class="cta js-open-booking nav-cta" data-i18n="header-cta">RÉSERVER</button>
   </nav>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false" data-i18n-aria="nav-toggle-aria">
+    <span></span><span></span><span></span>
+  </button>
   <div class="lang-switch">
     <button type="button" class="lang-btn active" data-lang="fr" title="Français" aria-label="Français" aria-pressed="true">
       <svg class="flag" viewBox="0 0 60 36" width="24" height="17" role="img" aria-hidden="true">
@@ -863,6 +950,14 @@
 </header>
 
 <section class="hero">
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image:url('activites-hero.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('club-lounge.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('academy-kids.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('escape-card.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('olympiades-photo.jpg')"></div>
+  </div>
+  <div class="hero-tint"></div>
   <div class="hero-grid"></div>
   <h1 class="hero-title glitch-text" id="hero-title" data-text="LA TEAM RENNAISE">
     <span class="word" data-word="LA TEAM"></span>
@@ -1322,9 +1417,7 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
 </button>
 <span class="music-toast" id="music-toast"></span>
-<div class="music-panel" id="music-panel" hidden>
-  <iframe id="yt-player" width="260" height="146" style="border:0; border-radius:6px;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
+<div id="yt-music-player" style="position:fixed; width:2px; height:2px; opacity:0; pointer-events:none; overflow:hidden;"></div>
 
 <div class="cookie-banner" id="cookie-banner" hidden>
   <p data-i18n="cookie-text">Ce site utilise des cookies techniques et de mesure d'audience pour améliorer ton expérience. Tu peux accepter ou refuser les cookies non essentiels.</p>
@@ -1428,6 +1521,50 @@
 
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- preloader ---------- */
+  (function initPreloader(){
+    const el = document.getElementById('preloader');
+    const fill = document.getElementById('preloader-fill');
+    const status = document.getElementById('preloader-status');
+    if (!el) return;
+
+    if (reduceMotion){
+      el.classList.add('hide');
+      return;
+    }
+
+    const steps = [
+      { pct: 25, label: 'INITIALISATION DU TERRAIN…' },
+      { pct: 55, label: 'CHARGEMENT DES CRÉNEAUX…' },
+      { pct: 80, label: 'CALIBRAGE DU SIGNAL…' },
+      { pct: 100, label: 'PRÊT.' },
+    ];
+    let i = 0;
+    function step(){
+      if (i < steps.length){
+        fill.style.width = steps[i].pct + '%';
+        status.textContent = steps[i].label;
+        i++;
+        setTimeout(step, 260 + Math.random()*180);
+      } else {
+        setTimeout(() => el.classList.add('hide'), 250);
+      }
+    }
+    step();
+  })();
+
+  /* ---------- hero photo carousel ---------- */
+  (function initHeroCarousel(){
+    const slides = document.querySelectorAll('.hero-slide');
+    if (slides.length < 2 || reduceMotion) return;
+    let i = 0;
+    setInterval(() => {
+      slides[i].classList.remove('active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('active');
+    }, 5000);
+  })();
 
   /* ---------- custom cursor: black dot, ultra-bright pale-yellow halo ---------- */
   (function initCursor(){
@@ -1581,6 +1718,7 @@
     'faq-a5': { fr:'Un parking gratuit est disponible directement devant le complexe.', en:'Free parking is available right in front of the complex.' },
     'totop-aria': { fr:'Remonter en haut de page', en:'Back to top' },
     'music-aria': { fr:'Écouter la playlist', en:'Listen to the playlist' },
+    'nav-toggle-aria': { fr:'Menu', en:'Menu' },
     'ticker-label': { fr:'ACTU CLUB', en:'CLUB NEWS' },
     'ticker1': { fr:'<b>PROCHAIN MATCH</b> — Angers SCO – Stade Rennais · Dimanche 6 septembre 2026 · Stade Raymond Kopa', en:'<b>NEXT MATCH</b> — Angers SCO – Stade Rennais · Sunday, 6 September 2026 · Stade Raymond Kopa' },
     'ticker2': { fr:'<b>ENSUITE</b> — Stade Rennais – Olympique de Marseille · Vendredi 11 septembre 2026 · Roazhon Park', en:'<b>THEN</b> — Stade Rennais – Olympique de Marseille · Friday, 11 September 2026 · Roazhon Park' },
@@ -1650,6 +1788,26 @@
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive:true });
+
+  /* mobile burger menu */
+  (function initMobileNav(){
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('nav');
+    if (!toggle || !nav) return;
+    function closeNav(){
+      toggle.classList.remove('open');
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    nav.querySelectorAll('a, button').forEach(el => el.addEventListener('click', closeNav));
+  })();
 
   /* back to top */
   const toTop = document.getElementById('to-top');
@@ -2172,17 +2330,18 @@
     });
   })();
 
-  /* ---------- background music (real playback, hidden YouTube player) ---------- */
+  /* ---------- background music (muted autoplay on load, unmute on click — reliable across browsers) ---------- */
   (function initMusic(){
     const VIDEO_ID = 'ttjGFkand7s';
     const btn = document.getElementById('music-btn');
     const toast = document.getElementById('music-toast');
     if (!btn) return;
 
-    const iframe = document.getElementById('yt-player');
-    const panel = document.getElementById('music-panel');
+    let player = null;
+    let playerReady = false;
+    let userWantsSound = false;
+    let failed = false;
     let cachedTitle = '';
-    let open = false;
 
     function showToast(text){
       if (!toast) return;
@@ -2209,20 +2368,53 @@
         .catch(() => { cachedTitle = 'Ambiance sonore'; return cachedTitle; });
     }
 
-    btn.addEventListener('click', () => {
-      if (open){
-        panel.hidden = true;
-        iframe.src = '';
-        btn.classList.remove('playing');
-        open = false;
-      } else {
-        if (!iframe.src){
-          iframe.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&controls=0`;
+    function setIcon(on){ btn.classList.toggle('playing', on); }
+    function disableButton(){ failed = true; btn.classList.add('unavailable'); }
+
+    function unmuteNow(){
+      if (!playerReady || !player || failed) return;
+      player.unMute();
+      player.playVideo();
+      setIcon(true);
+      fetchTitle().then(showToast);
+    }
+
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.onerror = disableButton;
+    document.head.appendChild(tag);
+
+    const prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function(){
+      if (typeof prevReady === 'function') prevReady();
+      player = new YT.Player('yt-music-player', {
+        width: '2', height: '2', videoId: VIDEO_ID,
+        playerVars: { autoplay:1, mute:1, controls:0, disablekb:1, loop:1, playlist:VIDEO_ID, modestbranding:1, rel:0, fs:0 },
+        events: {
+          onReady: () => {
+            playerReady = true;
+            // muted autoplay is allowed by every browser: music starts right at page open
+            player.mute();
+            player.playVideo();
+            if (userWantsSound) unmuteNow();
+          },
+          onError: disableButton
         }
-        panel.hidden = false;
-        btn.classList.add('playing');
-        open = true;
-        fetchTitle().then(showToast);
+      });
+    };
+
+    // the audible sound can only start from a direct click (browser rule) — toggles mute on an already-playing video
+    btn.addEventListener('click', () => {
+      if (failed) return;
+      if (!playerReady || !player){
+        userWantsSound = true;
+        return;
+      }
+      if (player.isMuted()){
+        unmuteNow();
+      } else {
+        player.mute();
+        setIcon(false);
       }
     });
   })();
