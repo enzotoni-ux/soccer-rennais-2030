@@ -398,6 +398,13 @@
     -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
   }
   .card .num{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--orange); letter-spacing:.12em; }
+  .card-price{
+    position:absolute; top:1.1rem; right:1.1rem; z-index:2;
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-size:.82rem; color:#0a0500;
+    background:var(--grad); padding:.35rem .7rem; border-radius:999px;
+    box-shadow:0 0 14px -3px var(--glow);
+  }
+  .card-price small{ font-weight:600; font-size:.68rem; opacity:.85; }
   .card h3{ font-size:1.25rem; margin:.7rem 0 .6rem; font-weight:700; }
   .card p{ color:var(--text-dim); font-size:.88rem; line-height:1.55; }
   .card .stat{ margin-top:1.2rem; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; font-size:1.5rem; color:var(--text); }
@@ -783,7 +790,12 @@
   }
   .sport-card:hover{ border-color:rgba(255,90,31,.55); box-shadow:0 0 22px -8px var(--glow); transform:translateY(-2px); }
   .sport-name{ font-family:"Orbitron",sans-serif; font-weight:700; font-size:1.02rem; color:var(--text); }
-  .sport-meta{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--orange); }
+  .sport-meta{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--text-dim); }
+  .sport-price{
+    align-self:flex-end; font-family:"JetBrains Mono",monospace; font-weight:700; font-size:.78rem; color:#0a0500;
+    background:var(--grad); padding:.3rem .6rem; border-radius:999px; margin-bottom:.6rem;
+  }
+  .sport-price small{ font-weight:600; font-size:.66rem; opacity:.85; }
 
   .booking-back{
     background:none; border:none; color:var(--text-dim); font-family:"JetBrains Mono",monospace;
@@ -810,10 +822,15 @@
 
   .planning-slots{ display:grid; grid-template-columns:repeat(auto-fill, minmax(84px,1fr)); gap:.6rem; }
   .slot-btn{
-    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; font-size:.82rem;
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    display:flex; flex-direction:column; align-items:center; gap:.3rem;
     padding:.7rem .5rem; border-radius:5px; background:var(--panel); border:1px solid var(--panel-line);
     color:var(--text); cursor:pointer; transition:border-color .2s, background .2s, box-shadow .2s;
   }
+  .slot-time{ font-size:.82rem; }
+  .slot-price{ font-size:.68rem; font-weight:700; color:var(--orange); }
+  .slot-btn.selected .slot-price{ color:#0a0500; }
+  .slot-btn:disabled .slot-price{ color:var(--text-dim); }
   .slot-btn:hover:not(:disabled){ border-color:rgba(255,90,31,.6); box-shadow:0 0 14px -5px var(--glow); }
   .slot-btn:disabled{ opacity:.3; cursor:not-allowed; text-decoration:line-through; }
   .slot-btn.selected{ background:var(--grad); border-color:transparent; color:#0a0500; font-weight:700; }
@@ -981,42 +998,49 @@
     </div>
     <div class="grid">
       <div class="card card-soccer reveal">
+        <span class="card-price"><span data-i18n="price-from">Dès</span> 60€<small>/h</small></span>
         <span class="num">01</span>
         <h3>Soccer</h3>
         <p data-i18n="card1-p">Terrains indoor haute performance, éclairage dynamique, sol dernière génération.</p>
         <div class="stat">5<small data-i18n="card1-stat">Terrains</small></div>
       </div>
       <div class="card card-padel reveal">
+        <span class="card-price"><span data-i18n="price-from">Dès</span> 7€<small data-i18n="price-per-pers">/pers</small></span>
         <span class="num">02</span>
         <h3>Padel</h3>
         <p data-i18n="card2-p">Courts vitrés, ambiance compétition, réservables à l'heure ou en tournoi.</p>
         <div class="stat">4<small data-i18n="card2-stat">Terrains</small></div>
       </div>
       <div class="card card-squash reveal">
+        <span class="card-price"><span data-i18n="price-from">Dès</span> 7€</span>
         <span class="num">03</span>
         <h3>Squash</h3>
         <p>Salles climatisées, cadence rapide, parfait entre deux réunions.</p>
         <div class="stat">6<small>Terrains</small></div>
       </div>
       <div class="card card-blindtest reveal">
+        <span class="card-price">12€<small data-i18n="price-per-pers">/pers</small></span>
         <span class="num">04</span>
         <h3>BlindTest</h3>
         <p data-i18n="card4-p">Soirées à thème, écran géant, son immersif — le complexe devient scène.</p>
         <div class="stat">∞<small data-i18n="card4-stat">Playlists</small></div>
       </div>
       <div class="card card-olympiades reveal">
+        <span class="card-price" data-i18n="price-quote">Sur devis</span>
         <span class="num">05</span>
         <h3 data-i18n="card5-h3">Olympiades &amp; Zgames</h3>
         <p data-i18n="card5-p">Épreuves mixtes pensées pour les groupes, du staff au week-end entre amis.</p>
         <div class="stat">6+<small data-i18n="card5-stat">Épreuves</small></div>
       </div>
       <div class="card card-academy reveal">
+        <span class="card-price">129€<small data-i18n="price-per-season">/saison</small></span>
         <span class="num">06</span>
         <h3>Academy</h3>
         <p data-i18n="card6-p">Coaching individuel et collectif, tous niveaux, tous âges.</p>
         <div class="stat">7j/7<small data-i18n="card6-stat">Sur créneau</small></div>
       </div>
       <div class="card card-escape reveal">
+        <span class="card-price" data-i18n="price-quote">Sur devis</span>
         <span class="num">07</span>
         <h3>Escape Game</h3>
         <p data-i18n="card7-p">Une énigme à résoudre en équipe, contre la montre, avant que le temps ne soit écoulé.</p>
@@ -1438,14 +1462,17 @@
       <h3 id="booking-title" data-i18n="book-choose-sport">Choisis ton sport</h3>
       <div class="sport-grid">
         <button class="sport-card" data-sport="soccer">
+          <span class="sport-price"><span data-i18n="price-from">Dès</span> 60€<small>/h</small></span>
           <span class="sport-name">Soccer</span>
           <span class="sport-meta" data-i18n="card1-stat-full">5 terrains</span>
         </button>
         <button class="sport-card" data-sport="padel">
+          <span class="sport-price"><span data-i18n="price-from">Dès</span> 7€<small data-i18n="price-per-pers">/pers</small></span>
           <span class="sport-name">Padel</span>
           <span class="sport-meta" data-i18n="card2-stat-full">4 terrains</span>
         </button>
         <button class="sport-card" data-sport="squash">
+          <span class="sport-price"><span data-i18n="price-from">Dès</span> 7€</span>
           <span class="sport-name">Squash</span>
           <span class="sport-meta" data-i18n="card3-stat-full">6 terrains</span>
         </button>
@@ -1614,6 +1641,10 @@
     'card7-p': { fr:'Une énigme à résoudre en équipe, contre la montre, avant que le temps ne soit écoulé.', en:'A puzzle to solve as a team, against the clock, before time runs out.' },
     'card7-stat': { fr:'Salles à thème', en:'Themed rooms' },
     'price-eyebrow': { fr:'Tarifs', en:'Pricing' },
+    'price-from': { fr:'Dès', en:'From' },
+    'price-per-pers': { fr:'/pers', en:'/pers' },
+    'price-per-season': { fr:'/saison', en:'/season' },
+    'price-quote': { fr:'Sur devis', en:'On request' },
     'price-h2': { fr:'Des prix clairs, pour chaque activité.', en:'Clear pricing, for every activity.' },
     'price-th-slot': { fr:'Créneau', en:'Time slot' },
     'price-soccer-week-day': { fr:'Semaine · 11h–18h', en:'Weekday · 11am–6pm' },
@@ -2142,6 +2173,21 @@
       return rest === 0 ? h + 'h' : h + 'h' + rest;
     }
 
+    // price per slot, matching the real tariff grid in the Tarifs section
+    function priceForSlot(sport, dayDate, startMinutes, durationMinutes){
+      const blocks = durationMinutes / 30;
+      if (sport === 'squash') return blocks * 7;
+      if (sport === 'padel') return blocks * 3.5;
+      // soccer: 30€/30min weekdays before 18h and all day Saturday, 45€/30min weekday evenings
+      const isWeekday = dayDate.getDay() >= 1 && dayDate.getDay() <= 5;
+      const rate = (isWeekday && startMinutes >= 18*60) ? 45 : 30;
+      return blocks * rate;
+    }
+    function formatPrice(sport, amount){
+      const val = Number.isInteger(amount) ? amount : amount.toFixed(1).replace('.0','');
+      return sport === 'padel' ? `${val}€/pers` : `${val}€`;
+    }
+
     // deterministic pseudo-availability so the demo looks alive without a backend
     function isBooked(sport, dayIndex, startMinutes){
       let h = 0;
@@ -2195,10 +2241,12 @@
       slotsWrap.innerHTML = '';
       confirmBox.hidden = true;
       const range = RANGE_BY_SPORT[currentSport] || RANGE_BY_SPORT.soccer;
+      const dayDate = days[currentDayIndex];
       for (let start = range.start; start + currentDuration <= range.end; start += 30){
+        const price = priceForSlot(currentSport, dayDate, start, currentDuration);
         const btn = document.createElement('button');
         btn.className = 'slot-btn';
-        btn.textContent = minutesToLabel(start);
+        btn.innerHTML = `<span class="slot-time">${minutesToLabel(start)}</span><span class="slot-price">${formatPrice(currentSport, price)}</span>`;
         if (spanBooked(currentSport, currentDayIndex, start, currentDuration)) {
           btn.disabled = true;
           btn.title = i18n['slot-booked'][currentLang()];
@@ -2208,7 +2256,7 @@
             btn.classList.add('selected');
             const endLabel = minutesToLabel(start + currentDuration);
             confirmBox.querySelector('p').textContent =
-              `${minutesToLabel(start)} – ${endLabel} (${durationLabel(currentDuration)}) — ` +
+              `${minutesToLabel(start)} – ${endLabel} (${durationLabel(currentDuration)}) — ${formatPrice(currentSport, price)} — ` +
               i18n['book-confirmed'][currentLang()];
             confirmBox.hidden = false;
           });
