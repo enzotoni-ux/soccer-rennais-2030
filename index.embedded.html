@@ -1347,9 +1347,11 @@
       var scale = 1, tx = 0, ty = 0, minScale = 1, maxScale = 4;
       var dragging = false, startX = 0, startY = 0, startTx = 0, startTy = 0;
       var raf = null;
+      var smooth = false;
 
       function render(){
         raf = null;
+        img.style.transition = smooth ? 'transform .3s cubic-bezier(.2,.8,.2,1)' : 'none';
         img.style.transform = 'translate(-50%,-50%) translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
       }
       function apply(){
@@ -1362,22 +1364,29 @@
         ty = Math.max(-maxPan, Math.min(maxPan, ty));
       }
       function zoomBy(factor){
+        smooth = true;
         scale = Math.max(minScale, Math.min(maxScale, scale * factor));
         clamp();
         apply();
       }
+      function resetView(){
+        smooth = true;
+        scale = 1; tx = 0; ty = 0;
+        apply();
+      }
 
-      document.getElementById('map-zoom-in').addEventListener('click', function(){ zoomBy(1.4); });
-      document.getElementById('map-zoom-out').addEventListener('click', function(){ zoomBy(1/1.4); });
-      vp.addEventListener('dblclick', function(){ zoomBy(scale < 2 ? 1.6 : (1/scale)); });
+      document.getElementById('map-zoom-in').addEventListener('click', function(){ zoomBy(1.8); });
+      document.getElementById('map-zoom-out').addEventListener('click', function(){ zoomBy(1/1.8); });
+      vp.addEventListener('dblclick', function(){ zoomBy(scale < 2 ? 1.8 : (1/scale)); });
 
       vp.addEventListener('wheel', function(e){
         e.preventDefault();
+        smooth = false;
         zoomBy(e.deltaY < 0 ? 1.12 : 1/1.12);
       }, {passive:false});
 
       vp.addEventListener('pointerdown', function(e){
-        dragging = true; vp.style.cursor = 'grabbing';
+        dragging = true; smooth = false; vp.style.cursor = 'grabbing';
         startX = e.clientX; startY = e.clientY; startTx = tx; startTy = ty;
         vp.setPointerCapture(e.pointerId);
       });
@@ -1388,8 +1397,13 @@
         clamp();
         apply();
       });
-      ['pointerup','pointerleave','pointercancel'].forEach(function(ev){
+      ['pointerup','pointercancel'].forEach(function(ev){
         vp.addEventListener(ev, function(){ dragging = false; vp.style.cursor = 'grab'; });
+      });
+
+      vp.addEventListener('mouseleave', function(){
+        dragging = false; vp.style.cursor = 'grab';
+        if(scale !== 1 || tx !== 0 || ty !== 0) resetView();
       });
 
       render();
